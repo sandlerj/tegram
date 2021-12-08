@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.IO;
 
 // To interact with AWS S3
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
-using System.IO;
 using Amazon.Runtime;
 
 namespace Capstone.Services
@@ -28,6 +28,7 @@ namespace Capstone.Services
         public AWSS3FileStorage()
         {
             s3Client = new AmazonS3Client(bucketRegion);
+            s3Client
             objectUrl = $"https://{bucketName}.s3.{bucketRegion.SystemName}.amazonaws.com/";
         }
 
@@ -35,6 +36,7 @@ namespace Capstone.Services
     public string UploadFileToStorage(IFormFile formFile)
         {
             // call UploadFile
+            // TODO fix how bject url is being manipulated... rn it's acting as a class prop which is wrong big time
 
             return objectUrl;
         }
@@ -48,7 +50,7 @@ namespace Capstone.Services
 
             try
             {
-                var fileTransferUtility = new TransferUtility(s3Client);
+                var fileTransferUtility = new TransferUtility(s3Client); 
 
                 using (var fileStreamToUpload = formFile.OpenReadStream())
                 {
@@ -92,6 +94,8 @@ namespace Capstone.Services
                 try
                 {
                     // try to get the object at s3://bucket/result, if found, regen to ensure unique
+                    s3Client.GetObjectAsync(bucketName, result); // should throw a 404 NoSuchKey error, i.e. the key is unused
+                    // method invoked synchronously because it needs to be, hence no async/await here
                 }
                 catch (AmazonServiceException e)
                 {
@@ -111,8 +115,7 @@ namespace Capstone.Services
             // return string name
 
 
-
-            throw new NotImplementedException();
+            return result;
         }
     }
 }
