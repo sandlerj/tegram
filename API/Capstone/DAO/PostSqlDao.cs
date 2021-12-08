@@ -36,12 +36,12 @@ namespace Capstone.DAO
                 }
                 return returnPost;
             }
-            catch
+            catch (SqlException e)
             {
-                throw;
+                throw new Exception(e.Message);
             }
         }
-        public void UploadPost(Post post)
+        public Post UploadPost(Post post)
         {
             try
             {
@@ -58,11 +58,35 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@timestamp", post.Timestamp);
 
                     cmd.ExecuteNonQuery();
+                    return post;
                 }
             }
-            catch
+            catch (SqlException e)
             {
-                throw;
+                throw new Exception(e.Message);
+            }
+        }
+        public bool UpdatePost(Post post, int accountId) //Forgot to add this last minute this might not work but this is my general idea.
+        {
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("UPDATE posts SET media_link = @media_link WHERE account_id = @account_id AND post_id = @post_id", conn);
+                    cmd.Parameters.AddWithValue("@media_link", post.MediaLink);
+                    cmd.Parameters.AddWithValue("@account_id", post.AccountId);
+                    cmd.Parameters.AddWithValue("@post_id", post.PostId);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    return (rowsAffected > 0); // Check if there was actually a change.
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new Exception(e.Message);
             }
         }
 

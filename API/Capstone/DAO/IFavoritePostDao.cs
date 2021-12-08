@@ -10,8 +10,8 @@ namespace Capstone.DAO
     {
         Post GetFavoritePost(int postId, int accountId);
 
-        void AddFavoritePost(int postId, int accountId);
+        Post AddFavoritePost(int postId, int accountId);
 
-        void RemoveFavoritePost(int postId, int accountId);
+        bool RemoveFavoritePost(int postId, int accountId); //CHANGED TO BOOL TO MAKE THE CONTROLLER HAPPY.
     }
 }

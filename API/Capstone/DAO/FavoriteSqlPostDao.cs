@@ -28,9 +28,9 @@ namespace Capstone.DAO
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch
+            catch (SqlException e)
             {
-                throw;
+                throw new Exception(e.Message);
             }
         }
         public Post GetFavoritePost(int postId, int accountId)
@@ -54,9 +54,9 @@ namespace Capstone.DAO
                 }
                 return returnpost;
             }
-            catch
+            catch (SqlException e)
             {
-                throw;
+                throw new Exception(e.Message);
             }
         }
         public void RemoveFavoritePost(int postId, int accountId)
@@ -73,9 +73,9 @@ namespace Capstone.DAO
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch
+            catch (SqlException e)
             {
-                throw;
+                throw new Exception(e.Message);
             }
         }
         private Post GetFavoritePostFromReader(SqlDataReader reader)

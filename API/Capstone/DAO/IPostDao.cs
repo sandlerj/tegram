@@ -10,6 +10,8 @@ namespace Capstone.DAO
     {
         Post GetPost(int postId);
 
-        void UploadPost(Post post);
+        Post UploadPost(Post post);
+
+        bool UpdatePost(Post post, int accountId);
     }
 }
