@@ -41,9 +41,7 @@ namespace Capstone.DAO
                 throw;
             }
         }
-        
-
-        public void AddFavoritePost(int postId)
+        public void UploadPost(Post post)
         {
             try
             {
@@ -51,114 +49,13 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("INSERT INTO favorited_posts VALUES (@post_id);", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public Post GetFavoritePost(int postId)
-        {
-            Post returnpost = null;
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("SELECT post_id, account_id FROM favorited_posts JOIN posts ON posts.post_id = favorited_posts.post_id WHERE post_id = @post_id", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    if (reader.Read())
-                    {
-                        returnpost = GetPostFromReader(reader);
-                    }
-                }
-                return returnpost;
-            }catch
-            {
-                throw;
-            }
-        }
-        public void LikePost(int postId)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("INSERT INTO posts VALUES (@post_id);", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public void RemoveFavoritePost(int postId)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("DELETE FROM favorited_posts WHERE post_id = @post_id", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-
-        public void UnlikePost(int postId)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("DELETE FROM liked_posts WHERE post_id = @post_id", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public void UploadPost(int postId, string MediaLink)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("INSERT INTO posts VALUES (@post_id, @media_link);", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
-                    cmd.Parameters.AddWithValue("@media_link", MediaLink);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO posts (account_id, media_link, caption, timestamp) " + 
+                        "output inserted.post_id " + 
+                        "VALUES(@account_id, @media_link, @caption, @timestamp)", conn);
+                    cmd.Parameters.AddWithValue("@account_id", post.AccountId);
+                    cmd.Parameters.AddWithValue("@media_link", post.MediaLink);
+                    cmd.Parameters.AddWithValue("@caption", post.Caption);
+                    cmd.Parameters.AddWithValue("@timestamp", post.Timestamp);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -177,7 +74,7 @@ namespace Capstone.DAO
                 AccountId = Convert.ToInt32(reader["account_id"]),
                 MediaLink = Convert.ToString(reader["media_link"]),
                 Caption = Convert.ToString(reader["caption"]),
-                Timestamp = Convert.ToString(reader["timestamp"])
+                Timestamp = Convert.ToDateTime(reader["timestamp"])
             };
             return post;
         }

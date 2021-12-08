@@ -6,10 +6,10 @@ using Capstone.Models;
 
 namespace Capstone.DAO
 {
-    public interface IPostDao
+    public interface ILikePostDao
     {
-        Post GetPost(int postId);
+        void LikePost(int postId, int accountId);
 
-        void UploadPost(Post post);
+        void UnlikePost(int postId, int accountId);
     }
 }
