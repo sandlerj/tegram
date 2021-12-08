@@ -23,12 +23,11 @@ namespace Capstone.Services
 
         private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USEast2;
         private static IAmazonS3 s3Client;
-        private string objectUrl;
+        private readonly string objectUrl;
 
         public AWSS3FileStorage()
         {
             s3Client = new AmazonS3Client(bucketRegion);
-            s3Client
             objectUrl = $"https://{bucketName}.s3.{bucketRegion.SystemName}.amazonaws.com/";
         }
 
@@ -36,17 +35,18 @@ namespace Capstone.Services
     public string UploadFileToStorage(IFormFile formFile)
         {
             // call UploadFile
-            // TODO fix how bject url is being manipulated... rn it's acting as a class prop which is wrong big time
+            string resultStr = UploadFile(formFile).Result;
+            // todo - is there a way this whole thing can be async? maybe that's something I can go back and adjust...
+            // Actually, I don't think it's needed - the upload is done asynchronously, so the actualy result string should be available to return
 
-            return objectUrl;
+            return resultStr;
         }
-        private async Task UploadFile(IFormFile formFile)
+        private async Task<string> UploadFile(IFormFile formFile)
         {
             //honestly if we didn't mind making a separate post and then put request to the DB table
             // we could use the postID as the key for s3, only issue being if a user replaces a photo which honestly shouldn't be possible....
     
             string fileKey = GenerateFileKey(formFile.FileName);
-            objectUrl += fileKey;
 
             try
             {
@@ -54,7 +54,7 @@ namespace Capstone.Services
 
                 using (var fileStreamToUpload = formFile.OpenReadStream())
                 {
-                    await fileTransferUtility.UploadAsync(fileStreamToUpload, bucketName, fileKey);
+                    await fileTransferUtility.UploadAsync(fileStreamToUpload, bucketName, fileKey); // i THINK this is happening on a separate thread, and the rest can continue
                 }
             }
             catch(AmazonS3Exception e)
@@ -67,6 +67,7 @@ namespace Capstone.Services
                 Console.WriteLine($"Error occured: {e.Message}");
                 throw e;
             }
+            return objectUrl + fileKey;
         }
 
         private string GenerateFileKey(string fileName)
