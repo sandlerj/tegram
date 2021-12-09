@@ -18,9 +18,11 @@ namespace Capstone.Controllers
         private readonly IFavoritePostDao favoritePostDao;
         private readonly ILikePostDao likePostDao;
 
-        public PostsController(IPostDao _postDao)
+        public PostsController(IPostDao _postDao, IFavoritePostDao _favoritePostDao, ILikePostDao _likePostDao)
         {
             postDao = _postDao;
+            favoritePostDao = _favoritePostDao;
+            likePostDao = _likePostDao;
         }
 
         [HttpGet("/posts/{postId}")] //ERROR HANDLE LATER?
@@ -31,9 +33,9 @@ namespace Capstone.Controllers
             return post;
         }
         [HttpPost("/posts")]
-        public IActionResult UploadPost(Post post) //We need a ActionResult cause we are uploading right?
+        public IActionResult UploadPost(Post post)
         {
-            IActionResult result = BadRequest(new { message = "Could not process your post." }); //If they can't upload a post
+            IActionResult result = BadRequest(new { message = "Could not process your post." });
             Post createdPost = postDao.UploadPost(post);
             if (createdPost != null)
             {
@@ -62,16 +64,20 @@ namespace Capstone.Controllers
             }
         }
 
-        //[HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS
-        //public IActionResult LikePost(int postId, int accountId)
-        //{
-        //    IActionResult result = BadRequest(new { message = "Could not like this post." });
-        //    Post newLikedPost = likePostDao.LikePost(postId, accountId);
-        //    if(newLikedPost != null)
-        //    {
-        //        
-        //    }
-        //}
+        [HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS
+        public IActionResult LikePost(int postId, int accountId)
+        {
+            IActionResult result = BadRequest(new { message = "Could not like this post." });
+            bool newLikedPost = likePostDao.LikePost(postId, accountId);
+            if (newLikedPost == true)
+            {
+                return Ok();
+            } 
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         [HttpDelete("/posts/{postId}/like")]
 
@@ -101,11 +107,20 @@ namespace Capstone.Controllers
             return post;
         }
 
-        [HttpPost("/posts/favorites")] //I feel like this is the same problem with liked posts and 'adding' them to the database.
-        //public ActionResult AddFavoritePost(int postId, int accoundId) 
-        //{
-
-        //}
+        [HttpPost("/posts/favorites")] //Work in progess.
+        public ActionResult AddFavoritePost(int postId, int accoundId)
+        {
+            ActionResult result = BadRequest(new { message = "Could not add favorite post." });
+            bool newFavoritePost = favoritePostDao.AddFavoritePost(postId, accoundId);
+            if (newFavoritePost == true)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         [HttpDelete("/posts/favorites/{postId}")]
         public ActionResult RemoveFavoritePost(int postId, int accountId)

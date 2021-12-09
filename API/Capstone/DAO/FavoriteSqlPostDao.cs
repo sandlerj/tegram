@@ -14,7 +14,7 @@ namespace Capstone.DAO
         {
             connectionString = dbConnectionString;
         }
-        public void AddFavoritePost(int postId, int accountId)
+        public bool AddFavoritePost(int postId, int accountId)
         {
             try
             {
@@ -25,7 +25,8 @@ namespace Capstone.DAO
                     SqlCommand cmd = new SqlCommand("INSERT INTO favorited_posts VALUES (@post_id, @account_id);", conn);
                     cmd.Parameters.AddWithValue("@post_id", postId);
                     cmd.Parameters.AddWithValue("@account_id", accountId);
-                    cmd.ExecuteNonQuery();
+                    int result = cmd.ExecuteNonQuery();
+                    return result == 1;
                 }
             }
             catch (SqlException e)
@@ -33,9 +34,9 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
-        public Post GetFavoritePost(int postId, int accountId)
+        public List<Post> GetListOfFavoritePosts(int postId, int accountId)
         {
-            Post returnpost = null;
+            List<Post> favoritePosts = new List<Post>();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -47,19 +48,21 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@account_id", accountId);
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    if (reader.Read())
+                    while (reader.Read())
                     {
-                        returnpost = GetFavoritePostFromReader(reader);
+                        Post temppost = GetFavoritePostFromReader(reader);
+                        favoritePosts.Add(temppost);
                     }
                 }
-                return returnpost;
+                
             }
             catch (SqlException e)
             {
                 throw new Exception(e.Message);
             }
+            return favoritePosts;
         }
-        public void RemoveFavoritePost(int postId, int accountId)
+        public bool RemoveFavoritePost(int postId, int accountId)
         {
             try
             {
@@ -70,7 +73,8 @@ namespace Capstone.DAO
                     SqlCommand cmd = new SqlCommand("DELETE FROM favorited_posts WHERE post_id = @post_id AND account_id = @account_id;", conn);
                     cmd.Parameters.AddWithValue("@post_id", postId);
                     cmd.Parameters.AddWithValue("@account_id", accountId);
-                    cmd.ExecuteNonQuery();
+                    int result = cmd.ExecuteNonQuery();
+                    return result == 1;
                 }
             }
             catch (SqlException e)
