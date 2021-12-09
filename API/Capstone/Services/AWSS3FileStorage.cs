@@ -31,7 +31,7 @@ namespace Capstone.Services
         // todo - Not this. Get this out of the csw
         private string awsAccessId;  // /bin/Credentials/tegram-delicious-circus-credentials.csv
         private string awsSecret;
-        private readonly string FULLY_QUALIFIED_CSV_PATH = "C:\\Users\\Student\\workspace\\capstones\\c-final-capstone-team-3\\API\\Capstone\\bin\\Credentials\\tegram-delicious-circus-credentials.csv";
+        private readonly string FULLY_QUALIFIED_CSV_PATH = "C:\\Users\\Student\\workspace\\capstones\\c-final-capstone-team-3\\API\\Credentials\\tegram-delicious-circus-credentials.csv";
 
         public AWSS3FileStorage()
         {
@@ -115,10 +115,14 @@ namespace Capstone.Services
                 // using md5 bc fast-ish, security not needed, collisions okay but not wanted
                 using (var md5Hash = MD5.Create())
                 {
+                    // since security doesn't matter, and collision isn't likely on 10bytes
                     byte[] randBytes = new byte[10];
                     rand.NextBytes(randBytes);
-                    byte[] hashBytes = md5Hash.ComputeHash(randBytes);
-                    string hashStr = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
+                    string hashStr = BitConverter.ToString(randBytes).Replace("-", string.Empty);
+
+                    //byte[] hashBytes = md5Hash.ComputeHash(randBytes);
+                    //string hashStr = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
+
                     result = hashStr + fileExtension;
                 }
 

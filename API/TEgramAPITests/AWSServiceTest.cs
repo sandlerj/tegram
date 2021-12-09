@@ -17,9 +17,13 @@ namespace TEgramAPITests
         [TestMethod]
         public void TestSomething()
         {
-            string imgName = "joanna.jpg";
+            string imgName = "rain.jpg";
             string debugDir = Directory.GetParent(Environment.CurrentDirectory).ToString();
-            string imgPath = Path.Combine(debugDir, @"TestData\", imgName);
+            Directory.SetCurrentDirectory("..\\..\\..\\TestData");
+
+            //string imgPath = Path.Combine(debugDir, @"TestData\", imgName);
+            string imgPath = Path.Combine(Directory.GetCurrentDirectory(), imgName);
+
 
             Console.WriteLine($"Attemping to upload {imgPath} to storage service...");
             string result;
