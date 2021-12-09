@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace Capstone.DAO
 {
-    public class CommentSqlDao
+    public class CommentSqlDao : ICommentDao
     {
         private readonly string ConnectionString;
         public CommentSqlDao(string connString)
