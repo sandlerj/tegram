@@ -3,7 +3,7 @@
     <form class="form-signin" @submit.prevent="login">
       <!--<h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>-->
       <h1 class="has-text-success">Happy Holidays, Welcome To TEgram</h1>
-      <h2 class="h3 mb-3 has-text-danger-dark">Please Sign In</h2>
+      <h2 class="h3 mb-3  has-text-danger-dark">Please Sign In</h2>
       
       <div
         class="alert alert-danger"
@@ -67,6 +67,8 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
+            // Maybe add additional mutation for storing accountId
+            this.$store.commit("SET_ACCOUNT", response.data.accountId)
             this.$router.push("/");
           }
         })

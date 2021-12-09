@@ -9,8 +9,9 @@ Vue.use(Vuex)
  * the page is refreshed. When that happens you need to check for the token in local storage and if it
  * exists you should set the header so that it will be attached to each request
  */
-const currentToken = localStorage.getItem('token')
+const currentToken = localStorage.getItem('token');
 const currentUser = JSON.parse(localStorage.getItem('user'));
+const currentAccountId = Number.parseInt(localStorage.getItem('accountId'));
 
 if(currentToken != null) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${currentToken}`;
@@ -19,7 +20,8 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    user: currentUser || {}
+    user: currentUser || {},
+    accountId: currentAccountId || undefined
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -31,11 +33,17 @@ export default new Vuex.Store({
       state.user = user;
       localStorage.setItem('user',JSON.stringify(user));
     },
+    SET_ACCOUNT(state, accountId) {
+      state.accountId = accountId;
+      localStorage.setItem('accountId', Number.toString(accountId) );
+    },
     LOGOUT(state) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      localStorage.removeItem('accountId');
       state.token = '';
       state.user = {};
+      state.accountId = undefined;
       axios.defaults.headers.common = {};
     }
   }
