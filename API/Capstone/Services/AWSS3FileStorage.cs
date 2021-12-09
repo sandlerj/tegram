@@ -12,6 +12,8 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Amazon.Runtime;
+using Amazon.Runtime.CredentialManagement;
+
 
 namespace Capstone.Services
 {
@@ -25,14 +27,44 @@ namespace Capstone.Services
         private static IAmazonS3 s3Client;
         private readonly string objectUrl;
 
+
+        // todo - Not this. Get this out of the csw
+        private string awsAccessId;  // /bin/Credentials/tegram-delicious-circus-credentials.csv
+        private string awsSecret;
+        private readonly string FULLY_QUALIFIED_CSV_PATH = "C:\\Users\\Student\\workspace\\capstones\\c-final-capstone-team-3\\API\\Capstone\\bin\\Credentials\\tegram-delicious-circus-credentials.csv";
+
         public AWSS3FileStorage()
         {
-            s3Client = new AmazonS3Client(bucketRegion);
+
+            GetCredsFromCSV(FULLY_QUALIFIED_CSV_PATH);
+            //set up credentials (this should reeeeally be set up through a dependency injection... gotta figure that out
+            AWSCredentials credentials = new BasicAWSCredentials(awsAccessId, awsSecret);
+
+            s3Client = new AmazonS3Client(credentials, bucketRegion);
             objectUrl = $"https://{bucketName}.s3.{bucketRegion.SystemName}.amazonaws.com/";
         }
 
+        private void GetCredsFromCSV(string csvPath)
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(csvPath))
+                {
+                    // csv should contain exactly two lines, with accessId and secret on the second line as the 3rd and 4th entries respectively (as downloaded from aws)
+                    reader.ReadLine();
+                    string credLine = reader.ReadLine();
+                    string[] credArr = credLine.Split(',');
+                    awsAccessId = credArr[2];
+                    awsSecret = credArr[3];
+                }
+            } 
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
-    public string UploadFileToStorage(IFormFile formFile)
+        public string UploadFileToStorage(IFormFile formFile)
         {
             // call UploadFile
             string resultStr = UploadFile(formFile).Result;
@@ -95,8 +127,29 @@ namespace Capstone.Services
                 try
                 {
                     // try to get the object at s3://bucket/result, if found, regen to ensure unique
-                    s3Client.GetObjectAsync(bucketName, result); // should throw a 404 NoSuchKey error, i.e. the key is unused
+                    s3Client.GetObjectAsync(bucketName, result).Wait(); // should throw a 404 NoSuchKey error, i.e. the key is unused
                     // method invoked synchronously because it needs to be, hence no async/await here
+                    //if (res.Status != TaskStatus.Created)
+                    //{
+                    //    throw new Exception($"Error occurring within AWS service: {res.Status}");
+                    //}
+
+                    
+                }
+                catch (AggregateException e)
+                {
+                    try
+                    {
+                        throw e.InnerException;
+                    }
+                    catch (AmazonS3Exception e1)
+                    {
+                        break;
+                    }
+                    catch (Exception e1)
+                    {
+                        throw e1;
+                    }
                 }
                 catch (AmazonServiceException e)
                 {
@@ -110,7 +163,11 @@ namespace Capstone.Services
                         // could have been a dif error, throw up
                         throw e;
                     }
+                } catch (Exception e)
+                {
+                    throw e;
                 }
+                
             }
 
             // return string name

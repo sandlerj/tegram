@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Capstone.Services
 {
-    interface IFileStorageService
+    public interface IFileStorageService
     {
         public string UploadFileToStorage(IFormFile formFile);
     }
