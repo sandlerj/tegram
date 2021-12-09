@@ -56,7 +56,7 @@ namespace Capstone.DAO
                 {
                     connection.Open();
 
-                    string sqlText = "select post_id from comments where post_id = @post_id";
+                    string sqlText = "select*from comments where post_id = @post_id";
 
                     SqlCommand cmd = new SqlCommand(sqlText, connection);
 
