@@ -41,6 +41,7 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
+        //
         public List<Post> GetListOfPosts(int postId, int accountId)
         {
             List<Post> listPosts = new List<Post>();

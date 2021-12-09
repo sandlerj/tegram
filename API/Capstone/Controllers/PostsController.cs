@@ -6,6 +6,8 @@ using Capstone.Models;
 using Capstone.DAO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Capstone.Services;
 
 namespace Capstone.Controllers
 {
@@ -17,12 +19,14 @@ namespace Capstone.Controllers
         private readonly IPostDao postDao;
         private readonly IFavoritePostDao favoritePostDao;
         private readonly ILikePostDao likePostDao;
+        private IFileStorageService fileStorageService;
 
         public PostsController(IPostDao _postDao, IFavoritePostDao _favoritePostDao, ILikePostDao _likePostDao)
         {
             postDao = _postDao;
             favoritePostDao = _favoritePostDao;
             likePostDao = _likePostDao;
+            fileStorageService = new AWSS3FileStorage();
         }
 
         [HttpGet("/posts/{postId}")] 
@@ -41,9 +45,11 @@ namespace Capstone.Controllers
             
         }
         [HttpPost("/posts")]
-        public IActionResult UploadPost(Post post)
+        public IActionResult UploadPost(Post post, IFormFile uploadImg)
         {
             IActionResult result = BadRequest(new { message = "Could not process your post." });
+            string mediaLink = fileStorageService.UploadFileToStorage(uploadImg);
+            post.MediaLink = mediaLink;
             Post createdPost = postDao.UploadPost(post);
             if (createdPost != null)
             {
@@ -51,7 +57,7 @@ namespace Capstone.Controllers
             }
             return result;
         }
-        [HttpPut("/posts/{postId}")] //Might need accountId for authorization?
+        [HttpPut("/posts/{postId}")]
         public ActionResult<Post> UpdatePost(Post updatedPost, int postId)
         {
             bool result = true;
@@ -104,7 +110,7 @@ namespace Capstone.Controllers
 
         [HttpGet("/posts/favorites/{accountId}")]
 
-        public List<Post> GetFavoritePost(int postId, int accountId) //ERROR HANDLE LATER?
+        public List<Post> GetFavoritePost(int postId, int accountId)
         {
             List<Post> listpost = favoritePostDao.GetListOfFavoritePosts(postId, accountId);
             if (listpost.Count == 0)
