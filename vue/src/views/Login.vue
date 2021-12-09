@@ -67,6 +67,8 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
+            // Maybe add additional mutation for storing accountId
+            this.$store.commit("SET_ACCOUNT", response.data.accountId)
             this.$router.push("/");
           }
         })
