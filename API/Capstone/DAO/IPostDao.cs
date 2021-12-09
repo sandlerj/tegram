@@ -10,6 +10,8 @@ namespace Capstone.DAO
     {
         Post GetPost(int postId);
 
+        List<Post> GetListOfPosts(int postId, int accountId);
+
         Post UploadPost(Post post);
 
         bool UpdatePost(Post post, int accountId);

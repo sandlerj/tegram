@@ -8,6 +8,8 @@ namespace Capstone.DAO
 {
     public interface IFavoritePostDao
     {
+        List<Post> GetListOfFavoritePosts(int postId, int accountId);
+
         Post GetFavoritePost(int postId, int accountId);
 
         bool AddFavoritePost(int postId, int accountId);

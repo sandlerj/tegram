@@ -63,6 +63,9 @@ namespace Capstone
             services.AddSingleton<ITokenGenerator>(tk => new JwtGenerator(Configuration["JwtSecret"]));
             services.AddSingleton<IPasswordHasher>(ph => new PasswordHasher());
             services.AddTransient<IUserDao>(m => new UserSqlDao(connectionString));
+            services.AddSingleton<IPostDao>(m => new PostSqlDao(connectionString));
+            services.AddTransient<ILikePostDao>(m => new LikeSqlPostDao(connectionString));
+            services.AddTransient<IFavoritePostDao>(m => new FavoriteSqlPostDao(connectionString, new PostSqlDao(connectionString)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

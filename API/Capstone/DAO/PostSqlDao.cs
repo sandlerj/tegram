@@ -25,7 +25,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT post_id, account_id, media_link, caption, timestamp FROM posts WHERE post_id = @post_id", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts WHERE post_id = @post_id", conn);
                     cmd.Parameters.AddWithValue("@post_id", postId);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -40,6 +40,34 @@ namespace Capstone.DAO
             {
                 throw new Exception(e.Message);
             }
+        }
+        public List<Post> GetListOfPosts(int postId, int accountId)
+        {
+            List<Post> listPosts = new List<Post>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts WHERE post_id = @post_id AND account_id = @account_id", conn);
+                    cmd.Parameters.AddWithValue("@post_id", postId);
+                    cmd.Parameters.AddWithValue("@account_id", accountId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Post temppost = GetPostFromReader(reader);
+                        listPosts.Add(temppost);
+                    }
+                }
+
+            }
+            catch (SqlException e)
+            {
+                throw new Exception(e.Message);
+            }
+            return listPosts;
         }
         public Post UploadPost(Post post)
         {

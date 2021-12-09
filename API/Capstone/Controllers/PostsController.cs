@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class PostsController : ControllerBase
     {
         private readonly IPostDao postDao;
@@ -25,12 +25,20 @@ namespace Capstone.Controllers
             likePostDao = _likePostDao;
         }
 
-        [HttpGet("/posts/{postId}")] //ERROR HANDLE LATER?
+        [HttpGet("/posts/{postId}")] 
         [AllowAnonymous]
         public Post GetPost(int postId)
         {
             Post post = postDao.GetPost(postId);
-            return post;
+            if (post.PostId != postId)
+            {
+                return null;
+            } 
+            else
+            {
+                return post;
+            }
+            
         }
         [HttpPost("/posts")]
         public IActionResult UploadPost(Post post)
@@ -83,11 +91,6 @@ namespace Capstone.Controllers
 
         public ActionResult RemoveLikedPost(int postId, int accountId)
         {
-            Post post = likePostDao.GetLikedPost(postId, accountId);
-            if (post == null)
-            {
-                return NotFound("There is no liked post under that id that exists.");
-            }
             bool result = likePostDao.UnlikePost(postId, accountId);
             if (result)
             {
@@ -99,12 +102,19 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpGet("/posts/favorites")]
+        [HttpGet("/posts/favorites/{accountId}")]
 
-        public Post GetFavoritePost(int postId, int accountId) //ERROR HANDLE LATER?
+        public List<Post> GetFavoritePost(int postId, int accountId) //ERROR HANDLE LATER?
         {
-            Post post = favoritePostDao.GetFavoritePost(postId, accountId);
-            return post;
+            List<Post> listpost = favoritePostDao.GetListOfFavoritePosts(postId, accountId);
+            if (listpost.Count == 0)
+            {
+                return null;
+            } 
+            else
+            {
+                return listpost;
+            }
         }
 
         [HttpPost("/posts/favorites")] //Work in progess.
@@ -122,7 +132,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpDelete("/posts/favorites/{postId}")]
+        [HttpDelete("/posts/favorites/{accountId}")]
         public ActionResult RemoveFavoritePost(int postId, int accountId)
         {
             Post post = favoritePostDao.GetFavoritePost(postId, accountId);
