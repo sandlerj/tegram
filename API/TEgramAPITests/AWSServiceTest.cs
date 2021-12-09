@@ -17,7 +17,7 @@ namespace TEgramAPITests
         [TestMethod]
         public void TestSomething()
         {
-            string imgName = "rain.jpg";
+            string imgName = "jenny.jpg";
             string debugDir = Directory.GetParent(Environment.CurrentDirectory).ToString();
             Directory.SetCurrentDirectory("..\\..\\..\\TestData");
 

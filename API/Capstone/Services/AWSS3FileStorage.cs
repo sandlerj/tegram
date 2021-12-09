@@ -148,7 +148,13 @@ namespace Capstone.Services
                     }
                     catch (AmazonS3Exception e1)
                     {
-                        break;
+                        if (e1.ErrorCode == "NoSuchKey")
+                        {
+                            break;
+                        } else
+                        {
+                            throw e1;
+                        }
                     }
                     catch (Exception e1)
                     {
