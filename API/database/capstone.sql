@@ -87,7 +87,8 @@ CREATE TABLE liked_posts (
 	account_id int NOT NULL,
 	post_id int NOT NULL,
 
-	CONSTRAINT PK_liked_post PRIMARY KEY (account_id, post_id)
+	CONSTRAINT FK_liked_post_post_id FOREIGN KEY (post_id) REFERENCES posts(post_id),
+	CONSTRAINT FK_liked_post_account_id FOREIGN KEY (account_id) REFERENCES accounts(account_id)
 )
 
 INSERT INTO liked_posts (account_id, post_id) VALUES (1, 6);
@@ -97,7 +98,8 @@ CREATE TABLE favorited_posts (
 	account_id int NOT NULL,
 	post_id int NOT NULL,
 
-	CONSTRAINT PK_favorited_post PRIMARY KEY (account_id, post_id)
+	CONSTRAINT FK_favorited_post_post_id FOREIGN KEY (post_id) REFERENCES posts(post_id),
+	CONSTRAINT FK_favorited_post_account_id FOREIGN KEY (account_id) REFERENCES accounts(account_id)
 )
 
 INSERT INTO favorited_posts (account_id, post_id) VALUES (1, 8);
