@@ -8,10 +8,12 @@ namespace Capstone.DAO
 {
     public interface IFavoritePostDao
     {
-        Post GetFavoritePost(int postId, int accountId);
+        List<Post> GetListOfFavoritePosts(int accountId);
 
-        void AddFavoritePost(int postId, int accountId);
+        Post GetFavoritePost(int accountId);
 
-        void RemoveFavoritePost(int postId, int accountId);
+        bool AddFavoritePost(FavoritePost favoritePost);
+
+        bool RemoveFavoritePost(FavoritePost favoritePost); 
     }
 }

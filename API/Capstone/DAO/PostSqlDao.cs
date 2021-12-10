@@ -25,7 +25,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT post_id, account_id, media_link, caption, timestamp FROM posts WHERE post_id = @post_id", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts WHERE post_id = @post_id", conn);
                     cmd.Parameters.AddWithValue("@post_id", postId);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -36,12 +36,40 @@ namespace Capstone.DAO
                 }
                 return returnPost;
             }
-            catch
+            catch (SqlException e)
             {
-                throw;
+                throw new Exception(e.Message);
             }
         }
-        public void UploadPost(Post post)
+        //
+        public List<Post> GetListOfPostsByAccountId(int accountId)
+        {
+            List<Post> listPosts = new List<Post>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts WHERE account_id = @account_id", conn);
+                    cmd.Parameters.AddWithValue("@account_id", accountId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Post temppost = GetPostFromReader(reader);
+                        listPosts.Add(temppost);
+                    }
+                }
+                return listPosts;
+            }
+            catch (SqlException e)
+            {
+                throw new Exception(e.Message);
+            }
+            
+        }
+        public Post UploadPost(Post post)
         {
             try
             {
@@ -58,11 +86,34 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@timestamp", post.Timestamp);
 
                     cmd.ExecuteNonQuery();
+                    return post;
                 }
             }
-            catch
+            catch (SqlException e)
             {
-                throw;
+                throw new Exception(e.Message);
+            }
+        }
+        public bool UpdatePost(int postId, string mediaLink)
+        {
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("UPDATE posts SET media_link = @media_link WHERE post_id = @post_id", conn);
+                    cmd.Parameters.AddWithValue("@media_link", mediaLink);
+                    cmd.Parameters.AddWithValue("@post_id", postId);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    return (rowsAffected > 0); // Check if there was actually a change.
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new Exception(e.Message);
             }
         }
 

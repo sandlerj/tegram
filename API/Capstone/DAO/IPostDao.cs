@@ -10,6 +10,10 @@ namespace Capstone.DAO
     {
         Post GetPost(int postId);
 
-        void UploadPost(Post post);
+        List<Post> GetListOfPostsByAccountId(int accountId);
+
+        Post UploadPost(Post post);
+
+        bool UpdatePost(int postId, string mediaLink);
     }
 }

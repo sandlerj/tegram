@@ -7,14 +7,14 @@ using Capstone.Models;
 
 namespace Capstone.DAO
 {
-    public class LikeSqlPostDao
+    public class LikeSqlPostDao : ILikePostDao
     {
         private readonly string connectionString;
         public LikeSqlPostDao(string dbConnectionString)
         {
             connectionString = dbConnectionString;
         }
-        public void LikePost(int postId, int accountId)
+        public bool LikePost(LikePost likePost)
         {
             try
             {
@@ -23,17 +23,19 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("INSERT INTO liked_posts VALUES (@post_id, @account_id);", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
-                    cmd.Parameters.AddWithValue("@account_id", accountId);
-                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@post_id", likePost.PostId);
+                    cmd.Parameters.AddWithValue("@account_id", likePost.AccountId);
+                    int result = cmd.ExecuteNonQuery();
+
+                    return result == 1;
                 }
             }
-            catch
+            catch (SqlException e)
             {
-                throw;
+                throw new Exception(e.Message);
             }
         }
-        public void UnlikePost(int postId, int accountId)
+        public bool UnlikePost(LikePost likePost)
         {
             try
             {
@@ -42,17 +44,19 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("DELETE FROM liked_posts WHERE post_id = @post_id AND account_Id = @account_id", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
-                    cmd.Parameters.AddWithValue("@account_id", accountId);
-                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@post_id", likePost.PostId);
+                    cmd.Parameters.AddWithValue("@account_id", likePost.AccountId);
+                    int result = cmd.ExecuteNonQuery();
+
+                    return result == 1;
                 }
             }
-            catch
+            catch (SqlException e)
             {
-                throw;
+                throw new Exception(e.Message);
             }
         }
-        private Post GetLikesPostFromReader(SqlDataReader reader) //Just in case we have to get the posts the client liked.
+        private Post GetLikesPostFromReader(SqlDataReader reader)
         {
             Post post = new Post()
             {
