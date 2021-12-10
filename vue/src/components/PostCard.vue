@@ -1,15 +1,15 @@
 <template>
     <div>
         <div class="post-img-header">
-            <post-account :accountId="{{post.accountId}}"/>
-            <ellipsis-button :postId="{{post.postId}}"/>
-            <favorite-button :postId="{{post.postId}}"/>
+            <post-account :accountId="post.accountId"/>
+            <ellipsis-button :postId="post.postId"/>
+            <favorite-button :postId="post.postId"/>
         </div>
         <div class="post-img-div">
             <img src="{{ post.mediaLink }}">
             <p class="img-div">{{ post.caption }}</p>
         </div>
-        <comments :postId="{{ post.postId }}"/>
+        <comments :postId="post.postId"/>
     </div>
 </template>
 
