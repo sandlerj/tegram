@@ -45,17 +45,29 @@ namespace Capstone.Controllers
             
         }
         [HttpPost("/posts")]
+<<<<<<< HEAD
         public IActionResult UploadPost(Post post, IFormFile uploadImg) //How to upload to Postman?
+=======
+        public IActionResult UploadPost(NewUploadPost newUploadPost)
+>>>>>>> 7bdf2fe52137b28814fa54e202b2e03e3084fcfa
         {
-            IActionResult result = BadRequest(new { message = "Could not process your post." });
-            string mediaLink = fileStorageService.UploadFileToStorage(uploadImg);
+
+            //(Post post, IFormFile uploadImg)
+            Post post = new Post
+            {
+                AccountId = newUploadPost.AccountId,
+                Caption = newUploadPost.Caption,
+                Timestamp = newUploadPost.Timestamp
+            };
+
+            string mediaLink = fileStorageService.UploadFileToStorage(newUploadPost.uploadImg);
             post.MediaLink = mediaLink;
             Post createdPost = postDao.UploadPost(post);
             if (createdPost != null)
             {
-                result = Created($"/{post.PostId}", createdPost);
+                 Created($"/{post.PostId}", createdPost);
             }
-            return result;
+            return BadRequest(new { message = "Could not process your post." });
         }
         [HttpPut("/posts/{postId}")]
         public ActionResult<Post> UpdatePost(Post updatedPost, int postId)

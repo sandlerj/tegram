@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import authService from "../services/AuthService";
+
 export default {
     name: "login-card",
     data() {
