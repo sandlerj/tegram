@@ -66,6 +66,8 @@ namespace Capstone
             services.AddTransient<IPostDao>(m => new PostSqlDao(connectionString));
             services.AddTransient<ILikePostDao>(m => new LikeSqlPostDao(connectionString));
             services.AddTransient<IFavoritePostDao>(m => new FavoriteSqlPostDao(connectionString, new PostSqlDao(connectionString)));
+            services.AddTransient<ICommentDao>(m => new CommentSqlDao(connectionString));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
