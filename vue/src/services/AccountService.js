@@ -6,8 +6,7 @@ export default {
     favorites(user) {
         return axios.get(`/favorites/${user}`);
     },
-    //Are we using userID or accountID to view post?
-    viewPosts(user) {
+    viewPosts(accountId) {
         return axios.get(`/account/${user}`);
     },
     
