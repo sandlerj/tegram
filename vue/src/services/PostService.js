@@ -25,7 +25,7 @@ export default {
     },
     unlikePost(_postId, _accountId) {
         // will need to use auth user context server side to determine what to delete
-        return axios.delete(`/posts/${_postId}/like`)
+        return axios.delete(`/posts/${_postId}/like`, {data: {postId: _postId, accountId: _accountId}})
     },
     getAllLikes(_postId) {
         return axios.get(`/posts/${_postId}/like`)
@@ -40,8 +40,8 @@ export default {
         }
         return axios.post("/posts/favorites", postBody);
     },
-    removeFavorite(_postId) {
+    removeFavorite(_postId, _accountId) {
         // will need to use auth user context server side to determine what to delete
-        return axios.delete(`/posts/favorites/${_postId}`)
+        return axios.delete(`/posts/favorites/${_postId}`, {data: {postId: _postId, accountId: _accountId}})
     }
 }

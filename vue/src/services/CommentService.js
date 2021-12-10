@@ -6,8 +6,5 @@ export default {
     },
     getComments(_postId) {
         return axios.get(`/posts/${_postId}/comments`);
-    },
-    deleteComment(_postId, _commentId) {
-        return axios.delete(`/posts/${_postId}/comments/${_commentId}`);
     }
 }
