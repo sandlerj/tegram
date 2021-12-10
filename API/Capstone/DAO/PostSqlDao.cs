@@ -42,7 +42,7 @@ namespace Capstone.DAO
             }
         }
         //
-        public List<Post> GetListOfPosts(int postId, int accountId)
+        public List<Post> GetListOfPostsByAccountId(int accountId)
         {
             List<Post> listPosts = new List<Post>();
             try
@@ -51,8 +51,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts WHERE post_id = @post_id AND account_id = @account_id", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts WHERE account_id = @account_id", conn);
                     cmd.Parameters.AddWithValue("@account_id", accountId);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -95,7 +94,7 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
-        public bool UpdatePost(Post post, int accountId) //Forgot to add this last minute this might not work but this is my general idea.
+        public bool UpdatePost(int postId, string mediaLink)
         {
             try
             {
@@ -103,10 +102,9 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("UPDATE posts SET media_link = @media_link WHERE account_id = @account_id AND post_id = @post_id", conn);
-                    cmd.Parameters.AddWithValue("@media_link", post.MediaLink);
-                    cmd.Parameters.AddWithValue("@account_id", post.AccountId);
-                    cmd.Parameters.AddWithValue("@post_id", post.PostId);
+                    SqlCommand cmd = new SqlCommand("UPDATE posts SET media_link = @media_link WHERE post_id = @post_id", conn);
+                    cmd.Parameters.AddWithValue("@media_link", mediaLink); // To add a new photo?
+                    cmd.Parameters.AddWithValue("@post_id", postId);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
 

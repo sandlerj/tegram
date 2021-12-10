@@ -5,13 +5,7 @@ using System.Threading.Tasks;
 
 namespace Capstone.Models
 {
-    //TO ADD BELOW
-    /* PostId
-     * AccountId
-     * MediaLink
-     * Caption
-     * Timestamp
-    */
+    
     /// <summary>
     /// Offical post model.
     /// </summary>
@@ -52,19 +46,5 @@ namespace Capstone.Models
         public int PostId { get; set; }
         public int AccountId { get; set; }
     }
-    /// <summary>
-    /// How user can comment on posts.
-    /// </summary>
     
-    /*
-    public class CommentPost //Work in the future? Not sure if Lobalu is already making this model or not on his side of working on the DAOs.
-    {
-        public int CommentId { get; set; }
-        public int AccountId { get; set; }
-        public int PostId { get; set; }
-        public DateTime Timestamp { get; set; } // Would this work just realized that timestamp should be in datetime not string.
-        public string Text { get; set; }
-
-    }
-    */
 }

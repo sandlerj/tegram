@@ -56,7 +56,7 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
-        private Post GetLikesPostFromReader(SqlDataReader reader) //Just in case we have to get the posts the client liked.
+        private Post GetLikesPostFromReader(SqlDataReader reader)
         {
             Post post = new Post()
             {
@@ -65,33 +65,5 @@ namespace Capstone.DAO
             };
             return post;
         }
-
-        //No longer need this.
-        //public Post GetLikedPost(int postId, int accountId)
-        //{
-        //    Post returnLikedpost = null;
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            conn.Open();
-
-        //            SqlCommand cmd = new SqlCommand("SELECT post_id, account_id FROM liked_posts JOIN posts ON posts.post_id = liked_posts.post_id WHERE post_id = @post_id AND account_id = @account_id", conn);
-        //            cmd.Parameters.AddWithValue("@post_id", postId);
-        //            cmd.Parameters.AddWithValue("@account_id", accountId);
-        //            SqlDataReader reader = cmd.ExecuteReader();
-
-        //            if (reader.Read())
-        //            {
-        //                returnLikedpost = GetLikesPostFromReader(reader);
-        //            }
-        //        }
-        //        return returnLikedpost;
-        //    }
-        //    catch (SqlException e)
-        //    {
-        //        throw new Exception(e.Message);
-        //    }
-        //}
     }
 }

@@ -37,7 +37,7 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
-        public List<Post> GetListOfFavoritePosts(int postId, int accountId)
+        public List<Post> GetListOfFavoritePosts(int accountId)
         {
             List<Post> favoritePosts = new List<Post>();
             try
@@ -46,8 +46,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT post_id from favorited_posts WHERE account_id = @account_id", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
+                    SqlCommand cmd = new SqlCommand("SELECT * from favorited_posts WHERE account_id = @account_id", conn);
                     cmd.Parameters.AddWithValue("@account_id", accountId);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -66,7 +65,7 @@ namespace Capstone.DAO
             }
             
         }
-        public Post GetFavoritePost(int postId, int accountId)
+        public Post GetFavoritePost(int accountId)
         {
             Post favoritePost = null;
             try
@@ -76,7 +75,6 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("SELECT * from favorited_posts WHERE account_id = @account_id", conn);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
                     cmd.Parameters.AddWithValue("@account_id", accountId);
                     SqlDataReader reader = cmd.ExecuteReader();
 
