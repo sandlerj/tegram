@@ -45,7 +45,7 @@ namespace Capstone.Controllers
             
         }
         [HttpPost("/posts")]
-        public IActionResult UploadPost(Post post, IFormFile uploadImg)
+        public IActionResult UploadPost(Post post, IFormFile uploadImg) //How to upload to Postman?
         {
             IActionResult result = BadRequest(new { message = "Could not process your post." });
             string mediaLink = fileStorageService.UploadFileToStorage(uploadImg);
@@ -83,10 +83,9 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS
+        [HttpPost("/posts/{postId}/like")]
         public IActionResult LikePost(LikePost likePost)
         {
-            //IActionResult result = BadRequest(new { message = "Could not like this post." });
             bool newLikedPost = likePostDao.LikePost(likePost);
             if (newLikedPost == true)
             {
@@ -102,7 +101,6 @@ namespace Capstone.Controllers
 
         public IActionResult RemoveLikedPost(LikePost likePost)
         {
-            //IActionResult result = BadRequest(new { message = "Could not remove the post." });
             bool deletedPost = likePostDao.UnlikePost(likePost);
             if (deletedPost == true)
             {
@@ -115,9 +113,6 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("/posts/favorites/{accountId}")]
-
-        
-
         public List<Post> GetFavoritePosts(int accountId)
         {
             List<Post> listpost = favoritePostDao.GetListOfFavoritePosts(accountId);
