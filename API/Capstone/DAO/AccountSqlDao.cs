@@ -51,7 +51,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM accounts WHERE account_id = @account_id", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT accounts.account_id, accounts.user_id, accounts.email, accounts.profile_image, users.username " +
+                        "FROM accounts JOIN users on accounts.user_id = users.user_id WHERE account_id = @account_id", conn);
                     cmd.Parameters.AddWithValue("@account_id", account_id);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -79,7 +80,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM accounts WHERE user_id = @user_id", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT accounts.account_id, accounts.user_id, accounts.email, accounts.profile_image, users.username " +
+                        "FROM accounts JOIN users on accounts.user_id = users.user_id WHERE accounts.user_id = @user_id", conn);
                     cmd.Parameters.AddWithValue("@user_id", user_id);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -95,6 +97,33 @@ namespace Capstone.DAO
             }
 
             return account;
+        }
+        public List<Account> GetAllAccounts()
+        {
+            List<Account> allAccounts = new List<Account>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT accounts.account_id, accounts.user_id, accounts.email, accounts.profile_image, users.username FROM accounts JOIN users on accounts.user_id = users.user_id", conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Account account = GetAccountFromReader(reader);
+                        allAccounts.Add(account);
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+
+            return allAccounts;
         }
         public Account UpdateAccount(Account updatedAccount)
         {
@@ -126,6 +155,7 @@ namespace Capstone.DAO
                 UserId = Convert.ToInt32(reader["user_id"]),
                 Email = Convert.ToString(reader["email"]),
                 ProfileImage = Convert.ToString(reader["profile_image"]),
+                Username = Convert.ToString(reader["username"])
             };
 
             return account;
