@@ -8,8 +8,8 @@ namespace Capstone.DAO
 {
     public interface ILikePostDao
     {
-        bool LikePost(int postId, int accountId);
+        bool LikePost(LikePost likePost);
 
-        bool UnlikePost(int postId, int accountId); //CHANGED THIS TO BOOL BECAUSE POST CONTROLLER DIDN'T LIKE IT AT FIRST.
+        bool UnlikePost(LikePost likePost);
     }
 }

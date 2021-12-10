@@ -72,17 +72,18 @@ namespace Capstone.Controllers
             if(result)
             {
                 return Ok();
-            } else
+            } 
+            else
             {
                 return StatusCode(500);
             }
         }
 
         [HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS
-        public IActionResult LikePost(int postId, int accountId)
+        public IActionResult LikePost(LikePost likePost)
         {
             IActionResult result = BadRequest(new { message = "Could not like this post." });
-            bool newLikedPost = likePostDao.LikePost(postId, accountId);
+            bool newLikedPost = likePostDao.LikePost(likePost);
             if (newLikedPost == true)
             {
                 return Ok();
@@ -95,10 +96,11 @@ namespace Capstone.Controllers
 
         [HttpDelete("/posts/{postId}/like")]
 
-        public ActionResult RemoveLikedPost(int postId, int accountId)
+        public IActionResult RemoveLikedPost(LikePost likePost)
         {
-            bool result = likePostDao.UnlikePost(postId, accountId);
-            if (result)
+            IActionResult result = BadRequest(new { message = "Could not remove the post." });
+            bool deletedPost = likePostDao.UnlikePost(likePost);
+            if (deletedPost == true)
             {
                 return NoContent();
             }
@@ -109,6 +111,9 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("/posts/favorites/{accountId}")]
+
+        //only account id returns everything in favoritepost
+        
 
         public List<Post> GetFavoritePost(int postId, int accountId)
         {
@@ -123,11 +128,11 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/posts/favorites")] //Work in progess.
-        public ActionResult AddFavoritePost(int postId, int accoundId)
+        [HttpPost("/posts/favorites")]
+        public ActionResult AddFavoritePost(FavoritePost favoritePost)
         {
             ActionResult result = BadRequest(new { message = "Could not add favorite post." });
-            bool newFavoritePost = favoritePostDao.AddFavoritePost(postId, accoundId);
+            bool newFavoritePost = favoritePostDao.AddFavoritePost(favoritePost);
             if (newFavoritePost == true)
             {
                 return Ok();
@@ -139,18 +144,15 @@ namespace Capstone.Controllers
         }
 
         [HttpDelete("/posts/favorites/{accountId}")]
-        public ActionResult RemoveFavoritePost(int postId, int accountId)
+        public ActionResult RemoveFavoritePost(FavoritePost favoritePost)
         {
-            Post post = favoritePostDao.GetFavoritePost(postId, accountId);
-            if (post == null)
-            {
-                return NotFound("Could not find the favorited post.");
-            }
-            bool result = favoritePostDao.RemoveFavoritePost(postId, accountId);
-            if(result)
+            ActionResult result = BadRequest(new { message = "Could not remove favorite post" });
+            bool removedPost = favoritePostDao.RemoveFavoritePost(favoritePost);
+            if(removedPost == true)
             {
                 return NoContent();
-            } else
+            } 
+            else
             {
                 return BadRequest();
             }

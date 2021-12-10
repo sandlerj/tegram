@@ -12,8 +12,8 @@ namespace Capstone.DAO
 
         Post GetFavoritePost(int postId, int accountId);
 
-        bool AddFavoritePost(int postId, int accountId);
+        bool AddFavoritePost(FavoritePost favoritePost);
 
-        bool RemoveFavoritePost(int postId, int accountId); //CHANGED TO BOOL TO MAKE THE CONTROLLER HAPPY.
+        bool RemoveFavoritePost(FavoritePost favoritePost); //CHANGED TO BOOL TO MAKE THE CONTROLLER HAPPY.
     }
 }
