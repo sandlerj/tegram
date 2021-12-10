@@ -61,13 +61,13 @@ namespace Capstone.DAO
                         listPosts.Add(temppost);
                     }
                 }
-
+                return listPosts;
             }
             catch (SqlException e)
             {
                 throw new Exception(e.Message);
             }
-            return listPosts;
+            
         }
         public Post UploadPost(Post post)
         {
@@ -103,7 +103,7 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("UPDATE posts SET media_link = @media_link WHERE post_id = @post_id", conn);
-                    cmd.Parameters.AddWithValue("@media_link", mediaLink); // To add a new photo?
+                    cmd.Parameters.AddWithValue("@media_link", mediaLink);
                     cmd.Parameters.AddWithValue("@post_id", postId);
 
                     int rowsAffected = cmd.ExecuteNonQuery();

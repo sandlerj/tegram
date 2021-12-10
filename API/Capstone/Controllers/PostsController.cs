@@ -57,11 +57,23 @@ namespace Capstone.Controllers
             }
             return result;
         }
-        [HttpPut("/posts/{postId}")] //Work in progress
-        public ActionResult<Post> UpdatePost(int postId, string mediaLink)
+        [HttpPut("/posts/{postId}")]
+        public ActionResult<Post> UpdatePost(Post updatedPost, int postId)
         {
-            bool result = postDao.UpdatePost(postId, mediaLink);
-            if(result == true)
+            bool result = true;
+            Post existingPost = postDao.GetPost(postId);
+            if(existingPost != null)
+            {
+                updatedPost.AccountId = existingPost.AccountId;
+                updatedPost.PostId = existingPost.PostId;
+
+                result = postDao.UpdatePost(postId, updatedPost.MediaLink);
+            } 
+            else if (existingPost == null)
+            {
+                return NotFound();
+            }
+            if(result)
             {
                 return Ok();
             } 
@@ -71,13 +83,14 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/posts/{postId}/like")]
+        [HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS
         public IActionResult LikePost(LikePost likePost)
         {
+            //IActionResult result = BadRequest(new { message = "Could not like this post." });
             bool newLikedPost = likePostDao.LikePost(likePost);
             if (newLikedPost == true)
             {
-                return Created($"/{likePost.PostId}", newLikedPost);
+                return Ok();
             } 
             else
             {
@@ -89,6 +102,7 @@ namespace Capstone.Controllers
 
         public IActionResult RemoveLikedPost(LikePost likePost)
         {
+            //IActionResult result = BadRequest(new { message = "Could not remove the post." });
             bool deletedPost = likePostDao.UnlikePost(likePost);
             if (deletedPost == true)
             {
@@ -101,6 +115,9 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("/posts/favorites/{accountId}")]
+
+        
+
         public List<Post> GetFavoritePosts(int accountId)
         {
             List<Post> listpost = favoritePostDao.GetListOfFavoritePosts(accountId);
@@ -120,7 +137,7 @@ namespace Capstone.Controllers
             bool newFavoritePost = favoritePostDao.AddFavoritePost(favoritePost);
             if (newFavoritePost == true)
             {
-                return Created($"/{favoritePost.PostId}", newFavoritePost);
+                return Ok();
             }
             else
             {
