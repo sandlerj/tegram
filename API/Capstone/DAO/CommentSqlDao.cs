@@ -25,9 +25,9 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("INSERT INTO comment (account_id, post_id, timestamp, text) " +
+                    SqlCommand cmd = new SqlCommand("INSERT INTO comments (account_id, post_id, timestamp, text) " +
                     "output inserted.comment_id " +
-                    "VALUES(@account_id, @post_id, @text, @timestamp)", conn);
+                    "VALUES(@account_id, @post_id, @timestamp, @text)", conn);
                     cmd.Parameters.AddWithValue("@account_id", comment.AccountId);
                     //cmd.Parameters.AddWithValue("@comment_id", comment.CommentId);
                     cmd.Parameters.AddWithValue("@post_id", comment.PostId);
@@ -82,7 +82,7 @@ namespace Capstone.DAO
         {
             Comment comment = new Comment()
             {
-                AccountId = Convert.ToInt32(reader["acoount_id"]),
+                AccountId = Convert.ToInt32(reader["account_id"]),
                 CommentId = Convert.ToInt32(reader["comment_id"]),
                 PostId = Convert.ToInt32(reader["post_id"]),
                 TimeStamp = Convert.ToDateTime(reader["timestamp"]),

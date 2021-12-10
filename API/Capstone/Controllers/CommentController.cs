@@ -22,10 +22,24 @@ namespace Capstone.Controllers
             commentDao = _commentDao;
         }
 
-        [HttpGet("commentList")]
-        public ActionResult<List<Comment>> GetCommentsByPost(int postId)
+        [HttpGet("/posts/{id}/comment")]
+        public ActionResult<List<Comment>> GetCommentsByPost(int id)
         {
-            List<Comment> commentList = commentDao.
+            List<Comment> commentList = commentDao.GetCommentsByPost(id);
+            if (commentList != null)
+            {
+                return Ok(commentList);
+            }
+            return NotFound();
+        }
+        [HttpPost("/posts/{id}/comment")]
+
+        public ActionResult<Comment> CreateComment(Comment newComment)
+        {
+            Comment added = commentDao.CreateComment(newComment);
+            return newComment;
         }
     }
+
+   
 }
