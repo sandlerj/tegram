@@ -9,10 +9,12 @@ namespace Capstone.DAO
     public class UserSqlDao : IUserDao
     {
         private readonly string connectionString;
+        private readonly AccountSqlDao accountDao;
 
-        public UserSqlDao(string dbConnectionString)
+        public UserSqlDao(string dbConnectionString, AccountSqlDao _accountDao)
         {
             connectionString = dbConnectionString;
+            accountDao = _accountDao;
         }
 
         public User GetUser(string username)
@@ -54,12 +56,19 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("INSERT INTO users (username, password_hash, salt, user_role) VALUES (@username, @password_hash, @salt, @user_role)", conn);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO users (username, password_hash, salt, user_role) output inserted.user_id VALUES (@username, @password_hash, @salt, @user_role)", conn);
                     cmd.Parameters.AddWithValue("@username", username);
                     cmd.Parameters.AddWithValue("@password_hash", hash.Password);
                     cmd.Parameters.AddWithValue("@salt", hash.Salt);
                     cmd.Parameters.AddWithValue("@user_role", role);
-                    cmd.ExecuteNonQuery();
+                    int userId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    Account account = new Account();
+                    account.UserId = userId;
+                    account.Email = "";
+                    account.ProfileImage = "";
+
+                    accountDao.CreateAccount(account);
                 }
             }
             catch (SqlException)

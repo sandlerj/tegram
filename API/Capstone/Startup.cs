@@ -62,10 +62,11 @@ namespace Capstone
             // Dependency Injection configuration
             services.AddSingleton<ITokenGenerator>(tk => new JwtGenerator(Configuration["JwtSecret"]));
             services.AddSingleton<IPasswordHasher>(ph => new PasswordHasher());
-            services.AddTransient<IUserDao>(m => new UserSqlDao(connectionString));
+            services.AddTransient<IUserDao>(m => new UserSqlDao(connectionString, new AccountSqlDao(connectionString)));
             services.AddTransient<IPostDao>(m => new PostSqlDao(connectionString));
             services.AddTransient<ILikePostDao>(m => new LikeSqlPostDao(connectionString));
             services.AddTransient<IFavoritePostDao>(m => new FavoriteSqlPostDao(connectionString, new PostSqlDao(connectionString)));
+            services.AddTransient<IAccountDao>(m => new AccountSqlDao(connectionString));
             services.AddTransient<ICommentDao>(m => new CommentSqlDao(connectionString));
 
         }
