@@ -45,17 +45,25 @@ namespace Capstone.Controllers
             
         }
         [HttpPost("/posts")]
-        public IActionResult UploadPost(Post post, IFormFile uploadImg)
+        public IActionResult UploadPost(NewUploadPost newUploadPost)
         {
-            IActionResult result = BadRequest(new { message = "Could not process your post." });
-            string mediaLink = fileStorageService.UploadFileToStorage(uploadImg);
+
+            //(Post post, IFormFile uploadImg)
+            Post post = new Post
+            {
+                AccountId = newUploadPost.AccountId,
+                Caption = newUploadPost.Caption,
+                Timestamp = newUploadPost.Timestamp
+            };
+
+            string mediaLink = fileStorageService.UploadFileToStorage(newUploadPost.uploadImg);
             post.MediaLink = mediaLink;
             Post createdPost = postDao.UploadPost(post);
             if (createdPost != null)
             {
-                result = Created($"/{post.PostId}", createdPost);
+                 Created($"/{post.PostId}", createdPost);
             }
-            return result;
+            return BadRequest(new { message = "Could not process your post." });
         }
         [HttpPut("/posts/{postId}")]
         public ActionResult<Post> UpdatePost(Post updatedPost, int postId)

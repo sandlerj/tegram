@@ -22,7 +22,7 @@ namespace Capstone.Models
 
     public class NewUploadPost : Post
     {
-        public IFormFile imgUpload { get; set }
+        public IFormFile uploadImg { get; set }
     }
     /// <summary>
     /// If a user requests to view one post.
