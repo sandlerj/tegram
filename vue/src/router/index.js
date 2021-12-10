@@ -8,6 +8,7 @@ import store from '../store/index'
 import Posts from '../views/Posts.vue'
 import Favorites from '../views/Favorites.vue'
 import UploadPost from '../views/UploadPost.vue'
+import EllipsisButton from '@/components/EllipsisButton.vue'
 
 Vue.use(Router)
 
@@ -79,6 +80,11 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: EllipsisButton
     }
 
   ]

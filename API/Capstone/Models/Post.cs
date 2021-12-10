@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,11 @@ namespace Capstone.Models
         public string Caption { get; set; }
         public DateTime Timestamp { get; set; }
 
+    }
+
+    public class NewUploadPost : Post
+    {
+        public IFormFile imgUpload { get; set }
     }
     /// <summary>
     /// If a user requests to view one post.
