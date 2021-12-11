@@ -31,10 +31,13 @@ namespace Capstone.Services
         // todo - Not this. Get this out of the csw
         private string awsAccessId;  // /bin/Credentials/tegram-delicious-circus-credentials.csv
         private string awsSecret;
-        private readonly string FULLY_QUALIFIED_CSV_PATH = "C:\\Users\\Student\\workspace\\capstones\\c-final-capstone-team-3\\API\\Credentials\\tegram-delicious-circus-credentials.csv";
+
+        private readonly string FULLY_QUALIFIED_CSV_PATH;
 
         public AWSS3FileStorage()
         {
+            string currentDir = Environment.CurrentDirectory;
+            FULLY_QUALIFIED_CSV_PATH = $"{currentDir}\\Credentials\\tegram-delicious-circus-credentials.csv";
 
             GetCredsFromCSV(FULLY_QUALIFIED_CSV_PATH);
             //set up credentials (this should reeeeally be set up through a dependency injection... gotta figure that out
