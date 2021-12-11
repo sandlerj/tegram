@@ -7,7 +7,7 @@ export default {
     get(id) {
         return axios.get(`posts/${id}`)
     },
-    create(post) {
+    create(post) { // see notes from tom/change content 
         return axios.post('/posts', post)
     },
     update(postId, post){
@@ -17,7 +17,7 @@ export default {
         return axios.delete(`/posts/${postId}`)
     },
     likePost(_postId, _accountId) {
-        postBody = {
+        let postBody = {
             postId: _postId,
             accountId: _accountId
         }
@@ -34,7 +34,7 @@ export default {
         return axios.get(`/posts/favorites`, { params : { accountId: _accountId}});
     },
     addFavorite(_postId, _accountId) {
-        postBody = {
+        let postBody = {
             postId: _postId,
             accountId: _accountId
         }

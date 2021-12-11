@@ -1,7 +1,6 @@
 <template>
   <div>
     <login-card />
-    <font-awesome-icon icon="ellipsis-h" />
   </div>
 </template>
 

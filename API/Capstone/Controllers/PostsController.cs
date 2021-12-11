@@ -45,7 +45,7 @@ namespace Capstone.Controllers
             
         }
         [HttpPost("/posts")]
-        public IActionResult UploadPost(NewUploadPost newUploadPost)
+        public IActionResult UploadPost([FromForm] NewUploadPost newUploadPost)
         {
 
             //(Post post, IFormFile uploadImg)
@@ -61,7 +61,7 @@ namespace Capstone.Controllers
             Post createdPost = postDao.UploadPost(post);
             if (createdPost != null)
             {
-                 Created($"/{post.PostId}", createdPost);
+                 return Created($"/{post.PostId}", createdPost);
             }
             return BadRequest(new { message = "Could not process your post." });
         }

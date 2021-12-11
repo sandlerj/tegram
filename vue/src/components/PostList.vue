@@ -28,8 +28,7 @@ export default {
     computed: {
     },
     created() {
-        // i don't have these services, will write once i have them
-            // if accountId undefined, return all (feed)
+
             if (this.accountId == undefined) {
                 //return feed
                 postService.list()
