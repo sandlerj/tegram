@@ -7,11 +7,13 @@ export default {
     get(id) {
         return axios.get(`posts/${id}`)
     },
-    create(post) { // see notes from tom/change content 
-        return axios.post('/posts', post)
+    create(formData) { // see notes from tom/change content 
+        return axios.post('/posts', formData, {headers: {
+            "Content-Type": "multipart/form-data"
+        }})
     },
-    update(postId, post){
-        return axios.put(`/posts/${postId}`, post)
+    update(post){
+        return axios.put(`/posts/${post.postId}`, post)
     },
     delete(postId) {
         return axios.delete(`/posts/${postId}`)
