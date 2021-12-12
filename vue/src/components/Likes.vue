@@ -22,7 +22,7 @@ export default {
             PostService.getAllLikes(this.postId)
             .then(res => {
                 this.accounts = new Set(res.data);
-                this.isLiked = this.accounts.has(this.$store.state.accountId)
+                this.isLiked = this.accounts.has(this.$store.state.accountId);
                 this.isLoaded = true
             })
             .catch(err => {
@@ -36,8 +36,8 @@ export default {
                 this.isLiked = true;
                 // make post req
                 PostService.likePost(this.postId, this.$store.state.accountId)
-                .then(()=>{
-                    //not sure what to do here
+                .then((res)=>{
+                    this.accounts = new Set(res.data);
                 })
                 .catch((err)=>{
                     console.log(`Something went wrong when accessing the server: ${err.message}`)
@@ -46,8 +46,8 @@ export default {
                 this.isLiked = false;
                 //make delete request
                 PostService.unlikePost(this.postId, this.$store.state.accountId)
-                .then(()=>{
-                    //not sure what to do here
+                .then((res)=>{
+                    this.accounts = new Set(res.data);
                 })
                 .catch((err)=>{
                     console.log(`Something went wrong when accessing the server: ${err.message}`)
