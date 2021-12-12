@@ -11,7 +11,7 @@ using Capstone.Services;
 
 namespace Capstone.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     
     public class PostsController : ControllerBase
@@ -27,6 +27,13 @@ namespace Capstone.Controllers
             favoritePostDao = _favoritePostDao;
             likePostDao = _likePostDao;
             fileStorageService = new AWSS3FileStorage();
+        }
+
+        [HttpGet("/posts")]
+        public ActionResult<List<Post>> GetPosts()
+        {
+            return Ok(postDao.GetAllPosts());
+
         }
 
         [HttpGet("/posts/{postId}")] 
@@ -45,7 +52,7 @@ namespace Capstone.Controllers
             
         }
         [HttpPost("/posts")]
-        public IActionResult UploadPost(NewUploadPost newUploadPost)
+        public IActionResult UploadPost([FromForm] NewUploadPost newUploadPost)
         {
 
             //(Post post, IFormFile uploadImg)
@@ -61,7 +68,7 @@ namespace Capstone.Controllers
             Post createdPost = postDao.UploadPost(post);
             if (createdPost != null)
             {
-                 Created($"/{post.PostId}", createdPost);
+                 return Created($"/{post.PostId}", createdPost);
             }
             return BadRequest(new { message = "Could not process your post." });
         }
@@ -89,6 +96,14 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500);
             }
+        }
+
+        [HttpGet("/posts/{postId}/like")]
+        public ActionResult<List<int>> GetAccountsWhoLikedPost(int postId)
+        {
+            List<int> idList = likePostDao.GetAccountIdsLikingPost(postId);
+
+            return Ok(idList);
         }
 
         [HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS

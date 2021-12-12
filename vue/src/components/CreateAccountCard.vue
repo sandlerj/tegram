@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import authService from "@/services/AuthService.js"
 export default {
     name: "create-account-card",
      data() {

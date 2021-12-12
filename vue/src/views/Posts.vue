@@ -1,16 +1,16 @@
 <template>
-  <div class = "Posts">
-      <h1> Posts </h1>
-      <p> This page will hold all the posts. </p>
-      </div>
-
+  <post-list  />
 </template>
 
 <script>
 
 //import posts from accountservice?
+import PostList from "@/components/PostList.vue"
 export default {
-    name: "Posts"
+    name: "Posts",
+    components: {
+        PostList
+    }
 
 }
 </script>

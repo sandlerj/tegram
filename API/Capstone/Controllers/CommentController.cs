@@ -10,7 +10,7 @@ using Capstone.DAO;
 
 namespace Capstone.Controllers
 {
-    [Route("/controller")]
+    [Route("posts")]
     [ApiController]
     //[Authorize]
     public class CommentController : ControllerBase
@@ -22,7 +22,7 @@ namespace Capstone.Controllers
             commentDao = _commentDao;
         }
 
-        [HttpGet("/posts/{id}/comment")]
+        [HttpGet("{id}/comments")]
         public ActionResult<List<Comment>> GetCommentsByPost(int id)
         {
             List<Comment> commentList = commentDao.GetCommentsByPost(id);
@@ -32,7 +32,7 @@ namespace Capstone.Controllers
             }
             return NotFound();
         }
-        [HttpPost("/posts/{id}/comment")]
+        [HttpPost("{id}/comments")]
 
         public ActionResult<Comment> CreateComment(Comment newComment)
         {

@@ -11,6 +11,11 @@ namespace Capstone.Models
         public string Role { get; set; }
     }
 
+    public class UserWithAccountId : User
+    {
+        public int AccountId { get; set; }
+    }
+
     /// <summary>
     /// Model of user data to return upon successful login
     /// </summary>
@@ -28,6 +33,7 @@ namespace Capstone.Models
     {
         public ReturnUser User { get; set; }
         public string Token { get; set; }
+        public int AccountId { get; set; }
     }
 
     /// <summary>
