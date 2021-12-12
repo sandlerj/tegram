@@ -17,9 +17,9 @@ library.add(faArrowRight, faArrowLeft, faArrowUp, faArrowDown)
 //Font Awesome config
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisH, faStar, faHeart } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faEllipsisH)
+library.add(faEllipsisH, faStar, faHeart)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 // Up to here

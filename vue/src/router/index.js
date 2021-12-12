@@ -8,7 +8,7 @@ import store from '../store/index'
 import Posts from '../views/Posts.vue'
 import Favorites from '../views/Favorites.vue'
 import UploadPost from '../views/UploadPost.vue'
-import Comments from '@/components/Comments.vue'
+import PostCard from '@/components/PostCard.vue'
 
 Vue.use(Router)
 
@@ -84,7 +84,7 @@ const router = new Router({
     {
       path: '/test',
       name: 'test',
-      component: Comments
+      component: PostCard
     }
 
   ]

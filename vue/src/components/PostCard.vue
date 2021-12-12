@@ -3,11 +3,12 @@
         <div class="post-img-header">
             <post-account :accountId="post.accountId"/>
             <ellipsis-button v-show="$store.accountId == post.accountId" :postId="post.postId"/>
-            <favorite-button :postId="post.postId"/>
+            <favorite-button :postId="post.postId" :isFavorited="isFavorited" />
         </div>
+        <img :src="post.mediaLink">
         <div class="post-img-div">
-            <img src="{{ post.mediaLink }}">
             <p class="img-div">{{ post.caption }}</p>
+            <likes :postId="post.postId" />
         </div>
         <comments :postId="post.postId"/>
     </div>
@@ -17,6 +18,7 @@
 import Comments from './Comments.vue'
 import EllipsisButton from './EllipsisButton.vue'
 import FavoriteButton from './FavoriteButton.vue'
+import Likes from './Likes.vue'
 import PostAccount from './PostAccount.vue'
 
 export default {
@@ -25,9 +27,10 @@ export default {
         Comments,
         EllipsisButton,
         FavoriteButton,
-        PostAccount
+        PostAccount,
+        Likes
         },
-        props: ["post"],
+        props: ["post", "isFavorited"],
     data() {
         return {
 

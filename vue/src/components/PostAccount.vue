@@ -1,6 +1,6 @@
 <template>
     <div class="account-header">            
-        <img src="{{account.profileImg}}" alt="{{account.username}}'s profile image">
+        <img :src="account.profileImg" :alt="account.username">
         <div class="account-username"></div>
     </div>
 </template>
@@ -35,6 +35,7 @@ export default {
             .catch(err => {
                 // maybe display some sort of info indicating an error?
                 // possible load some placeholder username
+                console.log(`Something went wrong when accessing the server: ${err.message}`)
             })
         }
     }
