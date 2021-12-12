@@ -1,7 +1,8 @@
 <template>
-    <div class="account-header">            
-        <img :src="account.profileImg" :alt="account.username">
-        <div class="account-username">{{account.username}}</div>
+    <div class="account-header"> 
+        <font-awesome-icon class="placeholder-icon" v-if="!account.profileImg" icon="user"/>           
+        <img v-else :src="account.profileImg" :alt="account.username">
+        <span class="account-username">{{account.username}}</span>
     </div>
 </template>
 
@@ -38,10 +39,15 @@ export default {
                 console.log(`Something went wrong when accessing the server: ${err.message}`)
             })
         }
+    },
+    created() {
+        this.loadAccount();
     }
 }
 </script>
 
 <style>
-
+.placeholder-icon {
+    font-size: 2.5em;
+}
 </style>

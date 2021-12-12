@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 export default {
-    list() {
-        return axios.get('/posts')
+    list(limit=20) {
+        return axios.get('/posts', {params:{limit}}) // limit param not used serverside
     },
     get(id) {
         return axios.get(`posts/${id}`)
@@ -31,7 +31,7 @@ export default {
         return axios.get(`/posts/${_postId}/like`)
     },
     getFavorites(_accountId) {
-        return axios.get(`/posts/favorites`, { params : { accountId: _accountId}});
+        return axios.get(`/posts/favorites/${_accountId}`);
     },
     addFavorite(_postId, _accountId) {
         let postBody = {

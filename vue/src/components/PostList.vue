@@ -52,9 +52,10 @@ export default {
                 this.isLoading = false;
             })
             .catch(err => {
-
+                console.log(err.message)
             })
         } else if (this.feedAccountId <= 0) {
+            console.log('yeah???')
         // else if accountId <= 0, GET favorites for user
             postService.getFavorites(this.feedAccountId)
             .then((res) => {
@@ -62,7 +63,7 @@ export default {
                 this.isLoading = false;
             })
             .catch(err => {
-
+                console.log(err.message)
             })
         } else {
             // else, accountId return just posts for that account OR emptylist if 404 from GET

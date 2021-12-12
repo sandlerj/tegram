@@ -30,7 +30,6 @@ export default {
                 this.commentsLoaded = true;
             })
             .catch((err) => {
-                alert('Something went wrong');
                 console.log(err);
             })
         },

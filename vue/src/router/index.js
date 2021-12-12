@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../views/Home.vue'
+//import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
-import Register from '../views/Register.vue'
+import NewAccount from '../views/NewAccount.vue'
 import store from '../store/index'
 import Posts from '../views/Posts.vue'
 import Favorites from '../views/Favorites.vue'
@@ -28,7 +28,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: Posts,
       meta: {
         requiresAuth: true
       }
@@ -52,7 +52,7 @@ const router = new Router({
     {
       path: "/register",
       name: "register",
-      component: Register,
+      component: NewAccount,
       meta: {
         requiresAuth: false
       }

@@ -12,6 +12,8 @@ namespace Capstone.DAO
 
         List<Post> GetListOfPostsByAccountId(int accountId);
 
+        List<Post> GetAllPosts();
+
         Post UploadPost(Post post);
 
         bool UpdatePost(int postId, string mediaLink);

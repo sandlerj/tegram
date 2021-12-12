@@ -69,6 +69,33 @@ namespace Capstone.DAO
             }
             
         }
+        public List<Post> GetAllPosts()
+        {
+            List<Post> listPosts = new List<Post>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts", conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Post temppost = GetPostFromReader(reader);
+                        listPosts.Add(temppost);
+                    }
+                }
+                return listPosts;
+            }
+            catch (SqlException e)
+            {
+
+                throw e;
+            }
+        }
         public Post UploadPost(Post post)
         {
             try
@@ -131,6 +158,6 @@ namespace Capstone.DAO
             return post;
         }
 
-       
+        
     }
 }

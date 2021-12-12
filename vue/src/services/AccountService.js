@@ -5,6 +5,6 @@ import axios from 'axios';
 export default {
     
     getAccount(accountId) {
-        return axios.get(`/account/${accountId}`);
+        return axios.get(`/accounts/${accountId}`);
     }
 }
