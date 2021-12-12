@@ -45,11 +45,8 @@ namespace Capstone.Controllers
             
         }
         [HttpPost("/posts")]
-<<<<<<< HEAD
-        public IActionResult UploadPost(Post post, IFormFile uploadImg) //How to upload to Postman?
-=======
         public IActionResult UploadPost(NewUploadPost newUploadPost)
->>>>>>> 7bdf2fe52137b28814fa54e202b2e03e3084fcfa
+
         {
 
             //(Post post, IFormFile uploadImg)
