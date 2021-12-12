@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         getFavoritePostIds() {
-            postService.getFavorites(this.$store.accountId)
+            postService.getFavorites(this.$store.state.accountId)
             .then((res) => {
                 this.favoritedPostIds = new Set(res.data)
             })

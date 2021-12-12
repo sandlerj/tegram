@@ -24,7 +24,7 @@ export default {
                 return; // no empty comments 
             }
             let comment = {
-                AccountId : this.$store.AccountId,
+                AccountId : this.$store.state.accountId,
                 PostId : this.postId,
                 Timestamp : new Date().toJSON(),
                 Text : this.text 

@@ -21,13 +21,13 @@ export default {
        toggleFavorite() {
            if (this.favorited) {
                this.favorited = false;
-                PostService.removeFavorite(this.postId, this.$store.accountId)
+                PostService.removeFavorite(this.postId, this.$store.state.accountId)
                 .then(() => {
                     console.log("Post unfavorited")
                 })
            } else {
                this.favorited = true;
-               PostService.addFavorite(this.postId, this.$store.accountId)
+               PostService.addFavorite(this.postId, this.$store.state.accountId)
                .then(()=> {
                    console.log("Post favorited")
                })

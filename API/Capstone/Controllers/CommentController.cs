@@ -32,12 +32,12 @@ namespace Capstone.Controllers
             }
             return NotFound();
         }
-        [HttpPost("{id}/comments")]
 
+        [HttpPost("{id}/comments")]
         public ActionResult<Comment> CreateComment(Comment newComment)
         {
             Comment added = commentDao.CreateComment(newComment);
-            return newComment;
+            return added;
         }
     }
 

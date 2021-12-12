@@ -17,7 +17,6 @@ namespace Capstone.DAO
 
         public Comment CreateComment(Comment comment)
         {
-            //List<Comment> CommentsList = new List<Comment>();
 
             try
             {
