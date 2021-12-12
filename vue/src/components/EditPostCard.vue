@@ -1,12 +1,49 @@
 <template>
-<div></div>
-  <!-- PUT to /posts with updated post caption-->
+<div class="post-upload-form">
+        <h2>Edit Post</h2>
+        <img v-bind:src="editedPost.mediaLink">
+        <label for="Caption">Caption<input type="text" name="Caption" class="caption-input" v-model="editedPost.caption"/></label>
+        <button @click.prevent="updatePost()">Update Post!</button>
+        <div class="loading-div" v-if="isUploading">
+            <img src="/loading.gif">
+            <p>Uploading...</p>
+        </div>
+    </div>
 </template>
 
 <script>
+import postService from "@/services/PostService.js"
 export default {
     name: "edit-post-card",
-    prop: ["postId"]
+    props: ["post"],
+    
+    data(){
+      return {
+        editedPost: {
+          postId: this.post.postId,
+          caption: this.post.caption,
+           mediaLink: this.post.mediaLink,
+           timestamp: this.post.timestamp,
+           accountId: this.post.accountId,
+        },
+        isUploading: false
+      }
+    },
+    methods: {
+      updatePost(){
+        this.isUploading = true,
+        postService.update(this.editedPost) 
+        .then(()=> {
+                this.isUploading = false;
+                this.$router.push("/")
+            })
+            .catch((error)=> {
+                console.log(error.message)
+                alert("Something Went Wrong. Please Try Again Later.");
+                this.isUploading = false;
+                });
+      }
+    }
 }
 </script>
 
