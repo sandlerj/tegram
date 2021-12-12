@@ -45,6 +45,36 @@ namespace Capstone.DAO
             return returnUser;
         }
 
+        public UserWithAccountId GetUserWithAccountId(string username)
+        {
+            UserWithAccountId returnUser = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT users.user_id, username, password_hash, salt, user_role, accounts.account_id FROM users " +
+                        "JOIN accounts ON users.user_id = accounts.user_id " +
+                        "WHERE username = @username", conn);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        returnUser = GetUserWithAccountIdFromReader(reader);
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+
+            return returnUser;
+        }
+
         public User AddUser(string username, string password, string role)
         {
             IPasswordHasher passwordHasher = new PasswordHasher();
@@ -88,6 +118,20 @@ namespace Capstone.DAO
                 PasswordHash = Convert.ToString(reader["password_hash"]),
                 Salt = Convert.ToString(reader["salt"]),
                 Role = Convert.ToString(reader["user_role"]),
+            };
+
+            return u;
+        }
+        private UserWithAccountId GetUserWithAccountIdFromReader(SqlDataReader reader)
+        {
+            UserWithAccountId u = new UserWithAccountId()
+            {
+                UserId = Convert.ToInt32(reader["user_id"]),
+                Username = Convert.ToString(reader["username"]),
+                PasswordHash = Convert.ToString(reader["password_hash"]),
+                Salt = Convert.ToString(reader["salt"]),
+                Role = Convert.ToString(reader["user_role"]),
+                AccountId = Convert.ToInt32(reader["account_id"])
             };
 
             return u;

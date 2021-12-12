@@ -69,6 +69,33 @@ namespace Capstone.DAO
             }
             
         }
+        public List<Post> GetAllPosts()
+        {
+            List<Post> listPosts = new List<Post>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts", conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Post temppost = GetPostFromReader(reader);
+                        listPosts.Add(temppost);
+                    }
+                }
+                return listPosts;
+            }
+            catch (SqlException e)
+            {
+
+                throw e;
+            }
+        }
         public Post UploadPost(Post post)
         {
             try
@@ -85,7 +112,12 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@caption", post.Caption);
                     cmd.Parameters.AddWithValue("@timestamp", post.Timestamp);
 
+<<<<<<< HEAD
                     post.PostId = Convert.ToInt32(cmd.ExecuteScalar());
+=======
+                    int postId = Convert.ToInt32(cmd.ExecuteScalar());
+                    post.PostId = postId;
+>>>>>>> c5cae3b05f4bdc05534a9e1008eca3c798b40c01
                     return post;
                 }
             }
@@ -130,6 +162,6 @@ namespace Capstone.DAO
             return post;
         }
 
-       
+        
     }
 }

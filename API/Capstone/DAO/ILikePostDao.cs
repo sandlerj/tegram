@@ -11,5 +11,7 @@ namespace Capstone.DAO
         bool LikePost(LikePost likePost);
 
         bool UnlikePost(LikePost likePost);
+
+        List<int> GetAccountIdsLikingPost(int postId);
     }
 }

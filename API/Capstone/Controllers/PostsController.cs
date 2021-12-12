@@ -11,7 +11,7 @@ using Capstone.Services;
 
 namespace Capstone.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     
     public class PostsController : ControllerBase
@@ -27,6 +27,13 @@ namespace Capstone.Controllers
             favoritePostDao = _favoritePostDao;
             likePostDao = _likePostDao;
             fileStorageService = new AWSS3FileStorage();
+        }
+
+        [HttpGet("/posts")]
+        public ActionResult<List<Post>> GetPosts()
+        {
+            return Ok(postDao.GetAllPosts());
+
         }
 
         [HttpGet("/posts/{postId}")] 
@@ -45,8 +52,12 @@ namespace Capstone.Controllers
             
         }
         [HttpPost("/posts")]
+<<<<<<< HEAD
         public IActionResult UploadPost(NewUploadPost newUploadPost)
 
+=======
+        public IActionResult UploadPost([FromForm] NewUploadPost newUploadPost)
+>>>>>>> c5cae3b05f4bdc05534a9e1008eca3c798b40c01
         {
 
             //(Post post, IFormFile uploadImg)
@@ -62,7 +73,7 @@ namespace Capstone.Controllers
             Post createdPost = postDao.UploadPost(post);
             if (createdPost != null)
             {
-                 Created($"/{post.PostId}", createdPost);
+                 return Created($"/{post.PostId}", createdPost);
             }
             return BadRequest(new { message = "Could not process your post." });
         }
@@ -92,7 +103,19 @@ namespace Capstone.Controllers
             }
         }
 
+<<<<<<< HEAD
         [HttpPost("/posts/{postId}/like")]
+=======
+        [HttpGet("/posts/{postId}/like")]
+        public ActionResult<List<int>> GetAccountsWhoLikedPost(int postId)
+        {
+            List<int> idList = likePostDao.GetAccountIdsLikingPost(postId);
+
+            return Ok(idList);
+        }
+
+        [HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS
+>>>>>>> c5cae3b05f4bdc05534a9e1008eca3c798b40c01
         public IActionResult LikePost(LikePost likePost)
         {
             bool newLikedPost = likePostDao.LikePost(likePost);

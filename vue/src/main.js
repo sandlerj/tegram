@@ -5,20 +5,24 @@ import store from './store/index'
 import axios from 'axios'
 
 
-//Font Awesome config
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
-
-library.add(faEllipsisH)
-
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-// Up to here
-
 //ki context
 
 import kiContext from '@kiyoaki_w/vue-context'
 Vue.use(kiContext)
+import { faArrowRight, faArrowLeft, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+library.add(faArrowRight, faArrowLeft, faArrowUp, faArrowDown)
+
+//
+
+//Font Awesome config
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faEllipsisH, faStar, faHeart, faUser } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faEllipsisH, faStar, faHeart, faUser)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+// Up to here
 
 
 

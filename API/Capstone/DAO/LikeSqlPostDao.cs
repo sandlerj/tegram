@@ -14,6 +14,34 @@ namespace Capstone.DAO
         {
             connectionString = dbConnectionString;
         }
+
+        public List<int> GetAccountIdsLikingPost(int postId)
+        {
+            List<int> accountIds = new List<int>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string queryString = "SELECT account_id FROM liked_posts WHERE post_id = @postId";
+                    SqlCommand cmd = new SqlCommand(queryString, conn);
+                    cmd.Parameters.AddWithValue("@postId", postId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        accountIds.Add(Convert.ToInt32(reader["account_id"]));
+                    }
+                }
+                return accountIds;
+            }
+            catch (SqlException e)
+            {
+
+                throw e;
+            }
+        }
+
         public bool LikePost(LikePost likePost)
         {
             try

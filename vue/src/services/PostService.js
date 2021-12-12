@@ -1,23 +1,25 @@
 import axios from 'axios'
 
 export default {
-    list() {
-        return axios.get('/posts')
+    list(limit=20) {
+        return axios.get('/posts', {params:{limit}}) // limit param not used serverside
     },
     get(id) {
         return axios.get(`posts/${id}`)
     },
-    create(post) {
-        return axios.post('/posts', post)
+    create(formData) { // see notes from tom/change content 
+        return axios.post('/posts', formData, {headers: {
+            "Content-Type": "multipart/form-data"
+        }})
     },
-    update(postId, post){
-        return axios.put(`/posts/${postId}`, post)
+    update(post){
+        return axios.put(`/posts/${post.postId}`, post)
     },
     delete(postId) {
         return axios.delete(`/posts/${postId}`)
     },
     likePost(_postId, _accountId) {
-        postBody = {
+        let postBody = {
             postId: _postId,
             accountId: _accountId
         }
@@ -31,10 +33,10 @@ export default {
         return axios.get(`/posts/${_postId}/like`)
     },
     getFavorites(_accountId) {
-        return axios.get(`/posts/favorites`, { params : { accountId: _accountId}});
+        return axios.get(`/posts/favorites/${_accountId}`);
     },
     addFavorite(_postId, _accountId) {
-        postBody = {
+        let postBody = {
             postId: _postId,
             accountId: _accountId
         }

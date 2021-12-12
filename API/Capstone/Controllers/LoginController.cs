@@ -27,7 +27,7 @@ namespace Capstone.Controllers
             IActionResult result = Unauthorized(new { message = "Username or password is incorrect" });
 
             // Get the user by username
-            User user = userDao.GetUser(userParam.Username);
+            UserWithAccountId user = userDao.GetUserWithAccountId(userParam.Username);
 
             // If we found a user and the password hash matches
             if (user != null && passwordHasher.VerifyHashMatch(user.PasswordHash, userParam.Password, user.Salt))
@@ -36,7 +36,7 @@ namespace Capstone.Controllers
                 string token = tokenGenerator.GenerateToken(user.UserId, user.Username, user.Role);
 
                 // Create a ReturnUser object to return to the client
-                LoginResponse retUser = new LoginResponse() { User = new ReturnUser() { UserId = user.UserId, Username = user.Username, Role = user.Role }, Token = token };
+                LoginResponse retUser = new LoginResponse() { User = new ReturnUser() { UserId = user.UserId, Username = user.Username, Role = user.Role }, Token = token, AccountId = user.AccountId };
 
                 // Switch to 200 OK
                 result = Ok(retUser);

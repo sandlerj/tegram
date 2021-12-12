@@ -1,6 +1,6 @@
 <template>
   <div>
-      <post-card v-for="post in postList" :post="post" :key="post.postId" />
+      <post-card v-for="post in postList" :post="post" :key="post.postId" :isFavorited="favoritedPostIds.has(post.postId)"/>
   </div>
 </template>
 
@@ -16,52 +16,66 @@ export default {
     data() {
         return {
             postList: [],
-            isLoading: true
+            isLoading: true,
+            favoritedPostIds: new Set(),
         }
     },
     props: {
-        "accountId" : {
+        "feedAccountId" : {
             type: Number,
             default: undefined
         },
     },
     computed: {
+        
+    },
+    methods: {
+        getFavoritePostIds() {
+            postService.getFavorites(this.$store.state.accountId)
+            .then((res) => {
+                this.favoritedPostIds = new Set(res.data)
+            })
+            .catch((err) => {
+                console.log("Issue retrieving favorites");
+                console.log(err);
+            })
+        }
     },
     created() {
-        // i don't have these services, will write once i have them
-            // if accountId undefined, return all (feed)
-            if (this.accountId == undefined) {
-                //return feed
-                postService.list()
-                .then((res) => {
-                    // check if okay, then
-                    this.postList = res.data // i think??
-                    this.isLoading = false;
-                })
-                .catch(err => {
-
-                })
-            } else if (this.accountId <= 0) {
-            // else if accountId <= 0, GET favorites for user
-                postService.getFavorites(this.accountId)
-                .then((res) => {
-                    this.postList = res.data;
-                    this.isLoading = false;
-                })
-                .catch(err => {
-
-                })
-            } else {
-                // else, accountId return just posts for that account OR emptylist if 404 from GET
-                accountService.viewPosts(this.accountId)
-                .then((res) => {
-                    this.postList = res.data;
-                    this.isLoading = false;
-                })
-                .catch(err => {
-
-                })
-            }
+        this.getFavoritePostIds();
+        if (this.feedAccountId == undefined) {
+            //return feed
+            postService.list()
+            .then((res) => {
+                // check if okay, then
+                this.postList = res.data // i think??
+                this.isLoading = false;
+            })
+            .catch(err => {
+                console.log(err.message)
+            })
+        } else if (this.feedAccountId <= 0) {
+            console.log('yeah???')
+        // else if accountId <= 0, GET favorites for user
+            postService.getFavorites(this.feedAccountId)
+            .then((res) => {
+                this.postList = res.data;
+                this.isLoading = false;
+            })
+            .catch(err => {
+                console.log(err.message)
+            })
+        } else {
+            // else, accountId return just posts for that account OR emptylist if 404 from GET
+            accountService.viewPosts(this.feedAccountId)
+            .then((res) => {
+                this.postList = res.data;
+                this.isLoading = false;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
     }
 }
 </script>
