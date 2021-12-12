@@ -22,11 +22,8 @@ namespace Capstone.Models
 
     public class NewUploadPost : Post
     {
-<<<<<<< HEAD
-        public IFormFile uploadImg { get; set;  }
-=======
         public IFormFile uploadImg { get; set; }
->>>>>>> c5cae3b05f4bdc05534a9e1008eca3c798b40c01
+
     }
     /// <summary>
     /// If a user requests to view one post.

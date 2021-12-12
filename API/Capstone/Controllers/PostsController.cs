@@ -52,12 +52,7 @@ namespace Capstone.Controllers
             
         }
         [HttpPost("/posts")]
-<<<<<<< HEAD
-        public IActionResult UploadPost(NewUploadPost newUploadPost)
-
-=======
         public IActionResult UploadPost([FromForm] NewUploadPost newUploadPost)
->>>>>>> c5cae3b05f4bdc05534a9e1008eca3c798b40c01
         {
 
             //(Post post, IFormFile uploadImg)
@@ -102,10 +97,6 @@ namespace Capstone.Controllers
                 return StatusCode(500);
             }
         }
-
-<<<<<<< HEAD
-        [HttpPost("/posts/{postId}/like")]
-=======
         [HttpGet("/posts/{postId}/like")]
         public ActionResult<List<int>> GetAccountsWhoLikedPost(int postId)
         {
@@ -115,7 +106,6 @@ namespace Capstone.Controllers
         }
 
         [HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS
->>>>>>> c5cae3b05f4bdc05534a9e1008eca3c798b40c01
         public IActionResult LikePost(LikePost likePost)
         {
             bool newLikedPost = likePostDao.LikePost(likePost);

@@ -112,12 +112,8 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@caption", post.Caption);
                     cmd.Parameters.AddWithValue("@timestamp", post.Timestamp);
 
-<<<<<<< HEAD
-                    post.PostId = Convert.ToInt32(cmd.ExecuteScalar());
-=======
                     int postId = Convert.ToInt32(cmd.ExecuteScalar());
                     post.PostId = postId;
->>>>>>> c5cae3b05f4bdc05534a9e1008eca3c798b40c01
                     return post;
                 }
             }
