@@ -22,7 +22,7 @@ export default {
             PostService.getAllLikes(this.postId)
             .then(res => {
                 this.accounts = new Set(res.data);
-                this.isLiked = this.accounts.has(this.$store.accountId)
+                this.isLiked = this.accounts.has(this.$store.state.accountId)
                 this.isLoaded = true
             })
             .catch(err => {
@@ -35,7 +35,7 @@ export default {
             if (!this.isLiked) {
                 this.isLiked = true;
                 // make post req
-                PostService.likePost(this.postId, this.$store.accountId)
+                PostService.likePost(this.postId, this.$store.state.accountId)
                 .then(()=>{
                     //not sure what to do here
                 })
@@ -45,7 +45,7 @@ export default {
             } else {
                 this.isLiked = false;
                 //make delete request
-                PostService.unlikePost(this.postId, this.$store.accountId)
+                PostService.unlikePost(this.postId, this.$store.state.accountId)
                 .then(()=>{
                     //not sure what to do here
                 })

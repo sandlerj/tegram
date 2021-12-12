@@ -10,9 +10,9 @@ export default {
     data() {
         return {
             post : {
-                accountId: this.$store.accountId,
+                accountId: this.$store.state.accountId,
                 MediaLink: "",
-                caption: ""
+                caption: "",
             }
         }
     }

@@ -2,7 +2,7 @@
     <div>
         <div class="post-img-header">
             <post-account :accountId="post.accountId"/>
-            <ellipsis-button v-show="$store.accountId == post.accountId" :postId="post.postId"/>
+            <ellipsis-button v-show="$store.state.accountId == post.accountId" :postId="post.postId"/>
             <favorite-button :postId="post.postId" :isFavorited="isFavorited" />
         </div>
         <img :src="post.mediaLink">
