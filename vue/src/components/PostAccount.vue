@@ -1,7 +1,7 @@
 <template>
     <div class="account-header">            
         <img :src="account.profileImg" :alt="account.username">
-        <div class="account-username"></div>
+        <div class="account-username">{{account.username}}</div>
     </div>
 </template>
 
