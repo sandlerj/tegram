@@ -1,14 +1,13 @@
 <template>
-  <div class = "upload-post">
-      <h1> Upload Post </h1>
-      <p> This will be the page to upload a post </p>
-      </div>
+<upload-post-card />
 </template>
-
 <script>
+import UploadPostCard from "@/components/UploadPostCard.vue"
 export default {
-    name: "UploadPost"
-
+    name: "UploadPost",
+    components: {
+        UploadPostCard
+    }
 }
 </script>
 

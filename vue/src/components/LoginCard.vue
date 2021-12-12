@@ -1,5 +1,4 @@
 <template>
-      <!--- maybe just copy paste -->
     <div id="login" class="text-center">
         <form class="form-signin" @submit.prevent="login">
       <h1 class="has-text-success">Happy Holidays, Welcome To TEgram</h1>
