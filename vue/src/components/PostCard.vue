@@ -5,7 +5,7 @@
             <ellipsis-button v-show="$store.state.accountId == post.accountId" :postId="post.postId"/>
             <favorite-button :postId="post.postId" :isFavorited="isFavorited" />
         </div>
-        <img :src="post.mediaLink">
+        <img :src="post.mediaLink" v-on:click="notifyParent">
         <div class="post-img-div">
             <p class="img-div">{{ post.caption }}</p>
             <likes :postId="post.postId" />
@@ -37,12 +37,17 @@ export default {
         }
     },
     methods: {
-
+        notifyParent() {
+            this.$emit('postHasBeenClicked', this._props.post.postId);
+        }
     }
 }
 </script>
 
 <style>
 /*probably going to want to link to an external style sheet for consistency sake*/
+.post {
+    border: 1px solid rgb(218, 213, 213);
+}
 
 </style>

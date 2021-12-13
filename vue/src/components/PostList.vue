@@ -1,6 +1,7 @@
 <template>
   <div>
-      <post-card v-for="post in postList" :post="post" :key="post.postId" :isFavorited="favoritedPostIds.has(post.postId)"/>
+      <post-card v-for="post in postList" :post="post" :key="post.postId" :isFavorited="favoritedPostIds.has(post.postId)"
+      v-on:postHasBeenClicked="(postId) => seePostDetails(postId)"/>
       <p v-show="!hasPosts">{{ noPostsMessage }}</p>
   </div>
 </template>
@@ -37,6 +38,9 @@ export default {
     }
     }, 
     methods: {
+        seePostDetails(postId) {
+            this.$router.push({ path: `posts/${postId}`});
+        },
         getFavoritePostIds() {
             postService.getFavorites(this.$store.state.accountId)
             .then((res) => {
@@ -50,10 +54,11 @@ export default {
         updatePostList() {
 
             const updateState = (res, message = "") => {
+                    this.postList = res.data;
                     if (res.data.length) {
                         this.hasPosts = true;
-                        this.postList = res.data;
                     } else {
+                        this.hasPosts = false;
                         this.noPostsMessage = message;
                     }
                     this.isLoading = false;
