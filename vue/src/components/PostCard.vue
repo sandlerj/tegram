@@ -1,15 +1,17 @@
 <template>
-    <div>
-        <div class="post-img-header">
-            <post-account :accountId="post.accountId"/>
-            <ellipsis-button v-show="$store.state.accountId == post.accountId" :postId="post.postId"/>
-            <favorite-button :postId="post.postId" :isFavorited="isFavorited" />
+    <div class="container box">
+        <div class="post-img-header level">
+            <post-account class="level-left" :accountId="post.accountId"/>
+            <div class="level-right">
+                <ellipsis-button class="mr-3"  v-show="$store.state.accountId == post.accountId" :postId="post.postId"/>
+                <favorite-button class="" :postId="post.postId" :isFavorited="isFavorited" />
+            </div>
         </div>
-        <img :src="post.mediaLink" v-on:click="notifyParent">
-        <div class="post-img-div">
+        <div class="post-img-div has-text-centered">
+            <img :src="post.mediaLink" v-on:click="notifyParent">
             <p class="img-div">{{ post.caption }}</p>
-            <likes :postId="post.postId" />
         </div>
+        <likes :postId="post.postId" />
         <comments-list :postId="post.postId"/>
     </div>
 </template>

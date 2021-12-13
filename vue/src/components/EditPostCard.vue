@@ -1,5 +1,5 @@
 <template>
-<div class="post-upload-form">
+<div class="post-upload-form container box">
         <h2>Edit Post</h2>
         <img v-bind:src="editedPost.mediaLink">
         <label for="Caption">Caption<input type="text" name="Caption" class="caption-input" v-model="editedPost.caption"/></label>

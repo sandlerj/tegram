@@ -1,5 +1,5 @@
 <template>
-    <div id="login" class="text-center">
+    <div id="login" class="text-center container box">
         <form class="form-signin" @submit.prevent="login">
       <h1 class="has-text-success">Happy Holidays, Welcome To TEgram</h1>
       <h2 class="h3 mb-3  has-text-danger-dark">Please Sign In</h2>
