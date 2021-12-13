@@ -51,7 +51,7 @@ namespace Capstone.Controllers
             }
             
         }
-        [HttpPost("/posts")] //Don't know how.
+        [HttpPost("/posts")] //Works on frontend
         public IActionResult UploadPost([FromForm] NewUploadPost newUploadPost)
         {
 
@@ -72,8 +72,8 @@ namespace Capstone.Controllers
             }
             return BadRequest(new { message = "Could not process your post." });
         }
-        [HttpPut("/posts/{postId}")]
-        public ActionResult<Post> UpdatePost(Post updatedPost, int postId) //Functions
+        [HttpPut("/posts/{postId}")] //Functions
+        public ActionResult<Post> UpdatePost(Post updatedPost, int postId) 
         {
             bool result = true;
             Post existingPost = postDao.GetPost(postId);
@@ -119,24 +119,11 @@ namespace Capstone.Controllers
             return Ok(idList);
         }
 
-        [HttpPost("/posts/{postId}/like")]
+        [HttpPost("/posts/{postId}/like")] //Functions
         public IActionResult LikePost(LikePost likePost)
         {
-<<<<<<< HEAD
-            bool newLikedPost = likePostDao.LikePost(likePost);
-            if (newLikedPost == true)
-            {
-                return Ok();
-            } 
-            else
-            {
-                return BadRequest();
-            }
-=======
-            //IActionResult result = BadRequest(new { message = "Could not like this post." });
             List<int> accountsLikingPost = likePostDao.LikePost(likePost);
             return Ok(accountsLikingPost);
->>>>>>> 44629e6c20d5a87826593b0ba20b59a49065ecda
         }
 
         [HttpDelete("/posts/{postId}/like")] //Functions
@@ -168,7 +155,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/posts/favorites")]
+        [HttpPost("/posts/favorites")] //Functions
         public ActionResult AddFavoritePost(FavoritePost favoritePost)
         {
             bool newFavoritePost = favoritePostDao.AddFavoritePost(favoritePost);
