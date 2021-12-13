@@ -52,7 +52,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts WHERE account_id = @account_id", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts WHERE account_id = @account_id ORDER BY timestamp DESC", conn);
                     cmd.Parameters.AddWithValue("@account_id", accountId);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -80,7 +80,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM posts ORDER BY timestamp DESC", conn);
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
