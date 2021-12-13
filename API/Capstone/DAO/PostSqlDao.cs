@@ -41,7 +41,7 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
-        //
+        
         public List<Post> GetListOfPostsByAccountId(int accountId)
         {
             List<Post> listPosts = new List<Post>();
@@ -122,7 +122,7 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
-        public bool UpdatePost(int postId, string mediaLink)
+        public bool UpdatePost(int postId, string mediaLink, string caption) 
         {
             try
             {
@@ -130,13 +130,34 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("UPDATE posts SET media_link = @media_link WHERE post_id = @post_id", conn);
+                    SqlCommand cmd = new SqlCommand("UPDATE posts SET media_link = @media_link, caption = @caption WHERE post_id = @post_id", conn);
                     cmd.Parameters.AddWithValue("@media_link", mediaLink);
+                    cmd.Parameters.AddWithValue("@caption", caption);
                     cmd.Parameters.AddWithValue("@post_id", postId);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
 
                     return (rowsAffected > 0); // Check if there was actually a change.
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public bool RemovePost(RemovePost removedPost)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("DELETE FROM posts WHERE post_id = @post_id AND account_id = @account_id;", conn);
+                    cmd.Parameters.AddWithValue("@post_id", removedPost.PostId);
+                    cmd.Parameters.AddWithValue("@account_id", removedPost.AccountId);
+                    int result = cmd.ExecuteNonQuery();
+                    return result == 1;
                 }
             }
             catch (SqlException e)

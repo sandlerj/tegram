@@ -29,14 +29,14 @@ namespace Capstone.Controllers
             fileStorageService = new AWSS3FileStorage();
         }
 
-        [HttpGet("/posts")]
+        [HttpGet("/posts")] //Functions
         public ActionResult<List<Post>> GetPosts()
         {
             return Ok(postDao.GetAllPosts());
 
         }
 
-        [HttpGet("/posts/{postId}")] 
+        [HttpGet("/posts/{postId}")] //Functions
         [AllowAnonymous]
         public Post GetPost(int postId)
         {
@@ -51,7 +51,8 @@ namespace Capstone.Controllers
             }
             
         }
-        [HttpPost("/posts")]
+        [HttpPost("/posts")] //Having issues adding a post I could have a bad
+                             //JSON body maybe lol.
         public IActionResult UploadPost([FromForm] NewUploadPost newUploadPost)
         {
 
@@ -73,7 +74,7 @@ namespace Capstone.Controllers
             return BadRequest(new { message = "Could not process your post." });
         }
         [HttpPut("/posts/{postId}")]
-        public ActionResult<Post> UpdatePost(Post updatedPost, int postId)
+        public ActionResult<Post> UpdatePost(Post updatedPost, int postId) //Functions
         {
             bool result = true;
             Post existingPost = postDao.GetPost(postId);
@@ -82,7 +83,7 @@ namespace Capstone.Controllers
                 updatedPost.AccountId = existingPost.AccountId;
                 updatedPost.PostId = existingPost.PostId;
 
-                result = postDao.UpdatePost(postId, updatedPost.MediaLink);
+                result = postDao.UpdatePost(postId, updatedPost.MediaLink, updatedPost.Caption);
             } 
             else if (existingPost == null)
             {
@@ -97,7 +98,22 @@ namespace Capstone.Controllers
                 return StatusCode(500);
             }
         }
-        [HttpGet("/posts/{postId}/like")]
+        [HttpDelete("/posts/{postId}/{accountId}")] //Reference Constraint Issues
+                                                    //FK comment_to_post DAO Issue
+        public ActionResult<Post> RemovePost(RemovePost removedPost)
+        {
+            bool deletedPost = postDao.RemovePost(removedPost);
+            if (deletedPost == true)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("/posts/{postId}/like")] //Functions
         public ActionResult<List<int>> GetAccountsWhoLikedPost(int postId)
         {
             List<int> idList = likePostDao.GetAccountIdsLikingPost(postId);
@@ -105,7 +121,9 @@ namespace Capstone.Controllers
             return Ok(idList);
         }
 
-        [HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS
+        [HttpPost("/posts/{postId}/like")] //FK Constraint = FK_liked_post_account_id
+                                           //I can add Postid = 1 and AccountId = 1 as much as I want
+                                           //But when I do Postid = 5 and Account = 1 it crashes.
         public IActionResult LikePost(LikePost likePost)
         {
             bool newLikedPost = likePostDao.LikePost(likePost);
@@ -119,7 +137,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpDelete("/posts/{postId}/like")]
+        [HttpDelete("/posts/{postId}/like")] //Functions
 
         public IActionResult RemoveLikedPost(LikePost likePost)
         {
@@ -134,7 +152,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpGet("/posts/favorites/{accountId}")]
+        [HttpGet("/posts/favorites/{accountId}")] //Functions
         public List<Post> GetFavoritePosts(int accountId)
         {
             List<Post> listpost = favoritePostDao.GetListOfFavoritePosts(accountId);
@@ -148,7 +166,9 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/posts/favorites")]
+        [HttpPost("/posts/favorites")] //Weird bug where you can't add more than one favorite post
+                                       //to the same account without having a FK CONSTRAINT.
+                                       //But it can be the same post?
         public ActionResult AddFavoritePost(FavoritePost favoritePost)
         {
             bool newFavoritePost = favoritePostDao.AddFavoritePost(favoritePost);
@@ -162,7 +182,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpDelete("/posts/favorites/{accountId}")]
+        [HttpDelete("/posts/favorites/{accountId}")] //Functions
         public ActionResult RemoveFavoritePost(FavoritePost favoritePost)
         {
             bool removedPost = favoritePostDao.RemoveFavoritePost(favoritePost);

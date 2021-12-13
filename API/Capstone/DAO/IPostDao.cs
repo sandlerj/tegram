@@ -16,6 +16,8 @@ namespace Capstone.DAO
 
         Post UploadPost(Post post);
 
-        bool UpdatePost(int postId, string mediaLink);
+        bool UpdatePost(int postId, string mediaLink, string caption);
+
+        bool RemovePost(RemovePost removedPost);
     }
 }
