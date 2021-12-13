@@ -51,8 +51,7 @@ namespace Capstone.Controllers
             }
             
         }
-        [HttpPost("/posts")] //Having issues adding a post I could have a bad
-                             //JSON body maybe lol.
+        [HttpPost("/posts")] //Don't know how.
         public IActionResult UploadPost([FromForm] NewUploadPost newUploadPost)
         {
 
@@ -83,7 +82,7 @@ namespace Capstone.Controllers
                 updatedPost.AccountId = existingPost.AccountId;
                 updatedPost.PostId = existingPost.PostId;
 
-                result = postDao.UpdatePost(postId, updatedPost.MediaLink, updatedPost.Caption);
+                result = postDao.UpdatePost(updatedPost);
             } 
             else if (existingPost == null)
             {
@@ -98,8 +97,7 @@ namespace Capstone.Controllers
                 return StatusCode(500);
             }
         }
-        [HttpDelete("/posts/{postId}/{accountId}")] //Reference Constraint Issues
-                                                    //FK comment_to_post DAO Issue
+        [HttpDelete("{postId}")] //Needs done by me.
         public ActionResult<Post> RemovePost(RemovePost removedPost)
         {
             bool deletedPost = postDao.RemovePost(removedPost);
@@ -109,7 +107,7 @@ namespace Capstone.Controllers
             }
             else
             {
-                return BadRequest();
+                return Forbid();
             }
         }
 
@@ -121,9 +119,7 @@ namespace Capstone.Controllers
             return Ok(idList);
         }
 
-        [HttpPost("/posts/{postId}/like")] //FK Constraint = FK_liked_post_account_id
-                                           //I can add Postid = 1 and AccountId = 1 as much as I want
-                                           //But when I do Postid = 5 and Account = 1 it crashes.
+        [HttpPost("/posts/{postId}/like")]
         public IActionResult LikePost(LikePost likePost)
         {
             bool newLikedPost = likePostDao.LikePost(likePost);
@@ -166,9 +162,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/posts/favorites")] //Weird bug where you can't add more than one favorite post
-                                       //to the same account without having a FK CONSTRAINT.
-                                       //But it can be the same post?
+        [HttpPost("/posts/favorites")]
         public ActionResult AddFavoritePost(FavoritePost favoritePost)
         {
             bool newFavoritePost = favoritePostDao.AddFavoritePost(favoritePost);
