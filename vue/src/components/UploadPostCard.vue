@@ -1,5 +1,5 @@
 <template>
-    <div class="post-upload-form">
+    <div class="post-upload-form container box">
         <h2>Upload Post</h2>
         <label for="uploadImg">Select Photo <input type="file" name="uploadImg" v-on:change="handleFileUpload($event)"/></label>
         <label for="Caption">Caption<input type="text" name="Caption" class="caption-input" v-model="post.caption"/></label>
