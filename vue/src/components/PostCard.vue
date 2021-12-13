@@ -1,5 +1,5 @@
 <template>
-    <div class="container box">
+    <div class="box tegram-card">
         <div class="post-img-header level">
             <post-account class="level-left" :accountId="post.accountId"/>
             <div class="level-right">
@@ -48,8 +48,4 @@ export default {
 
 <style>
 /*probably going to want to link to an external style sheet for consistency sake*/
-.post {
-    border: 1px solid rgb(218, 213, 213);
-}
-
 </style>

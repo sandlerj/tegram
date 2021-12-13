@@ -1,7 +1,7 @@
 <template>
     <div class="add-comment">
-        <input v-model="text" placeholder="What say you?">
-        <button @click.prevent="submitComment()">Say it!</button>
+        <textarea v-model="text" placeholder="What say you?" class="mt-3"></textarea>
+        <button @click.prevent="submitComment()" class="button is-info mt-3">Say it!</button>
     </div>
 </template>
 
@@ -45,5 +45,12 @@ export default {
 </script>
 
 <style>
-
+textarea {
+    padding: 0.3rem;
+    display: block;
+    width: 100%;
+}
+button {
+    display: block;
+}
 </style>

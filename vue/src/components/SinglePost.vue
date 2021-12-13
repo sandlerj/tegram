@@ -28,6 +28,11 @@ export default {
             })
         }
     },
+    watch:{
+        $route () {
+            this.getFavoritePostIds();
+        }
+    }, 
     created() {
         postService.get(this.postId).then((res) => {
             this.post = res.data;
