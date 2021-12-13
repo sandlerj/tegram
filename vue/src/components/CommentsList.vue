@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="box">
       <comment :postId="postId" v-for="comment in commentList" :key="comment.commentId" :comment="comment" v-show="showMore"/>
       <add-comment :postId="postId" v-show="showMore" v-on:reloadComments="loadComments"/>
       <p v-if="!showMore" class="toggle-comments" @click="showMoreComments()">Add/view more comments</p>
-      <p v-else class="toggle-comments" @click="reduceComments()">Hide comments</p>
+      <p v-else class="toggle-comments mt-4" @click="reduceComments()">Hide comments</p>
   </div>
 </template>
 
@@ -58,5 +58,6 @@ export default {
 }
 .toggle-comments:hover {
     text-decoration: underline;
+    cursor: pointer;
 }
 </style>

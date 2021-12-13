@@ -1,5 +1,5 @@
 <template>
-    <div class="likes">
+    <div class="likes mb-3">
         <font-awesome-icon icon="heart" 
         :style="{ color : isLiked ? 'hotpink' : ''}" 
         @click.prevent="toggleLike"

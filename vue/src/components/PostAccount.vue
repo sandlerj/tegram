@@ -2,7 +2,7 @@
     <div class="account-header"> 
         <font-awesome-icon class="placeholder-icon" v-if="!account.profileImg" icon="user"/>           
         <img v-else :src="account.profileImg" :alt="account.username">
-        <span class="account-username">{{account.username}}</span>
+        <span class="account-username ml-3"><b>{{account.username}}</b></span>
     </div>
 </template>
 
