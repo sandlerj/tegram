@@ -1,20 +1,21 @@
 <template>
   <div>
       <post-card v-for="post in postList" :post="post" :key="post.postId" :isFavorited="favoritedPostIds.has(post.postId)"/>
+      <p v-show="!hasPosts">{{ noPostsMessage }}</p>
   </div>
 </template>
 
 <script>
 import PostCard from './PostCard.vue'
-
 import postService from '@/services/PostService.js';
-import accountService from '@/services/AccountService.js';
 
 export default {
   components: { PostCard },
     name: "post-list",
     data() {
         return {
+            hasPosts: false,
+            noPostsMessage: "There are no posts for this page.",
             postList: [],
             isLoading: true,
             favoritedPostIds: new Set(),
@@ -29,53 +30,65 @@ export default {
     computed: {
         
     },
+    watch:{
+    $route (){
+        this.getFavoritePostIds();
+        this.updatePostList();
+    }
+    }, 
     methods: {
         getFavoritePostIds() {
             postService.getFavorites(this.$store.state.accountId)
             .then((res) => {
-                this.favoritedPostIds = new Set(res.data)
+                this.favoritedPostIds = new Set(res.data.map(x => x.postId));
             })
             .catch((err) => {
                 console.log("Issue retrieving favorites");
                 console.log(err);
             })
+        },
+        updatePostList() {
+
+            const updateState = (res, message = "") => {
+                    if (res.data.length) {
+                        this.hasPosts = true;
+                        this.postList = res.data;
+                    } else {
+                        this.noPostsMessage = message;
+                    }
+                    this.isLoading = false;
+            }
+
+            switch (this.$route.name) {
+            case "home":
+                postService.list()
+                .then((res) => updateState(res))
+                .catch(err => {
+                    console.log(err.message)
+                })
+                break;
+            case "favorites":
+                postService.getFavorites(this.$store.state.accountId)
+                .then((res) => updateState(res, "Add some posts to your favorites page and they will appear here!"))
+                .catch(err => {
+                    console.log(err.message)
+                })
+                break;
+            case "posts":
+                postService.listByAccountId(this.$store.state.accountId)
+                .then((res) => updateState(res, "Upload a new post and it will appear here!"))
+                .catch(err => {
+                    console.log(err.message)
+                })
+                break;
+            default:
+                break;
+        }
         }
     },
     created() {
         this.getFavoritePostIds();
-        if (this.feedAccountId == undefined) {
-            //return feed
-            postService.list()
-            .then((res) => {
-                // check if okay, then
-                this.postList = res.data // i think??
-                this.isLoading = false;
-            })
-            .catch(err => {
-                console.log(err.message)
-            })
-        } else if (this.feedAccountId <= 0) {
-            console.log('yeah???')
-        // else if accountId <= 0, GET favorites for user
-            postService.getFavorites(this.feedAccountId)
-            .then((res) => {
-                this.postList = res.data;
-                this.isLoading = false;
-            })
-            .catch(err => {
-                console.log(err.message)
-            })
-        } else {
-            // else, accountId return just posts for that account OR emptylist if 404 from GET
-            accountService.viewPosts(this.feedAccountId)
-            .then((res) => {
-                this.postList = res.data;
-                this.isLoading = false;
-            })
-            .catch(err => {
-                console.log(err);
-            })
-        }
+        this.updatePostList();
     }
 }
 </script>
