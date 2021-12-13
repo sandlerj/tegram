@@ -32,6 +32,7 @@ export default {
             CommentService.createComment(comment)
             .then(() => {
                 this.text = "";
+                this.$emit("reloadComments");
             })
             .catch((err) => {
                 alert("Something went wrong, try again later.");

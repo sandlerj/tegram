@@ -10,12 +10,12 @@
             <p class="img-div">{{ post.caption }}</p>
             <likes :postId="post.postId" />
         </div>
-        <comments :postId="post.postId"/>
+        <comments-list :postId="post.postId"/>
     </div>
 </template>
 
 <script>
-import Comments from './Comments.vue'
+import CommentsList from './CommentsList.vue'
 import EllipsisButton from './EllipsisButton.vue'
 import FavoriteButton from './FavoriteButton.vue'
 import Likes from './Likes.vue'
@@ -24,7 +24,7 @@ import PostAccount from './PostAccount.vue'
 export default {
     name: "post-card",
     components: {
-        Comments,
+        CommentsList,
         EllipsisButton,
         FavoriteButton,
         PostAccount,
