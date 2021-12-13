@@ -110,15 +110,8 @@ namespace Capstone.Controllers
         public IActionResult LikePost(LikePost likePost)
         {
             //IActionResult result = BadRequest(new { message = "Could not like this post." });
-            bool newLikedPost = likePostDao.LikePost(likePost);
-            if (newLikedPost == true)
-            {
-                return Ok();
-            } 
-            else
-            {
-                return BadRequest();
-            }
+            List<int> accountsLikingPost = likePostDao.LikePost(likePost);
+            return Ok(accountsLikingPost);
         }
 
         [HttpDelete("/posts/{postId}/like")]

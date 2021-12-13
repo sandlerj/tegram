@@ -25,9 +25,9 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("INSERT INTO favorited_posts VALUES (@post_id, @account_id);", conn);
-                    cmd.Parameters.AddWithValue("@post_id", favoritePost.PostId);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO favorited_posts VALUES (@account_id, @post_id);", conn);
                     cmd.Parameters.AddWithValue("@account_id", favoritePost.AccountId);
+                    cmd.Parameters.AddWithValue("@post_id", favoritePost.PostId);
                     int result = cmd.ExecuteNonQuery();
                     return result == 1;
                 }

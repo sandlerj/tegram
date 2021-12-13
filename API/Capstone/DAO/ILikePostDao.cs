@@ -8,7 +8,7 @@ namespace Capstone.DAO
 {
     public interface ILikePostDao
     {
-        bool LikePost(LikePost likePost);
+        List<int> LikePost(LikePost likePost);
 
         bool UnlikePost(LikePost likePost);
 

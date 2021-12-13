@@ -42,7 +42,7 @@ namespace Capstone.DAO
             }
         }
 
-        public bool LikePost(LikePost likePost)
+        public List<int> LikePost(LikePost likePost)
         {
             try
             {
@@ -50,12 +50,12 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("INSERT INTO liked_posts VALUES (@post_id, @account_id);", conn);
-                    cmd.Parameters.AddWithValue("@post_id", likePost.PostId);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO liked_posts VALUES (@account_id, @post_id);", conn);
                     cmd.Parameters.AddWithValue("@account_id", likePost.AccountId);
+                    cmd.Parameters.AddWithValue("@post_id", likePost.PostId);
                     int result = cmd.ExecuteNonQuery();
 
-                    return result == 1;
+                    return GetAccountIdsLikingPost(likePost.PostId);
                 }
             }
             catch (SqlException e)
