@@ -122,6 +122,7 @@ namespace Capstone.Controllers
         [HttpPost("/posts/{postId}/like")]
         public IActionResult LikePost(LikePost likePost)
         {
+<<<<<<< HEAD
             bool newLikedPost = likePostDao.LikePost(likePost);
             if (newLikedPost == true)
             {
@@ -131,6 +132,11 @@ namespace Capstone.Controllers
             {
                 return BadRequest();
             }
+=======
+            //IActionResult result = BadRequest(new { message = "Could not like this post." });
+            List<int> accountsLikingPost = likePostDao.LikePost(likePost);
+            return Ok(accountsLikingPost);
+>>>>>>> 44629e6c20d5a87826593b0ba20b59a49065ecda
         }
 
         [HttpDelete("/posts/{postId}/like")] //Functions

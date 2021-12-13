@@ -35,7 +35,8 @@ export default new Vuex.Store({
     },
     SET_ACCOUNT(state, accountId) {
       state.accountId = accountId;
-      localStorage.setItem('accountId', Number.toString(accountId) );
+      // Number.toString returns a function; replaced with ES6 template literal to cast accountId to string
+      localStorage.setItem('accountId', `${accountId}` );
     },
     LOGOUT(state) {
       localStorage.removeItem('token');

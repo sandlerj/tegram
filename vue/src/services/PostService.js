@@ -4,6 +4,9 @@ export default {
     list(limit=20) {
         return axios.get('/posts', {params:{limit}}) // limit param not used serverside
     },
+    listByAccountId(accountId) {
+        return axios.get(`/accounts/${accountId}/posts`);
+    },
     get(id) {
         return axios.get(`posts/${id}`)
     },
