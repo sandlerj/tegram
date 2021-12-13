@@ -1,7 +1,7 @@
 <template>
-    <div class="comment">
+    <p class="comment mt-2">
         <b>{{comment.username}}</b> {{comment.text}}
-    </div>
+    </p>
 </template>
 
 <script>

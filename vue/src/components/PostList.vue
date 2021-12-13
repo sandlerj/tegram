@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="feed">
       <post-card v-for="post in postList" :post="post" :key="post.postId" :isFavorited="favoritedPostIds.has(post.postId)"
       v-on:postHasBeenClicked="(postId) => seePostDetails(postId)"/>
       <p v-show="!hasPosts">{{ noPostsMessage }}</p>
@@ -99,5 +99,32 @@ export default {
 </script>
 
 <style>
+.feed {
+    margin: 2rem;
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax()); */
 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-template-rows: minmax(min-content, max-content);
+
+    column-gap: 2rem;
+    justify-items: center;
+}
+/*     @media screen and (min-width: 768px) {
+        .feed {
+            grid-template-columns: repeat(1fr, e);
+        }
+    }
+    
+    @media screen and (min-width: 992px) {
+        .feed {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    @media screen and (min-width: 1024px) {
+        .feed {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    } */
 </style>
