@@ -97,10 +97,10 @@ namespace Capstone.Controllers
                 return StatusCode(500);
             }
         }
-        [HttpDelete("{postId}")] //Needs done by me.
-        public ActionResult<Post> RemovePost(RemovePost removedPost)
+        [HttpDelete("{postId}")] //Functions
+        public ActionResult<Post> RemovePost(int postId)
         {
-            bool deletedPost = postDao.RemovePost(removedPost);
+            bool deletedPost = postDao.RemovePost(postId);
             if (deletedPost == true)
             {
                 return NoContent();

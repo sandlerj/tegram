@@ -1,7 +1,7 @@
 <template>
    <!-- <div id="ellipsis-button" @click="hideContextMenu()" @contextmenu.prevent="showContextMenu($event)"> -->
 <div id="ellipsis-button" >
-
+<edit-post-card v-show="isModalVisable = true" />
         <font-awesome-icon icon="ellipsis-h" @click="toggleMenu($event)" v-click-outside="hideContextMenu"/>
         <ki-context 
             ref="kiContext"
@@ -20,6 +20,8 @@
 <script>
 import postService from '@/services/PostService.js';
 import ClickOutside from 'vue-click-outside'
+import EditPostCard from './EditPostCard.vue';
+
 
 
 export default {
@@ -28,11 +30,12 @@ export default {
         "postId": Number
     },
     components: {
-        
+        EditPostCard
     },
     data() {
         return{
             isContextVisible: false,
+            isModalVisable: false,
             items: [
                 { name: "Edit" },
                 { name: "Delete" }
@@ -54,7 +57,9 @@ export default {
           icon: "arrow-up",
           text: 'Edit',
           click: () => {
-            alert('Go to edit post!!')
+            if (confirm('Are you sure you want to update this post?')) {
+              this.isModalVisable = true;
+            }
             
 
 

@@ -18,6 +18,6 @@ namespace Capstone.DAO
 
         bool UpdatePost(Post post);
 
-        bool RemovePost(RemovePost removedPost);
+        bool RemovePost(int postId);
     }
 }

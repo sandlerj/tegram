@@ -146,7 +146,7 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
-        public bool RemovePost(RemovePost removedPost)
+        public bool RemovePost(int postId)
         {
             try
             {
@@ -154,11 +154,13 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("DELETE FROM posts WHERE post_id = @post_id AND account_id = @account_id;", conn);
-                    cmd.Parameters.AddWithValue("@post_id", removedPost.PostId);
-                    cmd.Parameters.AddWithValue("@account_id", removedPost.AccountId);
-                    int result = cmd.ExecuteNonQuery();
-                    return result == 1;
+                    SqlCommand cmd = new SqlCommand("DELETE FROM comments WHERE post_id = @post_id " +
+                        "DELETE FROM liked_posts WHERE post_id = @post_id " +
+                        "DELETE FROM favorited_posts WHERE post_id = @post_id " +
+                        "DELETE FROM posts WHERE post_id = @post_id", conn);
+                    cmd.Parameters.AddWithValue("@post_id", postId);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return (rowsAffected > 0);
                 }
             }
             catch (SqlException e)
@@ -179,6 +181,10 @@ namespace Capstone.DAO
             };
             return post;
         }
+        /*
+         * " +
+                        
+        */
 
         
     }
