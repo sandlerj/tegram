@@ -1,8 +1,10 @@
 <template>
-    <div id="login" class="text-center container box">
+<div class="column is-10">
+      <div class="login-box" style="width: 400px;">
+    <div id="login" class="column container box">
         <form class="form-signin" @submit.prevent="login">
-      <h1 class="has-text-success">Happy Holidays, Welcome To TEgram</h1>
-      <h2 class="h3 mb-3  has-text-danger-dark">Please Sign In</h2>
+          <h2 class="text is-size-3 has-text-centered">Welcome to TEgram</h2>
+      <h1 class="text h3 mb-3  is-size-5 has-text-centered">Please Sign In</h1>
       
       <div
         class="alert alert-danger"
@@ -17,29 +19,50 @@
         role="alert"
         v-if="this.$route.query.registration"
       >Thank you for registering, please sign in.</div>
-      <label for="username" class="sr-only is-ancestor">Username</label>
+      <div class="field">
+      <label  class="sr-only is-ancestor">Username</label>
+      <div class="control">
       <input
         type="text"
         id="username"
-        class="form-control"
+        class="input"
         placeholder="Username"
         v-model="user.username"
         required
         autofocus
       />
+      </div>
+      </div>
+      
+      
+      <div class="field">
       <label for="password" class="sr-only is-parent is-vertical">Password</label>
+      <div class="control">
       <input
         type="password"
         id="password"
-        class="form-control"
+        class="input"
         placeholder="Password"
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }">Need an account?</router-link>
-      <button type="submit">Sign in</button>
+      </div>
+      </div>
+
+      <div class="field">
+      <div class="mt-6 has-text-centered">
+        <button class="button is-white">
+      <router-link :to="{ name: 'register' }">Sign Up</router-link>
+      </button>
+      <button class="button is-success has-button-centered" type="submit">Sign in</button>
+        </div>
+      </div>
         </form>
+        
+</div>
+  </div>
     </div>
+      
 </template>
 
 <script>
