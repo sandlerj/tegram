@@ -1,6 +1,8 @@
 <template>
-<div class="column is-10">
-      <div class="login-box" style="width: 400px;">
+<div class="columns is-centered is-vcentered">
+      <div class="column is-one-quarter-desktop">
+        <div class="column has-text-centered">
+          <div class="column is-center">
     <div id="login" class="column container box">
         <form class="form-signin" @submit.prevent="login">
           <h2 class="text is-size-3 has-text-centered">Welcome to TEgram</h2>
@@ -49,19 +51,25 @@
       </div>
       </div>
 
-      <div class="field">
+      <div class="has-text-centered">
       <div class="mt-6 has-text-centered">
         <button class="button is-white">
       <router-link :to="{ name: 'register' }">Sign Up</router-link>
       </button>
-      <button class="button is-success has-button-centered" type="submit">Sign in</button>
-        </div>
-      </div>
+       </div>
+       </div>
+
+       <div class="has-text-centered">
+      <button class="button is-success has-button-centered" type="submit">Log In</button>
+       </div>
+      
         </form>
         
 </div>
   </div>
     </div>
+      </div>
+        </div>
       
 </template>
 
