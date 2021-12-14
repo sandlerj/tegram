@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="tegram-card post-card">
         <div class="post-img-header level">
             <post-account class="level-left" :accountId="post.accountId"/>
             <div class="level-right">
