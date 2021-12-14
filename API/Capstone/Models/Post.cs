@@ -8,7 +8,7 @@ namespace Capstone.Models
 {
     
     /// <summary>
-    /// Offical post model.
+    /// Official post model.
     /// </summary>
     public class Post
     {
@@ -23,6 +23,7 @@ namespace Capstone.Models
     public class NewUploadPost : Post
     {
         public IFormFile uploadImg { get; set; }
+
     }
     /// <summary>
     /// If a user requests to view one post.
@@ -50,6 +51,15 @@ namespace Capstone.Models
     public class LikePost
     {
         public int PostId { get; set; }
+        public int AccountId { get; set; }
+    }
+    /// <summary>
+    /// How users can remove posts.
+    /// </summary>
+    public class RemovePost
+    {
+        public int PostId { get; set; }
+
         public int AccountId { get; set; }
     }
     

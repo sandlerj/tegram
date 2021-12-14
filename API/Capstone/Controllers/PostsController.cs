@@ -29,14 +29,14 @@ namespace Capstone.Controllers
             fileStorageService = new AWSS3FileStorage();
         }
 
-        [HttpGet("/posts")]
+        [HttpGet("/posts")] //Functions
         public ActionResult<List<Post>> GetPosts()
         {
             return Ok(postDao.GetAllPosts());
 
         }
 
-        [HttpGet("/posts/{postId}")] 
+        [HttpGet("/posts/{postId}")] //Functions
         [AllowAnonymous]
         public Post GetPost(int postId)
         {
@@ -51,7 +51,7 @@ namespace Capstone.Controllers
             }
             
         }
-        [HttpPost("/posts")]
+        [HttpPost("/posts")] //Works on frontend
         public IActionResult UploadPost([FromForm] NewUploadPost newUploadPost)
         {
 
@@ -72,8 +72,8 @@ namespace Capstone.Controllers
             }
             return BadRequest(new { message = "Could not process your post." });
         }
-        [HttpPut("/posts/{postId}")]
-        public ActionResult<Post> UpdatePost(Post updatedPost, int postId)
+        [HttpPut("/posts/{postId}")] //Functions
+        public ActionResult<Post> UpdatePost(Post updatedPost, int postId) 
         {
             bool result = true;
             Post existingPost = postDao.GetPost(postId);
@@ -82,7 +82,7 @@ namespace Capstone.Controllers
                 updatedPost.AccountId = existingPost.AccountId;
                 updatedPost.PostId = existingPost.PostId;
 
-                result = postDao.UpdatePost(postId, updatedPost.MediaLink);
+                result = postDao.UpdatePost(updatedPost);
             } 
             else if (existingPost == null)
             {
@@ -97,8 +97,21 @@ namespace Capstone.Controllers
                 return StatusCode(500);
             }
         }
+        [HttpDelete("{postId}")] //Functions
+        public ActionResult<Post> RemovePost(int postId)
+        {
+            bool deletedPost = postDao.RemovePost(postId);
+            if (deletedPost == true)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Forbid();
+            }
+        }
 
-        [HttpGet("/posts/{postId}/like")]
+        [HttpGet("/posts/{postId}/like")] //Functions
         public ActionResult<List<int>> GetAccountsWhoLikedPost(int postId)
         {
             List<int> idList = likePostDao.GetAccountIdsLikingPost(postId);
@@ -106,19 +119,17 @@ namespace Capstone.Controllers
             return Ok(idList);
         }
 
-        [HttpPost("/posts/{postId}/like")] //WORK IN PROGRESS
+        [HttpPost("/posts/{postId}/like")] //Functions
         public IActionResult LikePost(LikePost likePost)
         {
-            //IActionResult result = BadRequest(new { message = "Could not like this post." });
             List<int> accountsLikingPost = likePostDao.LikePost(likePost);
             return Ok(accountsLikingPost);
         }
 
-        [HttpDelete("/posts/{postId}/like")]
+        [HttpDelete("/posts/{postId}/like")] //Functions
 
         public IActionResult RemoveLikedPost(LikePost likePost)
         {
-            //IActionResult result = BadRequest(new { message = "Could not remove the post." });
             bool deletedPost = likePostDao.UnlikePost(likePost);
             if (deletedPost == true)
             {
@@ -130,10 +141,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpGet("/posts/favorites/{accountId}")]
-
-        
-
+        [HttpGet("/posts/favorites/{accountId}")] //Functions
         public List<Post> GetFavoritePosts(int accountId)
         {
             List<Post> listpost = favoritePostDao.GetListOfFavoritePosts(accountId);
@@ -147,7 +155,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/posts/favorites")]
+        [HttpPost("/posts/favorites")] //Functions
         public ActionResult AddFavoritePost(FavoritePost favoritePost)
         {
             bool newFavoritePost = favoritePostDao.AddFavoritePost(favoritePost);
@@ -161,7 +169,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpDelete("/posts/favorites/{accountId}")]
+        [HttpDelete("/posts/favorites/{accountId}")] //Functions
         public ActionResult RemoveFavoritePost(FavoritePost favoritePost)
         {
             bool removedPost = favoritePostDao.RemoveFavoritePost(favoritePost);

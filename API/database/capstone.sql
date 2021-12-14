@@ -25,8 +25,8 @@ CREATE TABLE users (
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 )
 
-INSERT INTO users (username, password_hash, salt, user_role) VALUES ('user','Jg45HuwT7PZkfuKTz6IB90CtWY4=','LHxP4Xh7bN0=','user');
-INSERT INTO users (username, password_hash, salt, user_role) VALUES ('admin','YhyGVQ+Ch69n4JMBncM4lNF/i9s=', 'Ar/aB2thQTI=','admin');
+INSERT INTO users (username, password_hash, salt, user_role) VALUES ('stephen','Jg45HuwT7PZkfuKTz6IB90CtWY4=','LHxP4Xh7bN0=','user');
+INSERT INTO users (username, password_hash, salt, user_role) VALUES ('walt','YhyGVQ+Ch69n4JMBncM4lNF/i9s=', 'Ar/aB2thQTI=','admin');
 
 --create accounts
 CREATE TABLE accounts (
@@ -39,8 +39,8 @@ CREATE TABLE accounts (
 	CONSTRAINT FK_account_to_user FOREIGN KEY(user_id) REFERENCES users(user_id),
 )
 
-INSERT INTO accounts (user_id, email, profile_image) VALUES (1, 'user@gmail.com', 'https://i.stack.imgur.com/l60Hf.png');
-INSERT INTO accounts (user_id, email, profile_image) VALUES (2, 'admin@gmail.com', 'https://i.stack.imgur.com/l60Hf.png');
+INSERT INTO accounts (user_id, email, profile_image) VALUES (1, 'bigsteve420@gmail.com', 'https://i.stack.imgur.com/l60Hf.png');
+INSERT INTO accounts (user_id, email, profile_image) VALUES (2, 'mrwalter@gmail.com', 'https://i.stack.imgur.com/l60Hf.png');
 
 --create posts
 CREATE TABLE posts (
@@ -54,14 +54,17 @@ CREATE TABLE posts (
 	CONSTRAINT FK_post_to_account FOREIGN KEY (account_id) REFERENCES accounts(account_id)
 )
 
-INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/200/300', 'lorem picsum', '12/03/2021');
-INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/200/300', 'lorem picsum', '12/03/2021');
-INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/200/300', 'lorem picsum', '12/03/2021');
-INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/200/300', 'lorem picsum', '12/03/2021');
-INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/200/300', 'lorem picsum', '12/03/2021');
-INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (2, 'https://picsum.photos/200/300', 'lorem picsum', '12/03/2021');
-INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (2, 'https://picsum.photos/200/300', 'lorem picsum', '12/03/2021');
-INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (2, 'https://picsum.photos/200/300', 'lorem picsum', '12/03/2021');
+-- create posts for account stephen
+INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/id/101/1024/768', 'abandoned building', '10/02/2021 10:49:21:000');
+INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/id/102/1024/768', 'summer raspberries', '08/27/2021 09:02:13:000');
+INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/id/103/1280/1024', 'relaxing at the park', '12/04/2021 13:18:45:000');
+INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/id/104/720/576', 'dreamcatcher', '12/13/2021 12:24:00:000');
+INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (1, 'https://picsum.photos/id/106/1280/1024', 'tree in bloom', '05/16/2021 14:51:43:000');
+
+-- create posts for account walt
+INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (2, 'https://picsum.photos/id/107/1280/720', 'midwest prairie', '07/21/2021 13:24:11:000');
+INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (2, 'https://picsum.photos/id/108/1024/768', 'lazy beach days', '05/03/2021 16:48:02:000');
+INSERT INTO posts (account_id, media_link, caption, timestamp) VALUES (2, 'https://picsum.photos/id/109/1280/1024', 'sunrise in the woods', '09/15/2021 07:59:02:000');
 
 --create comments
 CREATE TABLE comments (
@@ -76,11 +79,11 @@ CREATE TABLE comments (
 	CONSTRAINT FK_comment_to_post FOREIGN KEY (post_id) REFERENCES posts(post_Id)
 )
 
-INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (1, 1, '12/03/2021', 'this is a sample comment');
-INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (1, 2, '12/03/2021', 'this is a sample comment');
-INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (1, 3, '12/03/2021', 'this is a sample comment');
-INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (2, 1, '12/03/2021', 'this is a sample comment');
-INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (2, 2, '12/03/2021', 'this is a sample comment');
+INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (1, 6, '07/22/2021 11:41:21:000', 'Love me some grass.');
+INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (1, 7, '06/08/2021 13:35:58:000', 'take me baaaaack');
+INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (1, 8, '09/15/2021 10:30:12:000', 'But is there wifi out there?');
+INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (2, 1, '10/05/2021 20:55:07:000', 'Looks like a great investment opportunity!');
+INSERT INTO comments (account_id, post_id, timestamp, text) VALUES (2, 3, '12/05/2021 22:02:30:000', 'got nothing on my velcros boi');
 
 --create liked_posts
 CREATE TABLE liked_posts (

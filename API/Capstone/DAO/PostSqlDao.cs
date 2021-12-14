@@ -11,6 +11,7 @@ namespace Capstone.DAO
     public class PostSqlDao : IPostDao
     {
         private readonly string connectionString;
+        private readonly CommentSqlDao commentSqlDao; //using this to delete comments from post when deleting a whole post.
         public PostSqlDao(string dbConnectionString)
         {
             connectionString = dbConnectionString;
@@ -41,7 +42,7 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
-        //
+        
         public List<Post> GetListOfPostsByAccountId(int accountId)
         {
             List<Post> listPosts = new List<Post>();
@@ -122,7 +123,7 @@ namespace Capstone.DAO
                 throw new Exception(e.Message);
             }
         }
-        public bool UpdatePost(int postId, string mediaLink)
+        public bool UpdatePost(Post post) 
         {
             try
             {
@@ -130,13 +131,36 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("UPDATE posts SET media_link = @media_link WHERE post_id = @post_id", conn);
-                    cmd.Parameters.AddWithValue("@media_link", mediaLink);
-                    cmd.Parameters.AddWithValue("@post_id", postId);
+                    SqlCommand cmd = new SqlCommand("UPDATE posts SET media_link = @media_link, caption = @caption WHERE post_id = @post_id", conn);
+                    cmd.Parameters.AddWithValue("@media_link", post.MediaLink);
+                    cmd.Parameters.AddWithValue("@caption", post.Caption);
+                    cmd.Parameters.AddWithValue("@post_id", post.PostId);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
 
                     return (rowsAffected > 0); // Check if there was actually a change.
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public bool RemovePost(int postId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("DELETE FROM comments WHERE post_id = @post_id " +
+                        "DELETE FROM liked_posts WHERE post_id = @post_id " +
+                        "DELETE FROM favorited_posts WHERE post_id = @post_id " +
+                        "DELETE FROM posts WHERE post_id = @post_id", conn);
+                    cmd.Parameters.AddWithValue("@post_id", postId);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return (rowsAffected > 0);
                 }
             }
             catch (SqlException e)
@@ -157,6 +181,10 @@ namespace Capstone.DAO
             };
             return post;
         }
+        /*
+         * " +
+                        
+        */
 
         
     }
