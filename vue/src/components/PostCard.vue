@@ -1,6 +1,6 @@
 <template>
     <div class="tegram-card post-card">
-        <div class="post-img-header level">
+        <div class="post-img-header level is-mobile">
             <post-account class="level-left" :accountId="post.accountId"/>
             <div class="level-right">
                 <ellipsis-button class="mr-3"  v-show="$store.state.accountId == post.accountId" :postId="post.postId"/>

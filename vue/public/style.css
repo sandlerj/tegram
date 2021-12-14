@@ -1,4 +1,6 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"; 
+@import url("https://use.typekit.net/ztx0dzb.css");
+
 html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: lightblue;
@@ -13,6 +15,11 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+.logo {
+    font-family: casey,sans-serif;
+    font-weight: 900;
+    font-style: normal;
 }
 .feed {
     margin: 2rem;
@@ -31,7 +38,7 @@ html {
 
    
 } 
-@media screen and (max-widthL 797px) {
+@media screen and (max-width: 797px) {
     .feed{
         grid-template-columns: 1fr;
     }
