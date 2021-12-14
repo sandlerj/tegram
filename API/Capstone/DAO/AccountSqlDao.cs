@@ -69,6 +69,36 @@ namespace Capstone.DAO
 
             return account;
         }
+        public AccountDetails GetAccountDetails(int account_id)
+        {
+            AccountDetails accountDetails = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT " +
+                        "(SELECT COUNT(post_id) FROM posts WHERE posts.account_id = 1) as number_of_posts, " +
+                        "(SELECT COUNT(post_id) FROM liked_posts WHERE liked_posts.account_id = 1) as number_of_likes_given, " +
+                        "(SELECT COUNT (liked_posts.account_id) FROM liked_posts WHERE liked_posts.post_id IN (SELECT post_id FROM posts WHERE account_id = 1)) as number_of_likes_received;", conn);
+                    cmd.Parameters.AddWithValue("@account_id", account_id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        accountDetails = GetAccountDetailsFromReader(reader);
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+
+            return accountDetails;
+        }
 
         public Account GetAccountByUserId(int user_id)
         {
@@ -159,6 +189,18 @@ namespace Capstone.DAO
             };
 
             return account;
+        }
+
+        private AccountDetails GetAccountDetailsFromReader(SqlDataReader reader)
+        {
+            AccountDetails accountDetails = new AccountDetails()
+            {
+                NumberOfPosts = Convert.ToInt32(reader["number_of_posts"]),
+                NumberOfLikesGiven = Convert.ToInt32(reader["number_of_likes_given"]),
+                NumberOfLikesReceived = Convert.ToInt32(reader["number_of_likes_received"])
+            };
+
+            return accountDetails;
         }
     }
 }

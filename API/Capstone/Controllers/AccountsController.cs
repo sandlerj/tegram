@@ -35,6 +35,13 @@ namespace Capstone.Controllers
             return account;
         }
 
+        [HttpGet("{accountId}/details")]
+        public ActionResult<AccountDetails> GetPostDetails(int accountId)
+        {
+            AccountDetails accountDetails = accountDao.GetAccountDetails(accountId);
+            return accountDetails;
+        }
+
         [HttpGet("{accountId}/posts")]
         public ActionResult<List<Post>> GetPostsByAccountId(int accountId)
         {

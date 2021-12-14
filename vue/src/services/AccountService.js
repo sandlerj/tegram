@@ -6,5 +6,8 @@ export default {
     
     getAccount(accountId) {
         return axios.get(`/accounts/${accountId}`);
+    },
+    getAccountDetails(accountId) {
+        return axios.get(`accounts/${accountId}/details`);
     }
 }
