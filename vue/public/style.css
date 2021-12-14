@@ -4,23 +4,42 @@
 html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: lightblue;
-    padding: 10px;
 }
+#nav{
+    position: fixed; /* Make it stick/fixed */
+    top: 0; /* Stay on top */
+    width: 100%; /* Full width */
+    transition: top 0.3s; /*Transition effect when sliding down (and up) */
+    }
+#router-content {
+    margin-top: 100px;
+}
+
 .tegram-card{
-    background-color: #e4e4e4;
+    background-color: #fafafa;
     border-radius: 9px;
     padding: 1em;
+    transition: background-color 0.3s;
+
 }
 .post-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
+.post-card:hover {
+    background-color: rgb(215, 229, 255);
+    transition: background-color 0.3s;
+}
 .logo {
     font-family: casey,sans-serif;
     font-weight: 900;
     font-style: normal;
+    text-decoration: none;
+    color: black;
+    font-size: 3em;
 }
+
 .feed {
     margin: 2rem;
    display: grid;
@@ -38,6 +57,18 @@ html {
 
    
 } 
+.navbar-item {
+    font-weight: bold;
+}
+.router-link-active {
+    font-weight: normal;
+}
+.navbar-menu * .navbar-item {
+    font-size: 1.4em;
+}
+.navbar-menu * .navbar-item:hover {
+
+}
 @media screen and (max-width: 797px) {
     .feed{
         grid-template-columns: 1fr;
@@ -53,18 +84,3 @@ html {
     grid-template-columns: 1fr 1fr 1fr;
     }
 }
-
-
-   
-/*
-   @media screen and (min-width: 992px) {
-       .feed {
-           grid-template-columns: 1fr 1fr 1fr;
-       }
-   }
-
-   @media screen and (min-width: 1024px) {
-       .feed {
-           grid-template-columns: 1fr 1fr 1fr 1fr;
-       }
-   } */ 
