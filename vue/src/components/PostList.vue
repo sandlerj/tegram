@@ -1,6 +1,6 @@
 <template>
-  <div class="feed">
-      <post-card v-for="post in postList" :post="post" :key="post.postId" :isFavorited="favoritedPostIds.has(post.postId)"
+  <div class="columns is-variable is-3  is-multiline">
+      <post-card class="tegram-card column is-one-third-desktop is-half-tablet is-full-mobile" v-for="post in postList" :post="post" :key="post.postId" :isFavorited="favoritedPostIds.has(post.postId)"
       v-on:postHasBeenClicked="(postId) => seePostDetails(postId)"/>
       <p v-show="!hasPosts">{{ noPostsMessage }}</p>
   </div>
@@ -99,10 +99,10 @@ export default {
 </script>
 
 <style>
-.feed {
-    margin: 2rem;
+/*.feed {
+     margin: 2rem;
     display: grid;
-    /* grid-template-columns: repeat(auto-fill, minmax()); */
+     grid-template-columns: repeat(auto-fill, minmax()); 
 
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 	grid-template-rows: minmax(min-content, max-content);
@@ -110,7 +110,7 @@ export default {
     column-gap: 2rem;
     justify-items: center;
 }
-/*     @media screen and (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         .feed {
             grid-template-columns: repeat(1fr, e);
         }
@@ -126,5 +126,5 @@ export default {
         .feed {
             grid-template-columns: 1fr 1fr 1fr 1fr;
         }
-    } */
+    } */ 
 </style>
