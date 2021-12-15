@@ -13,7 +13,7 @@ namespace Capstone.Controllers
     [Route("posts")]
     [ApiController]
     //[Authorize]
-    public class CommentController : ControllerBase
+    public class CommentController : Controller
     {
         private readonly ICommentDao commentDao;
 
@@ -36,8 +36,15 @@ namespace Capstone.Controllers
         [HttpPost("{id}/comments")]
         public ActionResult<Comment> CreateComment(Comment newComment)
         {
-            Comment added = commentDao.CreateComment(newComment);
-            return added;
+            if (isAuthorized(newComment.AccountId))
+            {
+                Comment added = commentDao.CreateComment(newComment);
+                return added;
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
     }
 

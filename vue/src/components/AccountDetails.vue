@@ -56,9 +56,6 @@ export default {
     created() {
         this.getAccount();
         this.getAccountDetails();
-    },
-    updated() {
-        this.getAccountDetails();
     }
 }
 </script>

@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Capstone.DAO;
 using Capstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public class AccountsController : Controller
     {
         private readonly IAccountDao accountDao;
         private readonly IPostDao postDao;
@@ -36,10 +37,17 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("{accountId}/details")]
-        public ActionResult<AccountDetails> GetPostDetails(int accountId)
+        public ActionResult<AccountDetails> GetAccountDetails(int accountId)
         {
-            AccountDetails accountDetails = accountDao.GetAccountDetails(accountId);
-            return accountDetails;
+            if (isAuthorized(accountId))
+            {
+                AccountDetails accountDetails = accountDao.GetAccountDetails(accountId);
+                return accountDetails;
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         [HttpGet("{accountId}/posts")]
@@ -51,15 +59,29 @@ namespace Capstone.Controllers
 
         [HttpPost("{accountId}/posts")]
         public ActionResult<Post> CreatePost(int accountId, Post post) {
-            Post createdPost = postDao.UploadPost(post);
-            return Created($"/{accountId}/{createdPost.PostId}", createdPost);
+            if (isAuthorized(accountId))
+            {
+                Post createdPost = postDao.UploadPost(post);
+                return Created($"/{accountId}/{createdPost.PostId}", createdPost);
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         [HttpPut("{accountId}")]
         public ActionResult<Account> UpdateAccount(Account updatedAccount)
         {
-            Account account = accountDao.UpdateAccount(updatedAccount);
-            return account;
+            if (isAuthorized(updatedAccount.AccountId))
+            {
+                Account account = accountDao.UpdateAccount(updatedAccount);
+                return account;
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
     }
 }
