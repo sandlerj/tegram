@@ -1,7 +1,7 @@
 <template>
     <div class="account-header"> 
         <figure class="image is-64x64">
-            <img class="is-rounded" :src="!account.profileImg ? '/profilePlaceholder.png' : account.profileImg" :alt="account.username">
+            <img class="is-rounded" :src="account.profileImg" :alt="account.username">
         </figure>
         <span class="account-username ml-3"><b>{{account.username}}</b></span>
     </div>

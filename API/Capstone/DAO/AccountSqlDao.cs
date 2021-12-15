@@ -11,8 +11,7 @@ namespace Capstone.DAO
     public class AccountSqlDao: IAccountDao
     {
         private readonly string connectionString;
-        private readonly System.Security.Cryptography.MD5 md5 = 
-            System.Security.Cryptography.MD5.Create();
+        
 
         public AccountSqlDao(string dbConnectionString)
         {
@@ -21,11 +20,7 @@ namespace Capstone.DAO
 
         public Account CreateAccount(Account account)
         {
-            if (string.IsNullOrEmpty(account.ProfileImage))
-            {
-                string profileImg = GetGravaterString(account.Email);
-                account.ProfileImage = profileImg;
-            }
+            
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -165,12 +160,7 @@ namespace Capstone.DAO
         }
         public Account UpdateAccount(Account updatedAccount)
         {
-            if (string.IsNullOrEmpty(updatedAccount.ProfileImage) ||
-                updatedAccount.ProfileImage.Contains("gravatar")) // if already set as gravatar, hash needs reset
-            {
-                string profileImg = GetGravaterString(updatedAccount.Email);
-                updatedAccount.ProfileImage = profileImg;
-            }
+            
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -217,17 +207,5 @@ namespace Capstone.DAO
             return accountDetails;
         }
 
-        private string GetGravaterString(string email)
-        {
-            string input = email.Trim().ToLower();
-
-            byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
-            byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-            string hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
-            string outputStr = $"https://gravatar.com/avatar/{ hash.ToLower() }?d=identicon";
-
-            return outputStr;
-        }
     }
 }

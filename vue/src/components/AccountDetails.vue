@@ -6,7 +6,7 @@
       </modal>
           <div class="card-header-title">{{ account.username }} | {{ account.email }}</div>
           <div class="image is-128x128 m-4">
-              <img :src="!account.profileImage ? '/profilePlaceholder.png' : account.profileImage" class="avatar"/>
+              <img :src="account.profileImage" class="avatar"/>
               </div>
       </div>
       <div class="card-content">
