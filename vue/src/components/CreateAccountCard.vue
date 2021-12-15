@@ -1,11 +1,17 @@
 <template>
-   <div id="register" class="text-center container box">
+<section class="section">
+  <div class="container">
+    <div class="columns">
+   <div id="register" class="column text-centered container box is-one-quarter-desktop">
     <form class="form-register" @submit.prevent="register">
-      <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
+      <h1 class="text h3 mb-3 font-weight-normal has-text-centered">Please Sign Up</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         {{ registrationErrorMsg }}
       </div>
+
+      <div class="field mt-6 has-text-centered">
       <label for="username" class="sr-only">Username</label>
+      <div class="control">
       <input
         type="text"
         id="username"
@@ -15,7 +21,12 @@
         required
         autofocus
       />
+      </div>
+      </div>
+
+      <div class="field mt-6 has-text-centered">
       <label for="password" class="sr-only">Password</label>
+      <div class="control">
       <input
         type="password"
         id="password"
@@ -24,6 +35,12 @@
         v-model="user.password"
         required
       />
+      </div>
+      </div>
+
+      <div class="field mt-6 has-text-centered">
+        <label for="password" class="sr-only">Confirm Password</label>
+         <div class="control">
       <input
         type="password"
         id="confirmPassword"
@@ -32,12 +49,34 @@
         v-model="user.confirmPassword"
         required
       />
-      <router-link :to="{ name: 'login' }">Have an account?</router-link>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
+      </div>
+      </div>
+
+      <div class="has-text-centered">
+      <label class="checkbox">
+        <input type="checkbox"> I'm not a Robot</label>
+        </div> 
+      <div class="has-text-centered">  
+      <button class="button is-success btn btn-lg btn-primary btn-block" type="submit">
         Create Account
       </button>
+      </div>
+      
+
+
+      <div class="has-text-centered">
+        <label>Already Have an Account?</label>
+        </div>
+        <div class="has-text-centered">
+    <button class="button has-button-centered"><router-link :to="{ name: 'login' }">Sign In</router-link></button>
+      </div>
+      
     </form>
   </div>
+  </div>
+  </div>
+  
+  </section>
 </template>
 
 <script>

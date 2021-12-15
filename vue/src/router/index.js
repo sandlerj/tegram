@@ -10,6 +10,8 @@ import PostDetail from '../views/PostDetail.vue'
 import Favorites from '../views/Favorites.vue'
 import UploadPost from '../views/UploadPost.vue'
 import PostCard from '@/components/PostCard.vue'
+import EditPost from '../views/EditPost.vue'
+
 
 Vue.use(Router)
 
@@ -86,6 +88,22 @@ const router = new Router({
       path: '/upload',
       name: 'upload',
       component: UploadPost,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/update',
+      name: 'update',
+      component: EditPost,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/update/:postId',
+      name: 'update',
+      component: EditPost,
       meta: {
         requiresAuth: true
       }

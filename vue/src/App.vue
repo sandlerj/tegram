@@ -6,6 +6,7 @@
       <router-link to="/favorites"> |  Favorites </router-link>
       <router-link to= "/posts"> |  Posts </router-link>
       <router-link to ="/upload"> |  Upload</router-link>
+      <router-link to = "/update"> | Update</router-link>
     </div>
     <router-view />
   </div>
