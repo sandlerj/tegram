@@ -35,6 +35,13 @@ namespace Capstone.Controllers
             return account;
         }
 
+        [HttpGet("{accountId}/details")]
+        public ActionResult<AccountDetails> GetPostDetails(int accountId)
+        {
+            AccountDetails accountDetails = accountDao.GetAccountDetails(accountId);
+            return accountDetails;
+        }
+
         [HttpGet("{accountId}/posts")]
         public ActionResult<List<Post>> GetPostsByAccountId(int accountId)
         {
@@ -46,6 +53,13 @@ namespace Capstone.Controllers
         public ActionResult<Post> CreatePost(int accountId, Post post) {
             Post createdPost = postDao.UploadPost(post);
             return Created($"/{accountId}/{createdPost.PostId}", createdPost);
+        }
+
+        [HttpPut("{accountId}")]
+        public ActionResult<Account> UpdateAccount(Account updatedAccount)
+        {
+            Account account = accountDao.UpdateAccount(updatedAccount);
+            return account;
         }
     }
 }
