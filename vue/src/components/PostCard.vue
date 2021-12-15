@@ -4,7 +4,7 @@
             <post-account class="level-left" :accountId="post.accountId"/>
             <div class="level-right">
                 <!-- <ellipsis-button class="mr-3" @ellipsisClicked="contextToggle"  v-bind:post="post" v-show="$store.state.accountId == post.accountId" :postId="post.postId"/> -->
-                <font-awesome-icon class="mr-3" icon="ellipsis-h" @click="contextToggle" />
+                <font-awesome-icon class="mr-3" icon="ellipsis-h" @click="contextToggle" v-show="$store.state.accountId == post.accountId" />
                 <favorite-button class="" :postId="post.postId" :isFavorited="isFavorited" />
             </div>
         </div>
