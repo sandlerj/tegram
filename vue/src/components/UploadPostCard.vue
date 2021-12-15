@@ -1,10 +1,10 @@
 <template>
     <div class="post-upload-form container box">
         <h2>Upload Post</h2>
-        <label for="uploadImg">Select Photo <input type="file" name="uploadImg" v-on:change="handleFileUpload($event)"/></label>
+        <label  for="uploadImg">Select Photo <input required type="file" name="uploadImg" v-on:change="handleFileUpload($event)"/></label>
         <label for="Caption">Caption<input type="text" name="Caption" class="caption-input" v-model="post.caption"/></label>
-        <button @click.prevent="submitFile()">Post Photo!</button>
-        <div class="loading-div" v-if="isUploading">
+        <button @click.prevent="submitFile()" >Post Photo!</button>
+        <div class="loading-div"  v-if="isUploading">
             <img src="/loading.gif">
             <p>Uploading...</p>
         </div>
@@ -24,6 +24,11 @@ export default {
                 uploadImg: "",
             },
             isUploading: false
+        }
+    },
+    computed: {
+        uploadEmpty() {
+            return this.uploadImg == "";
         }
     },
     methods: {

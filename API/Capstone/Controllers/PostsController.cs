@@ -62,7 +62,10 @@ namespace Capstone.Controllers
                 Caption = newUploadPost.Caption,
                 Timestamp = newUploadPost.Timestamp
             };
-
+            if (newUploadPost.uploadImg == null)
+            {
+                return BadRequest();
+            }
             string mediaLink = fileStorageService.UploadFileToStorage(newUploadPost.uploadImg);
             post.MediaLink = mediaLink;
             Post createdPost = postDao.UploadPost(post);
