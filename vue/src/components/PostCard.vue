@@ -39,7 +39,7 @@
 
 <script>
 import CommentsList from './CommentsList.vue'
-// import EllipsisButton from './EllipsisButton.vue'
+// import from './EllipsisButton.vue'
 import FavoriteButton from './FavoriteButton.vue'
 import Likes from './Likes.vue'
 import PostAccount from './PostAccount.vue'
