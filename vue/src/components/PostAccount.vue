@@ -1,7 +1,8 @@
 <template>
     <div class="account-header"> 
-        <font-awesome-icon class="placeholder-icon" v-if="!account.profileImg" icon="user"/>           
-        <img v-else :src="account.profileImg" :alt="account.username">
+        <figure class="image is-64x64">
+            <img class="is-rounded" :src="!account.profileImg ? '/profilePlaceholder.png' : account.profileImg" :alt="account.username">
+        </figure>
         <span class="account-username ml-3"><b>{{account.username}}</b></span>
     </div>
 </template>
@@ -29,7 +30,7 @@ export default {
             AccountService.getAccount(this.accountId)
             .then(res =>{
                 this.account.userId = res.data.userId;
-                this.account.profileImg = res.data.ProfileImage;
+                this.account.profileImg = res.data.profileImage;
                 this.account.username = res.data.username
                 this.isLoading = false;
             })
