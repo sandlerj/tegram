@@ -13,4 +13,10 @@ namespace Capstone.Models
         public string ProfileImage { get; set; }
         public string Username { get; set; } = null;
     }
+    public class AccountDetails
+    {
+        public int NumberOfPosts { get; set; }
+        public int NumberOfLikesGiven { get; set; }
+        public int NumberOfLikesReceived { get; set; }
+    }
 }

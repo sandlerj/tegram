@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="has-text-centered">
     <login-card />
   </div>
 </template>

@@ -3,7 +3,7 @@
         <div class="post-img-header level is-mobile">
             <post-account class="level-left" :accountId="post.accountId"/>
             <div class="level-right">
-                <ellipsis-button class="mr-3"  v-show="$store.state.accountId == post.accountId" :postId="post.postId"/>
+                <ellipsis-button class="mr-3"  v-bind:post="post" v-show="$store.state.accountId == post.accountId" :postId="post.postId"/>
                 <favorite-button class="" :postId="post.postId" :isFavorited="isFavorited" />
             </div>
         </div>
