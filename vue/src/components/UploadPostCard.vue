@@ -1,12 +1,31 @@
 <template>
+<div class="columns">
     <div class="post-upload-form container box">
+        <div class="column has-text-centered is-size-1">
         <h2>Upload Post</h2>
-        <label for="uploadImg">Select Photo <input type="file" name="uploadImg" v-on:change="handleFileUpload($event)"/></label>
-        <label for="Caption">Caption<input type="text" name="Caption" class="caption-input" v-model="post.caption"/></label>
-        <button @click.prevent="submitFile()">Post Photo!</button>
+        </div>
+
+         
+        <div class="column has-text-centered">
+        <label class="file is-centered" for="uploadImg">
+            <input type="file" name="uploadImg" v-on:change="handleFileUpload($event)"/>
+        </label>
+        </div>
+        
+        <div class="column has-text-centered ">
+            
+        <label for="Caption">
+            <input type="text" name="Caption" class="caption-input is-centered" id="Caption" placeholder="Add a caption..." v-model="post.caption"/>
+            </label>
+        </div>
+
+        <div class="column has-text-centered">
+        <button class="button is-success is-normal" @click.prevent="submitFile()">Post Photo!</button>
+        </div>
         <div class="loading-div" v-if="isUploading">
             <img src="/loading.gif">
             <p>Uploading...</p>
+        </div>
         </div>
     </div>
 </template>
