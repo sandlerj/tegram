@@ -5,22 +5,27 @@
           <div class="column is-center">
     <div id="login" class="column container box">
         <form class="form-signin" @submit.prevent="login">
-          <h2 class="text is-size-3 has-text-centered">Welcome to TEgram</h2>
-      <h1 class="text h3 mb-3  is-size-5 has-text-centered">Please Sign In</h1>
+          <h2 class="text is-size-3 has-text-centered">Welcome to</h2>
+          <p class="logo has-text-info">TEgram</p>
+      <h1 class="text h3 mb-3  is-size-5 has-text-centered">Sign In</h1>
       
       <div
-        class="alert alert-danger"
+        class="alert alert-danger notification is-danger is-light"
         role="alert"
-        v-if="invalidCredentials"
-      >Invalid username and password!</div>
+        v-if="invalidCredentials">
+          <button class="delete" @click.prevent="handleDeleteClick"></button>
+        Invalid username and password!
+        </div>
       
   
 
       <div
-        class="alert alert-success"
+        class="alert alert-success notification is-primary is-light"
         role="alert"
-        v-if="this.$route.query.registration"
-      >Thank you for registering, please sign in.</div>
+        v-if="this.$route.query.registration && showThanks"
+      >
+      <button class="delete"  @click.prevent="handleRegisterResClick"></button>
+      Thank you for registering, please sign in.</div>
       <div class="field">
       <label  class="sr-only is-ancestor">Username</label>
       <div class="control">
@@ -50,20 +55,17 @@
       />
       </div>
       </div>
-
-      <div class="has-text-centered">
-      <div class="mt-6 has-text-centered">
-        <button class="button is-white">
-      <router-link :to="{ name: 'register' }">Sign Up</router-link>
-      </button>
+      <div class="is-flex is-justify-content-space-around">
+        <div class="has-text-centered">
+          <button class="button is-info has-button-centered" type="submit">Log In</button>
+        </div>
+        <div class="has-text-centered">
+          <button class="button is-info is-light">
+            <router-link :to="{ name: 'register' }">Sign Up</router-link>
+          </button>
+        </div>
        </div>
-       </div>
-
-       <div class="has-text-centered">
-      <button class="button is-success has-button-centered" type="submit">Log In</button>
-       </div>
-      
-        </form>
+      </form>
         
 </div>
   </div>
@@ -84,10 +86,17 @@ export default {
                 username: "",
                 password: ""
             },
-            invalidCredentials: false
+            invalidCredentials: false,
+            showThanks: true,
         };
     },
     methods: {
+      handleDeleteClick() {
+        this.invalidCredentials = false;
+      },
+      handleRegisterResClick() {
+        this.showThanks = false;
+      },
     login() {
       authService
         .login(this.user)

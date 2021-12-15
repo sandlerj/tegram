@@ -5,6 +5,9 @@ html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: lightblue;
 }
+body {
+    font-size: 1.5em;
+}
 #nav{
     position: fixed; /* Make it stick/fixed */
     top: 0; /* Stay on top */
@@ -22,26 +25,33 @@ html {
     transition: background-color 0.3s;
     /* padding: 10px;
     width: 100%; */
-
 }
+.post-img{
+    max-height: 60vh;
+}
+
 .post-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 100%;
 }
 .post-card:hover {
     background-color: rgb(215, 229, 255);
     transition: background-color 0.3s;
 }
+
 .logo {
     font-family: casey,sans-serif;
     font-weight: 900;
     font-style: normal;
     text-decoration: none;
     color: black;
-    font-size: 3em;
+    font-size: 4rem;
 }
-
+.like-text {
+    color: hotpink
+}
 .feed {
     margin: 2rem;
    display: grid;
@@ -68,9 +78,7 @@ html {
 .navbar-menu * .navbar-item {
     font-size: 1.4em;
 }
-.navbar-menu * .navbar-item:hover {
 
-}
 @media screen and (max-width: 797px) {
     .feed{
         grid-template-columns: 1fr;

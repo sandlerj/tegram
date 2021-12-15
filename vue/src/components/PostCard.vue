@@ -8,11 +8,15 @@
             </div>
         </div>
         <div class="post-img-div has-text-centered">
-            <img :src="post.mediaLink" v-on:click="notifyParent">
+            <div class="container">
+                <img class="post-img" :src="post.mediaLink" v-on:click="notifyParent">
+            </div>
             <p class="img-div">{{ post.caption }}</p>
         </div>
-        <likes :postId="post.postId" />
-        <comments-list :postId="post.postId"/>
+        <div>
+            <likes :postId="post.postId" />
+            <comments-list :postId="post.postId"/>
+        </div>
     </div>
 </template>
 

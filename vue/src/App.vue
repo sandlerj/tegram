@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav" v-if="$store.state.token != ''" class="navbar">
       <div class="navbar-brand">
-        <router-link class="logo navbar-item" v-bind:to="{ name: 'home' }">TEgram</router-link>
+        <router-link class="logo navbar-item has-text-info" v-bind:to="{ name: 'home' }">TEgram</router-link>
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="tegram-menu">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>

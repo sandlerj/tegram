@@ -1,5 +1,7 @@
 <template>
-  <post-card :post="post" :key="postId" :isFavorited="favoritedPostIds.has(postId)"/>
+    <div class="container">
+        <post-card class="single-post" :post="post" :key="postId" :isFavorited="favoritedPostIds.has(postId)"/>
+    </div>
 </template>
 
 <script>
