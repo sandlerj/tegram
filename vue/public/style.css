@@ -1,17 +1,96 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"; 
+@import url("https://use.typekit.net/ztx0dzb.css");
+
 html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: lightblue;
 }
+body {
+    font-size: 1.5em;
+}
+#nav{
+    position: fixed; /* Make it stick/fixed */
+    top: 0; /* Stay on top */
+    width: 100%; /* Full width */
+    transition: top 0.3s; /*Transition effect when sliding down (and up) */
+    }
+#router-content {
+    margin-top: 100px;
+}
+
 .tegram-card{
-    background-color: #e4e4e4;
-    margin-top: 10px;
+    background-color: #fafafa;
     border-radius: 9px;
-    padding: 10px;
+    padding: 1em;
+    transition: background-color 0.3s;
+    /* padding: 10px;
+    width: 100%; */
+}
+.post-img{
+    max-height: 60vh;
+}
+
+.post-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 100%;
 }
-/*@media screen and (min-width: 1024px){
-    .login-card {
+.post-card:hover {
+    background-color: rgb(215, 229, 255);
+    transition: background-color 0.3s;
+}
 
+.logo {
+    font-family: casey,sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    text-decoration: none;
+    color: black;
+    font-size: 4rem;
+}
+.like-text {
+    color: hotpink
+}
+.feed {
+    margin: 2rem;
+   display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax()); 
+
+   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
+   
+
+
+   grid-template-rows: minmax(min-content, max-content);
+
+   column-gap: 2rem;
+   row-gap: 2rem;
+   justify-items: center;
+
+   
+} 
+.navbar-item {
+    font-weight: bold;
+}
+.router-link-active {
+    font-weight: normal;
+}
+.navbar-menu * .navbar-item {
+    font-size: 1.4em;
+}
+
+@media screen and (max-width: 797px) {
+    .feed{
+        grid-template-columns: 1fr;
     }
-}*/
+}
+@media screen and (min-width: 768px) {
+    .feed {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media screen and (min-width: 1024px){
+    .feed{
+    grid-template-columns: 1fr 1fr 1fr;
+    }
+}

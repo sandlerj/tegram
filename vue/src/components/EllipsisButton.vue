@@ -1,7 +1,7 @@
 <template>
    <!-- <div id="ellipsis-button" @click="hideContextMenu()" @contextmenu.prevent="showContextMenu($event)"> -->
 <div id="ellipsis-button" >
-        <font-awesome-icon icon="ellipsis-h" @click="toggleMenu($event)" v-click-outside="hideContextMenu"/>
+        <font-awesome-icon icon="ellipsis-h" @click.prevent="toggleMenu($event)" v-click-outside="hideContextMenu"/>
         <ki-context 
             ref="kiContext"
             minWidth='1em'
@@ -39,6 +39,7 @@ export default {
     },
     methods: {
         toggleMenu(event) {
+          console.log("elip click")
             if (!this.isContextVisible){
                 this.isContextVisible = true;
                 this.showContextMenu(event)
@@ -84,6 +85,8 @@ export default {
       this.$refs.kiContext.show(event, items);
     },
     hideContextMenu (){
+                console.log("elip hide")
+
       this.$refs.kiContext.hide();
       this.isContextVisible = false
     }

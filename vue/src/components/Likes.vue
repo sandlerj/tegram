@@ -75,7 +75,5 @@ export default {
 </script>
 
 <style>
-.like-text {
-    color: hotpink
-}
+
 </style>

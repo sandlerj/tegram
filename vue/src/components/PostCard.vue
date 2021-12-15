@@ -1,6 +1,6 @@
 <template>
-    <div class="box tegram-card">
-        <div class="post-img-header level">
+    <div class="tegram-card post-card">
+        <div class="post-img-header level is-mobile">
             <post-account class="level-left" :accountId="post.accountId"/>
             <div class="level-right">
                 <ellipsis-button class="mr-3"  v-bind:post="post" v-show="$store.state.accountId == post.accountId" :postId="post.postId"/>
@@ -8,11 +8,15 @@
             </div>
         </div>
         <div class="post-img-div has-text-centered">
-            <img :src="post.mediaLink" v-on:click="notifyParent">
+            <div class="container">
+                <img class="post-img" :src="post.mediaLink" v-on:click="notifyParent">
+            </div>
             <p class="img-div">{{ post.caption }}</p>
         </div>
-        <likes :postId="post.postId" />
-        <comments-list :postId="post.postId"/>
+        <div>
+            <likes :postId="post.postId" />
+            <comments-list :postId="post.postId"/>
+        </div>
     </div>
 </template>
 
