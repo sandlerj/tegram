@@ -9,5 +9,8 @@ export default {
     },
     getAccountDetails(accountId) {
         return axios.get(`accounts/${accountId}/details`);
+    },
+    updateAccount(updatedAccount) {
+        return axios.put(`accounts/${updatedAccount.accountId}`, updatedAccount)
     }
 }

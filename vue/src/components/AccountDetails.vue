@@ -1,6 +1,9 @@
 <template>
   <div class="card account-details">
       <div class="card-header">
+      <modal :toggle="callModal" title="Edit Account">
+        <update-account v-on:accountUpdated="accountHasBeenUpdated"/>
+      </modal>
           <div class="card-header-title">{{ account.username }} | {{ account.email }}</div>
           <div class="card-header-icon">
               <img :src="account.profileImage" class="avatar"/>
@@ -14,19 +17,24 @@
           </div>
       </div>
       <div class="card-footer">
-        <a href="#" class="card-footer-item">Edit Account</a>
+        <button class="button is-ghost" @click.prevent="++callModal">Edit Account</button>
       </div>
   </div>
 </template>
 
 <script>
     import AccountService from '../services/AccountService';
+    import Modal from '../components/Modal.vue';
+    import UpdateAccount from '../components/UpdateAccount.vue';
+
 export default {
     name: "account-details",
+    components: { Modal, UpdateAccount },
     data() {
         return {
             account: null,
-            accountDetails: null
+            accountDetails: null,
+            callModal: 0
         }
     },
     methods: {
@@ -39,6 +47,10 @@ export default {
             AccountService.getAccountDetails(this.$store.state.accountId).then(res => {
                 this.accountDetails = res.data;
             })
+        },
+        accountHasBeenUpdated() {
+            ++this.callModal;
+            this.getAccount();
         }
     },
     created() {

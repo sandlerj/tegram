@@ -54,5 +54,12 @@ namespace Capstone.Controllers
             Post createdPost = postDao.UploadPost(post);
             return Created($"/{accountId}/{createdPost.PostId}", createdPost);
         }
+
+        [HttpPut("{accountId}")]
+        public ActionResult<Account> UpdateAccount(Account updatedAccount)
+        {
+            Account account = accountDao.UpdateAccount(updatedAccount);
+            return account;
+        }
     }
 }

@@ -163,8 +163,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("UPDATE accounts SET user_id = @user_id, email = @email, profile_pic = @profile_pic WHERE transfer_id = @transfer_id", conn);
-                    cmd.Parameters.AddWithValue("@user_id", updatedAccount.UserId);
+                    SqlCommand cmd = new SqlCommand("UPDATE accounts SET email = @email, profile_image = @profile_image WHERE account_id = @account_id", conn);
+                    cmd.Parameters.AddWithValue("@account_id", updatedAccount.AccountId);
                     cmd.Parameters.AddWithValue("@email", updatedAccount.Email);
                     cmd.Parameters.AddWithValue("@profile_image", updatedAccount.ProfileImage);
                     cmd.ExecuteNonQuery();
