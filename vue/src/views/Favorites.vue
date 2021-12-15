@@ -1,6 +1,5 @@
 <template>
   <div class="favorites-list">
-      <h1> Favorites </h1>
       <post-list :feedAccountId="$store.accountId"/>
       </div>
 </template>

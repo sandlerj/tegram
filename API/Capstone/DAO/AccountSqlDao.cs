@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Capstone.Models;
+using System.Text;
 
 namespace Capstone.DAO
 {
     public class AccountSqlDao: IAccountDao
     {
         private readonly string connectionString;
+        
 
         public AccountSqlDao(string dbConnectionString)
         {
@@ -18,6 +20,7 @@ namespace Capstone.DAO
 
         public Account CreateAccount(Account account)
         {
+            
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -157,6 +160,7 @@ namespace Capstone.DAO
         }
         public Account UpdateAccount(Account updatedAccount)
         {
+            
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -202,5 +206,6 @@ namespace Capstone.DAO
 
             return accountDetails;
         }
+
     }
 }

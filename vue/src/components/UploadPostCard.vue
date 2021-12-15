@@ -45,6 +45,11 @@ export default {
             isUploading: false
         }
     },
+    computed: {
+        uploadEmpty() {
+            return this.uploadImg == "";
+        }
+    },
     methods: {
         handleFileUpload(event) {
             this.post.uploadImg = event.target.files[0];

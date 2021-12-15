@@ -5,7 +5,7 @@
         <update-account v-on:accountUpdated="accountHasBeenUpdated"/>
       </modal>
           <div class="card-header-title">{{ account.username }} | {{ account.email }}</div>
-          <div class="card-header-icon">
+          <div class="image is-128x128 m-4">
               <img :src="account.profileImage" class="avatar"/>
               </div>
       </div>

@@ -14,7 +14,8 @@ namespace Capstone.Controllers
     {
         private readonly IAccountDao accountDao;
         private readonly IPostDao postDao;
-
+        private readonly System.Security.Cryptography.MD5 md5 =
+            System.Security.Cryptography.MD5.Create();
         public AccountsController(IAccountDao _accountDao, IPostDao _postDao)
         {
             accountDao = _accountDao;
@@ -58,8 +59,26 @@ namespace Capstone.Controllers
         [HttpPut("{accountId}")]
         public ActionResult<Account> UpdateAccount(Account updatedAccount)
         {
+            if (string.IsNullOrEmpty(updatedAccount.ProfileImage) ||
+                updatedAccount.ProfileImage.Contains("gravatar")) // if already set as gravatar, hash needs reset
+            {
+                string profileImg = GetGravaterString(updatedAccount.Email);
+                updatedAccount.ProfileImage = profileImg;
+            }
             Account account = accountDao.UpdateAccount(updatedAccount);
             return account;
+        }
+        private string GetGravaterString(string email)
+        {
+            string input = email.Trim().ToLower();
+
+            byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+            string hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
+            string outputStr = $"https://gravatar.com/avatar/{ hash.ToLower() }?d=identicon";
+
+            return outputStr;
         }
     }
 }
