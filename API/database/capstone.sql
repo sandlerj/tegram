@@ -34,13 +34,15 @@ CREATE TABLE accounts (
 	user_id int NOT NULL,
 	email varchar(50),
 	profile_image varchar(100) NOT NULL,
+	bio varchar(500),
+	member_since datetime
 
 	CONSTRAINT PK_account PRIMARY KEY (account_id),
 	CONSTRAINT FK_account_to_user FOREIGN KEY(user_id) REFERENCES users(user_id),
 )
 
-INSERT INTO accounts (user_id, email, profile_image) VALUES (1, 'bigsteve420@gmail.com', 'https://i.stack.imgur.com/l60Hf.png');
-INSERT INTO accounts (user_id, email, profile_image) VALUES (2, 'mrwalter@gmail.com', 'https://i.stack.imgur.com/l60Hf.png');
+INSERT INTO accounts (user_id, email, profile_image, bio, member_since) VALUES (1, 'bigsteve420@gmail.com', 'https://gravatar.com/avatar/default?d=mp&f=y', 'Product manager, father, proud moustache owner.', GETDATE());
+INSERT INTO accounts (user_id, email, profile_image, bio, member_since) VALUES (2, 'mrwalter@gmail.com', 'https://gravatar.com/avatar/default?d=mp&f=y', 'Java instructor at Tech Elevator. At night I put on a cape and fight crime.', GETDATE());
 
 --create posts
 CREATE TABLE posts (
