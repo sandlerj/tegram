@@ -6,7 +6,7 @@
       </modal>
           <div class="card-header-title">{{ account.username }} | {{ account.email }}</div>
           <div class="image is-128x128 m-4">
-              <img :src="account.profileImage" class="avatar"/>
+              <img :src="!imageLoaded ? '/profilePlaceholder.png' : account.profileImg" @load="onImageLoad" class="avatar"/>
               </div>
       </div>
       <div class="card-content">
@@ -34,10 +34,14 @@ export default {
         return {
             account: null,
             accountDetails: null,
-            callModal: 0
+            callModal: 0,
+            imageLoaded: false,
         }
     },
     methods: {
+        onImageLoad(){
+            this.imageLoaded = true;
+        },
         getAccount() {
             AccountService.getAccount(this.$store.state.accountId).then(res => {
                 this.account = res.data;

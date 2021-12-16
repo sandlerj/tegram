@@ -1,7 +1,7 @@
 <template>
     <div class="account-header"> 
         <figure class="image is-64x64">
-            <img class="is-rounded" :src="account.profileImg" :alt="account.username">
+            <img class="is-rounded" :src="!imageLoaded ? '/profilePlaceholder.png' :account.profileImg" @load="onImageLoad">
         </figure>
         <span class="account-username ml-3"><b>{{account.username}}</b></span>
     </div>
@@ -23,9 +23,13 @@ export default {
                 username: "",
             },
             isLoading: true,
+            imageLoaded: false,
         }
     },
     methods: {
+        onImageLoad(){
+            this.imageLoaded = true;
+        },
         loadAccount() {
             AccountService.getAccount(this.accountId)
             .then(res =>{

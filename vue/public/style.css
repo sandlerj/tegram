@@ -89,7 +89,7 @@ body {
 .navbar-item {
     font-weight: bold;
 }
-.router-link-active {
+.router-link-exact-active {
     font-weight: normal;
 }
 .navbar-menu * .navbar-item {
