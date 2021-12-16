@@ -1,10 +1,8 @@
 <template>
 <div class="columns">
-    <div class="post-upload-form container box">
+    <div class="column text-centered container box is-two-fifths-desktop">
         <div class="column has-text-centered is-size-1">
         <h2>Upload Post</h2>
-        </div>
-
          
         <div class="column has-text-centered">
         <label class="file is-centered" for="uploadImg">
@@ -28,6 +26,9 @@
         </div>
         </div>
     </div>
+    </div>
+    
+    
 </template>
 
 <script>
