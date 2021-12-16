@@ -9,7 +9,7 @@
                 </div>
           </div>
           <div class="image is-128x128 m-4">
-              <img :src="!imageLoaded ? '/profilePlaceholder.png' : account.profileImg" @load="onImageLoad" class="avatar"/>
+              <img :src="!imageLoaded ? '/profilePlaceholder.png' : account.profileImage" @load="onImageLoad" class="avatar"/>
               </div>
       </div>
       <div class="card-content">
@@ -53,7 +53,8 @@ export default {
             account: null,
             accountDetails: null,
             callModal: 0,
-            showContext: false
+            showContext: false,
+            imageLoaded: false,
         }
     },
     methods: {
