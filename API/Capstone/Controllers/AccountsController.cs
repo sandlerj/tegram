@@ -74,9 +74,14 @@ namespace Capstone.Controllers
         [HttpPut("{accountId}")]
         public ActionResult<Account> UpdateAccount(Account updatedAccount)
         {
-<<<<<<< HEAD
             if (isAuthorized(updatedAccount.AccountId))
             {
+                if (string.IsNullOrEmpty(updatedAccount.ProfileImage) ||
+                updatedAccount.ProfileImage.Contains("gravatar")) // if already set as gravatar, hash needs reset
+                {
+                    string profileImg = GetGravaterString(updatedAccount.Email);
+                    updatedAccount.ProfileImage = profileImg;
+                }
                 Account account = accountDao.UpdateAccount(updatedAccount);
                 return account;
             }
@@ -84,16 +89,6 @@ namespace Capstone.Controllers
             {
                 return Unauthorized();
             }
-=======
-            if (string.IsNullOrEmpty(updatedAccount.ProfileImage) ||
-                updatedAccount.ProfileImage.Contains("gravatar")) // if already set as gravatar, hash needs reset
-            {
-                string profileImg = GetGravaterString(updatedAccount.Email);
-                updatedAccount.ProfileImage = profileImg;
-            }
-            Account account = accountDao.UpdateAccount(updatedAccount);
-            return account;
->>>>>>> bc3cc5f4931178084fb0ea98c93318c4e5654ae4
         }
         private string GetGravaterString(string email)
         {
