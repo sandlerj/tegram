@@ -98,6 +98,8 @@ namespace Capstone.DAO
                     account.Email = "";
                     Random rand = new Random();
                     account.ProfileImage = "https://gravatar.com/avatar/default?d=mp&f=y";
+                    account.Bio = "";
+                    account.MemberSince = DateTime.Today;
 
                     accountDao.CreateAccount(account);
                 }
