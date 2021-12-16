@@ -71,8 +71,26 @@ namespace Capstone.Controllers
                 }
                 return BadRequest(new { message = "Could not process your post." });
 
+<<<<<<< HEAD
             }
             else
+=======
+            //(Post post, IFormFile uploadImg)
+            Post post = new Post
+            {
+                AccountId = newUploadPost.AccountId,
+                Caption = newUploadPost.Caption,
+                Timestamp = newUploadPost.Timestamp
+            };
+            if (newUploadPost.uploadImg == null)
+            {
+                return BadRequest();
+            }
+            string mediaLink = fileStorageService.UploadFileToStorage(newUploadPost.uploadImg);
+            post.MediaLink = mediaLink;
+            Post createdPost = postDao.UploadPost(post);
+            if (createdPost != null)
+>>>>>>> bc3cc5f4931178084fb0ea98c93318c4e5654ae4
             {
                 return Unauthorized();
             }

@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div class="is-hidden-touch" v-show="$store.state.token == ''" id="background-div">
+      <img src="/loginBackground.png" >
+    </div>
     <div id="nav" v-if="$store.state.token != ''" class="navbar">
       <div class="navbar-brand">
         <router-link class="logo navbar-item has-text-info" v-bind:to="{ name: 'home' }">TEgram</router-link>
@@ -25,6 +28,7 @@
 <script>
 // hamburger button script copied from bulma
 document.addEventListener('DOMContentLoaded', () => {
+
 
   // Get all "navbar-burger" elements
   const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);

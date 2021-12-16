@@ -15,9 +15,4 @@ export default {
 };
 </script>
 <style>
-  html {
-    background-image: url("/loginBackground.png");
-    background-position: top;  
-    background-size: 100%;
-    }
 </style>
