@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Capstone.Models;
+using System.Text;
 
 namespace Capstone.DAO
 {
     public class AccountSqlDao: IAccountDao
     {
         private readonly string connectionString;
+        
 
         public AccountSqlDao(string dbConnectionString)
         {
@@ -18,16 +20,19 @@ namespace Capstone.DAO
 
         public Account CreateAccount(Account account)
         {
+            
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("INSERT INTO accounts (user_id, email, profile_image) VALUES (@user_id, @email, @profile_image)", conn);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO accounts (user_id, email, profile_image, bio, member_since) VALUES (@user_id, @email, @profile_image, @bio, @member_since)", conn);
                     cmd.Parameters.AddWithValue("@user_id", account.UserId);
                     cmd.Parameters.AddWithValue("@email", account.Email);
                     cmd.Parameters.AddWithValue("@profile_image", account.ProfileImage);
+                    cmd.Parameters.AddWithValue("@bio", account.Bio);
+                    cmd.Parameters.AddWithValue("@member_since", account.MemberSince);
                     int newAccountId = Convert.ToInt32(cmd.ExecuteScalar());
 
                     account.AccountId = newAccountId;
@@ -51,7 +56,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT accounts.account_id, accounts.user_id, accounts.email, accounts.profile_image, users.username " +
+                    SqlCommand cmd = new SqlCommand("SELECT accounts.account_id, accounts.user_id, accounts.email, accounts.profile_image, accounts.bio, accounts.member_since, users.username " +
                         "FROM accounts JOIN users on accounts.user_id = users.user_id WHERE account_id = @account_id", conn);
                     cmd.Parameters.AddWithValue("@account_id", account_id);
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -157,16 +162,18 @@ namespace Capstone.DAO
         }
         public Account UpdateAccount(Account updatedAccount)
         {
+            
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("UPDATE accounts SET email = @email, profile_image = @profile_image WHERE account_id = @account_id", conn);
+                    SqlCommand cmd = new SqlCommand("UPDATE accounts SET email = @email, profile_image = @profile_image, bio = @bio WHERE account_id = @account_id", conn);
                     cmd.Parameters.AddWithValue("@account_id", updatedAccount.AccountId);
                     cmd.Parameters.AddWithValue("@email", updatedAccount.Email);
                     cmd.Parameters.AddWithValue("@profile_image", updatedAccount.ProfileImage);
+                    cmd.Parameters.AddWithValue("@bio", updatedAccount.Bio);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -185,7 +192,9 @@ namespace Capstone.DAO
                 UserId = Convert.ToInt32(reader["user_id"]),
                 Email = Convert.ToString(reader["email"]),
                 ProfileImage = Convert.ToString(reader["profile_image"]),
-                Username = Convert.ToString(reader["username"])
+                Username = Convert.ToString(reader["username"]),
+                Bio = Convert.ToString(reader["bio"]),
+                MemberSince = Convert.ToDateTime(reader["member_since"])
             };
 
             return account;
@@ -202,5 +211,6 @@ namespace Capstone.DAO
 
             return accountDetails;
         }
+
     }
 }
