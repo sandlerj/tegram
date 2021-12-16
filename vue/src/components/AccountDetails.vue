@@ -22,9 +22,9 @@
                 <p class="level-item has-text-centered">Likes Given: {{accountDetails.numberOfLikesGiven}}</p>
             </div>
       </div>
-            <button class="button is-ghost" @click.prevent="contextToggle">Edit Account</button>
+            <button class="button is-ghost" @click.prevent="contextToggle" v-show="accountId_ == $store.state.accountId">Edit Account</button>
 
-        <div :class="{ modal: true,  'is-active': showContext}">
+        <div :class="{ modal: true,  'is-active': showContext}" v-show="accountId_ == $store.state.accountId">
             <div @click.prevent="hideContext" class="modal-background"></div>
             <div class="modal-card">
                 <header class="modal-card-head">
@@ -55,6 +55,13 @@ export default {
             callModal: 0,
             showContext: false,
             imageLoaded: false,
+            accountId_: undefined
+        }
+    },
+    props: {
+        "accountId": {
+            type: Number,
+            default: undefined,
         }
     },
     methods: {
@@ -69,12 +76,12 @@ export default {
         },
         getAccount() {
             console.log('got account');
-            AccountService.getAccount(this.$store.state.accountId).then(res => {
+            AccountService.getAccount(this.accountId_).then(res => {
                 this.account = res.data;
             })
         },
         getAccountDetails() {
-            AccountService.getAccountDetails(this.$store.state.accountId).then(res => {
+            AccountService.getAccountDetails(this.accountId_).then(res => {
                 this.accountDetails = res.data;
             })
         },
@@ -84,6 +91,11 @@ export default {
         }
     },
     created() {
+        if (this.accountId == undefined) {
+            this.accountId_ = this.$store.state.accountId
+        } else {
+            this.accountId_ = this.accountId
+        }
         this.getAccount();
         this.getAccountDetails();
     }
@@ -91,13 +103,5 @@ export default {
 </script>
 
 <style>
-.avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
 
-.account-details {
-    margin: 2rem;
-}
 </style>
