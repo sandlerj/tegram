@@ -14,9 +14,9 @@ export default {
         return {
         post: {
           postId: 0,
-          caption: "test",
-           mediaLink: "test",
-           timestamp: "1231",
+          caption: "",
+           mediaLink: "",
+           timestamp: "",
            accountId: 0,
         },
         }

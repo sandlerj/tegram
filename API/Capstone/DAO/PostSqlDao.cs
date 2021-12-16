@@ -11,7 +11,6 @@ namespace Capstone.DAO
     public class PostSqlDao : IPostDao
     {
         private readonly string connectionString;
-        private readonly CommentSqlDao commentSqlDao; //using this to delete comments from post when deleting a whole post.
         public PostSqlDao(string dbConnectionString)
         {
             connectionString = dbConnectionString;
@@ -116,6 +115,28 @@ namespace Capstone.DAO
                     int postId = Convert.ToInt32(cmd.ExecuteScalar());
                     post.PostId = postId;
                     return post;
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public bool UpdatePrivateStatus(Post post)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("UPDATE posts SET private_post = @private_post WHERE post_id = @post_id", conn);
+                    cmd.Parameters.AddWithValue("@private_post", post.PrivateStatus);
+                    cmd.Parameters.AddWithValue("@post_id", post.PostId);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    return (rowsAffected > 0);
                 }
             }
             catch (SqlException e)

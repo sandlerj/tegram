@@ -18,6 +18,8 @@ namespace Capstone.Models
         public string Caption { get; set; }
         public DateTime Timestamp { get; set; }
 
+        public bool PrivateStatus { get; set; } //Testing if this correct placement in the models.
+
     }
 
     public class NewUploadPost : Post

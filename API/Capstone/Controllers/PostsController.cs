@@ -72,6 +72,32 @@ namespace Capstone.Controllers
             }
             return BadRequest(new { message = "Could not process your post." });
         }
+        [HttpPut("/posts")] //Testing
+
+        public ActionResult<Post> UpdatePrivateStatus(Post updatedPost, int postId)
+        {
+            bool result = true;
+            Post existingPost = postDao.GetPost(postId);
+            if(existingPost != null)
+            {
+                updatedPost.PrivateStatus = existingPost.PrivateStatus;
+
+                result = postDao.UpdatePrivateStatus(updatedPost);
+            }
+            else if(existingPost == null)
+            {
+                return NotFound();
+            }
+            if(result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPut("/posts/{postId}")] //Functions
         public ActionResult<Post> UpdatePost(Post updatedPost, int postId) 
         {

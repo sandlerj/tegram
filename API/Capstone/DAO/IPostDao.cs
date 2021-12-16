@@ -19,5 +19,7 @@ namespace Capstone.DAO
         bool UpdatePost(Post post);
 
         bool RemovePost(int postId);
+
+        bool UpdatePrivateStatus(Post post);
     }
 }

@@ -49,6 +49,7 @@ CREATE TABLE posts (
 	media_link varchar(200) NOT NULL,
 	caption varchar(100),
 	timestamp datetime,
+	private_post bit,
 
 	CONSTRAINT PK_post PRIMARY KEY (post_id),
 	CONSTRAINT FK_post_to_account FOREIGN KEY (account_id) REFERENCES accounts(account_id)
