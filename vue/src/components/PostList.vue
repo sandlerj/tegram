@@ -65,6 +65,8 @@ export default {
             })
         },
         updatePostList() {
+            const ALL_POSTS = 0;
+            const FAVORITES = -1;
 
             const updateState = (res, header = "", message = "") => {
                     this.postList = res.data;
@@ -78,29 +80,28 @@ export default {
                     this.isLoading = false;
             }
 
-            switch (this.$route.name) {
-            case "home":
+            switch (this.feedAccountId) {
+            case ALL_POSTS: // 0 is all
+            case undefined:
                 postService.list()
                 .then((res) => updateState(res))
                 .catch(err => {
                     console.log(err.message)
                 })
                 break;
-            case "favorites":
+            case FAVORITES: //favorites
                 postService.getFavorites(this.$store.state.accountId)
                 .then((res) => updateState(res, "No Favorites", "You don't have any posts in your favorites collection. Go the home page to see what others are sharing and click the star on a post to add it to your favorites."))
                 .catch(err => {
                     console.log(err.message)
                 })
                 break;
-            case "posts":
-                postService.listByAccountId(this.$store.state.accountId)
+            default:
+                postService.listByAccountId(this.feedAccountId)
                 .then((res) => updateState(res, "No Posts", "Welcome to TEGram! Share your pictures with the world by uploading a post."))
                 .catch(err => {
                     console.log(err.message)
                 })
-                break;
-            default:
                 break;
         }
         }

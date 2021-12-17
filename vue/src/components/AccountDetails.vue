@@ -9,7 +9,7 @@
                 </div>
           </div>
           <div class="image is-128x128 m-4">
-              <img :src="account.profileImage" class="avatar"/>
+              <img :src="!imageLoaded ? '/profilePlaceholder.png' : account.profileImage" @load="onImageLoad" class="avatar"/>
               </div>
       </div>
       <div class="card-content">
@@ -22,9 +22,9 @@
                 <p class="level-item has-text-centered">Likes Given: {{accountDetails.numberOfLikesGiven}}</p>
             </div>
       </div>
-            <button class="button is-ghost" @click.prevent="contextToggle">Edit Account</button>
+            <button class="button is-ghost" @click.prevent="contextToggle" v-show="accountId_ == $store.state.accountId">Edit Account</button>
 
-        <div :class="{ modal: true,  'is-active': showContext}">
+        <div :class="{ modal: true,  'is-active': showContext}" v-show="accountId_ == $store.state.accountId">
             <div @click.prevent="hideContext" class="modal-background"></div>
             <div class="modal-card">
                 <header class="modal-card-head">
@@ -53,10 +53,21 @@ export default {
             account: null,
             accountDetails: null,
             callModal: 0,
-            showContext: false
+            showContext: false,
+            imageLoaded: false,
+            accountId_: undefined
+        }
+    },
+    props: {
+        "accountId": {
+            type: Number,
+            default: undefined,
         }
     },
     methods: {
+        onImageLoad(){
+            this.imageLoaded = true;
+        },
         contextToggle(){
             this.showContext = !this.showContext;
         },
@@ -65,35 +76,44 @@ export default {
         },
         getAccount() {
             console.log('got account');
-            AccountService.getAccount(this.$store.state.accountId).then(res => {
+            AccountService.getAccount(this.accountId_).then(res => {
                 this.account = res.data;
             })
         },
         getAccountDetails() {
-            AccountService.getAccountDetails(this.$store.state.accountId).then(res => {
+            AccountService.getAccountDetails(this.accountId_).then(res => {
                 this.accountDetails = res.data;
             })
         },
         accountHasBeenUpdated() {
            this.hideContext();
             this.getAccount();
+        },
+        updateAccountDetails() {
+            if (this.accountId == undefined) {
+            this.accountId_ = this.$store.state.accountId
+        } else {
+            this.accountId_ = this.accountId
+        }
+        this.getAccount();
+        this.getAccountDetails();
         }
     },
     created() {
-        this.getAccount();
-        this.getAccountDetails();
+        this.updateAccountDetails();
+    },
+    beforeUpdate() {
+        if (this.accountId == undefined) {
+            this.accountId_ = this.$store.state.accountId
+        } else {
+            this.accountId_ = this.accountId
+        }
     }
+    
+    
 }
 </script>
 
 <style>
-.avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
 
-.account-details {
-    margin: 2rem;
-}
 </style>

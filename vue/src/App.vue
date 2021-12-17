@@ -15,9 +15,10 @@
       <div id="tegram-menu" class="navbar-menu">
         <div class="navbar-start"></div>
         <div class="navbar-end">
-          <router-link to="/favorites" class="navbar-item">Favorites</router-link>
-          <router-link to= "/posts" class="navbar-item">Posts</router-link>
+          <router-link to="/" class="navbar-item">Feed</router-link>
+          <router-link :to="{name : 'account'}" class="navbar-item">Profile</router-link>
           <router-link to ="/upload" class="navbar-item">Upload</router-link>
+          <router-link to="/favorites" class="navbar-item">Favorites</router-link>
           <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''" class="navbar-item has-text-danger">Logout</router-link>
         </div>
       </div>

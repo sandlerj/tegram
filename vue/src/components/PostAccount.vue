@@ -1,9 +1,9 @@
 <template>
     <div class="account-header"> 
-        <figure class="image is-64x64">
-            <img class="is-rounded" :src="account.profileImg" :alt="account.username">
-        </figure>
-        <span class="account-username ml-3"><b>{{account.username}}</b></span>
+            <figure class="image is-64x64"> 
+                <img class="is-rounded" :src="!imageLoaded ? '/profilePlaceholder.png' :account.profileImg" @load="onImageLoad" @click="viewProfile">
+            </figure>
+            <span class="account-username ml-3"><b>{{account.username}}</b></span>
     </div>
 </template>
 
@@ -23,9 +23,16 @@ export default {
                 username: "",
             },
             isLoading: true,
+            imageLoaded: false,
         }
     },
     methods: {
+        viewProfile() {
+            this.$router.push({name : 'account', query: {accountId : this.account.accountId}})
+        },
+        onImageLoad(){
+            this.imageLoaded = true;
+        },
         loadAccount() {
             AccountService.getAccount(this.accountId)
             .then(res =>{

@@ -40,15 +40,8 @@ namespace Capstone.Controllers
         [HttpGet("{accountId}/details")]
         public ActionResult<AccountDetails> GetAccountDetails(int accountId)
         {
-            if (isAuthorized(accountId))
-            {
-                AccountDetails accountDetails = accountDao.GetAccountDetails(accountId);
-                return accountDetails;
-            }
-            else
-            {
-                return Unauthorized();
-            }
+            AccountDetails accountDetails = accountDao.GetAccountDetails(accountId);
+            return accountDetails;
         }
 
         [HttpGet("{accountId}/posts")]

@@ -53,14 +53,18 @@ body {
     justify-content: space-between;
     width: 100%;
 }
-.post-card:hover {
-    background-color: rgb(215, 229, 255);
-    transition: background-color 0.3s;
+.account-header * img {
+    transition: transform 0.3s, filter 0.3s;
+}
+.account-header * img:hover {
+    transform: scale(1.2);
+    transition: transform 0.3s, filter 0.3s;
+    filter: drop-shadow(4px 4px 5px grey);
 }
 
 .logo {
-    font-family: casey,sans-serif;
-    font-weight: 900;
+    font-family: magneto, sans-serif;
+    font-weight: 700;
     font-style: normal;
     text-decoration: none;
     color: black;
@@ -86,10 +90,14 @@ body {
 
    
 } 
+
 .navbar-item {
     font-weight: bold;
 }
-.router-link-active {
+.router-link-exact-active {
+    font-weight: normal;
+}
+.account-link {
     font-weight: normal;
 }
 .navbar-menu * .navbar-item {
@@ -110,4 +118,13 @@ body {
     .feed{
     grid-template-columns: 1fr 1fr 1fr;
     }
+}
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.account-details {
+    margin: 2rem;
 }

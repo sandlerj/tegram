@@ -11,6 +11,7 @@ import Favorites from '../views/Favorites.vue'
 import UploadPost from '../views/UploadPost.vue'
 import PostCard from '@/components/PostCard.vue'
 import EditPost from '../views/EditPost.vue'
+import UserAccount from "@/views/UserAccount.vue"
 
 
 Vue.use(Router)
@@ -112,6 +113,11 @@ const router = new Router({
       path: '/test',
       name: 'test',
       component: PostCard
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: UserAccount
     }
 
   ]
