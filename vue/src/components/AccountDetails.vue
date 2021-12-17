@@ -88,17 +88,29 @@ export default {
         accountHasBeenUpdated() {
            this.hideContext();
             this.getAccount();
-        }
-    },
-    created() {
-        if (this.accountId == undefined) {
+        },
+        updateAccountDetails() {
+            if (this.accountId == undefined) {
             this.accountId_ = this.$store.state.accountId
         } else {
             this.accountId_ = this.accountId
         }
         this.getAccount();
         this.getAccountDetails();
+        }
+    },
+    created() {
+        this.updateAccountDetails();
+    },
+    beforeUpdate() {
+        if (this.accountId == undefined) {
+            this.accountId_ = this.$store.state.accountId
+        } else {
+            this.accountId_ = this.accountId
+        }
     }
+    
+    
 }
 </script>
 

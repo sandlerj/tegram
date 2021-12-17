@@ -53,9 +53,13 @@ body {
     justify-content: space-between;
     width: 100%;
 }
-.post-card:hover {
-    background-color: rgb(215, 229, 255);
-    transition: background-color 0.3s;
+.account-header * img {
+    transition: transform 0.3s, filter 0.3s;
+}
+.account-header * img:hover {
+    transform: scale(1.2);
+    transition: transform 0.3s, filter 0.3s;
+    filter: drop-shadow(4px 4px 5px grey);
 }
 
 .logo {
@@ -86,10 +90,14 @@ body {
 
    
 } 
+
 .navbar-item {
     font-weight: bold;
 }
 .router-link-exact-active {
+    font-weight: normal;
+}
+.account-link {
     font-weight: normal;
 }
 .navbar-menu * .navbar-item {

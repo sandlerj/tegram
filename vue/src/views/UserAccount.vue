@@ -1,7 +1,7 @@
 <template>
 <div>
-  <account-details :accountId="accountId" />
-  <post-list  :feedAccountId="accountId" />
+  <account-details :accountId="accountId" :key="accountId" />
+  <post-list  :feedAccountId="accountId" :key="accountId" />
 </div>
 </template>
 
