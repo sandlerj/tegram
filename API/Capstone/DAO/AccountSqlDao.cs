@@ -85,9 +85,9 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("SELECT " +
-                        "(SELECT COUNT(post_id) FROM posts WHERE posts.account_id = 1) as number_of_posts, " +
-                        "(SELECT COUNT(post_id) FROM liked_posts WHERE liked_posts.account_id = 1) as number_of_likes_given, " +
-                        "(SELECT COUNT (liked_posts.account_id) FROM liked_posts WHERE liked_posts.post_id IN (SELECT post_id FROM posts WHERE account_id = 1)) as number_of_likes_received;", conn);
+                        "(SELECT COUNT(post_id) FROM posts WHERE posts.account_id = @account_id) as number_of_posts, " +
+                        "(SELECT COUNT(post_id) FROM liked_posts WHERE liked_posts.account_id = @account_id) as number_of_likes_given, " +
+                        "(SELECT COUNT (liked_posts.account_id) FROM liked_posts WHERE liked_posts.post_id IN (SELECT post_id FROM posts WHERE account_id = @account_id)) as number_of_likes_received;", conn);
                     cmd.Parameters.AddWithValue("@account_id", account_id);
                     SqlDataReader reader = cmd.ExecuteReader();
 
